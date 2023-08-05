@@ -487,7 +487,7 @@ int zFormAssembler::parser(int _pass, int address, const char *txt, zArray<Z_LAB
             auto t(strchr(lexPos, ')'));
             text = (t ? t : (char*)(txt + strlen(txt)));
         }
-        speccy->jni = ((u16)(lexPos - txt), ((u16)(text - txt) << 16));
+        speccy->jni = ((u16)(lexPos - txt) | ((u16)(text - txt) << 16));
     } else scmd = (int)(buf - cmdBuf), ret = ERROR_OK;
     return ret;
 }

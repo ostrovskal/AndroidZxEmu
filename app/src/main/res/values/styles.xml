@@ -4,6 +4,7 @@
         <item name="styles">@style/bar</item>
         <item name="background">@drawable/zx_icons</item>
         <item name="bkTiles">@integer/zxBar</item>
+        <item name="bkColor">#fff</item>
     </style>
     <style name="debBut">
         <item name="styles">@style/tools</item>
@@ -59,10 +60,10 @@
     </style>
     <style name="zxCheck">
         <item name="styles">@style/checkbox</item>
-        <item name="fkScale">0.6</item>
+        <item name="fkScale">0.55</item>
         <item name="pad">1dp</item>
         <item name="textDistance">3dp</item>
-        <item name="textSize">15sp</item>
+        <item name="textSize">14sp</item>
         <item name="textStyle">bold</item>
         <item name="textColor">#fff</item>
     </style>
@@ -96,6 +97,7 @@
         <item name="textColor">#fff</item>
         <item name="gravity">center</item>
         <item name="margin">1dp</item>
+        <item name="behavior">clickable</item>
     </style>
     <style name="bpEdit">
         <item name="fkTiles">@integer/edit</item>

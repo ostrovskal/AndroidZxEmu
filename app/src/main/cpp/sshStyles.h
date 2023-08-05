@@ -4,7 +4,8 @@
 static zStyle styles_zxactionbar[] = {
 	{ Z_STYLES, z.R.style.bar },
 	{ Z_BACKGROUND, R.drawable.zx_icons },
-	{ Z_BACKGROUND_TILES | ZT_END, R.integer.zxBar }
+	{ Z_BACKGROUND_TILES, R.integer.zxBar },
+	{ Z_BACKGROUND_COLOR | ZT_END, 0xFFFFFFFF }
 };
 
 static zStyle styles_debbut[] = {
@@ -64,10 +65,10 @@ static zStyle styles_zxslider[] = {
 
 static zStyle styles_zxcheck[] = {
 	{ Z_STYLES, z.R.style.checkbox },
-	{ Z_FOREGROUND_SCALE, 39321 },
+	{ Z_FOREGROUND_SCALE, 36044 },
 	{ Z_PADDING, 0x01010101 },
 	{ Z_TEXT_DISTANCE, 3 },
-	{ Z_TEXT_SIZE, 15 },
+	{ Z_TEXT_SIZE, 14 },
 	{ Z_TEXT_STYLE, ZS_TEXT_BOLD },
 	{ Z_TEXT_FOREGROUND_COLOR | ZT_END, 0xFFFFFFFF }
 };
@@ -104,7 +105,8 @@ static zStyle styles_dispcolortext[] = {
 	{ Z_TEXT_STYLE, ZS_TEXT_NORMAL },
 	{ Z_TEXT_FOREGROUND_COLOR, 0xFFFFFFFF },
 	{ Z_GRAVITY, ZS_GRAVITY_CENTER },
-	{ Z_MARGINS | ZT_END, 0x01010101 }
+	{ Z_MARGINS, 0x01010101 },
+	{ Z_BEHAVIOR | ZT_END, ZS_CLICKABLE }
 };
 
 static zStyle styles_bpedit[] = {
@@ -180,7 +182,7 @@ static zStyle styles_browsbut[] = {
 static zStyle styles_mythemedark[] = {
 	{ Z_STYLES, z.R.style.themeDark },
 	{ Z_THEME_ICONS, R.drawable.zx_icons },
-	{ Z_THEME_SIZE_TEXT_TEXT | ZT_END, 12 }
+	{ Z_THEME_ACTION_BAR | ZT_END, R.style.zxActionBar }
 };
 
 static zStyle styles_mythemelight[] = {
@@ -297,6 +299,14 @@ static zStyle styles_llgs[] = {
 };
 
 static zStyle styles_zviewtext2[] = {
+	{ Z_STYLES | ZT_END, R.style.textCapt }
+};
+
+static zStyle styles_sellist[] = {
+	{ Z_STYLES | ZT_END, R.style.browsListText }
+};
+
+static zStyle styles_zviewtext3[] = {
 	{ Z_TEXT_STYLE | ZT_END, ZS_TEXT_BOLD }
 };
 
@@ -379,7 +389,7 @@ static zStyle styles_diskspindisk[] = {
 	{ Z_STYLES | ZT_END, z.R.style.spinner }
 };
 
-static zStyle styles_zviewtext13[] = {
+static zStyle styles_helptext[] = {
 	{ Z_ASSET | ZT_END, R.string.help_index_html }
 };
 

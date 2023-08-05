@@ -24,11 +24,10 @@ public:
     }
 };
 
-
 class zAdapterBpList : public zAdapterList {
 public:
-    explicit zAdapterBpList(zFormBpList* _bp) : zAdapterList({""}, new zFabricBpListItem()), bps(_bp) { }
-    virtual int getCount() const override { return 12; }
+    explicit zAdapterBpList(zFormBpList* _bp) : zAdapterList({}, new zFabricBpListItem()), bps(_bp) { }
+    [[nodiscard]] int getCount() const override { return 12; }
     zView* getView(int position, zView* convert, zViewGroup* parent) override {
         auto nv((zLinearLayout*)createView(position, convert, parent, fabricBase, false));
         auto bp(speccy->getCpu(speccy->debugCpu)->bps[position]);

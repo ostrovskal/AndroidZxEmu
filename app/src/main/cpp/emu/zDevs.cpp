@@ -127,18 +127,16 @@ bool zDevUla::write(u16 port, u8 val, u32 ticks) {
     return false;
 }
 
-static u32 _c[] = { 0, 0 };
+static u32 defCols[] = { 0, 0 };
 
 static u32 gigaBlend(u32** src, u32 c1) {
-    return c1;
     auto s(*src); auto c0(*s); s++;
     auto r0((int)c0 & 0xFF), g0((int)(c0 >> 8) & 0xff), b0((int)(c0 >> 16) & 0xff);
     auto r1((int)c1 & 0xFF), g1((int)(c1 >> 8) & 0xff), b1((int)(c1 >> 16) & 0xff);
     r0 = (int)(((float)r0 * 0.66f + (float)r1 * 0.66f) * 0.75f);
     g0 = (int)(((float)g0 * 0.66f + (float)g1 * 0.66f) * 0.75f);
     b0 = (int)(((float)b0 * 0.66f + (float)b1 * 0.66f) * 0.75f);
-    *src = s;
-    return (r0 | (g0 << 8) | (b0 << 16));
+    *src = s; return (r0 | (g0 << 8) | (b0 << 16));
 }
 
 void zDevUla::updateBorder(int offs, int count) {
@@ -170,8 +168,8 @@ void zDevUla::updatePaper(int offs, int count) {
     } else {
         while(count-- > 0) {
             auto idx(colorTab[*(scr + timing->ao)]);
-            auto pix(*scr++); _c[1] = colors[idx & 15]; _c[0] = colors[idx >> 4];
-            for(int b = 7 ; b >= 0; b--) *dst++ = _c[(pix >> b) & 1];
+            auto pix(*scr++); defCols[1] = colors[idx & 15]; defCols[0] = colors[idx >> 4];
+            for(int b = 7 ; b >= 0; b--) *dst++ = defCols[(pix >> b) & 1];
         }
     }
 }
@@ -201,8 +199,8 @@ void zDevUla::firstScreen() {
         auto scr(VIDEO + scrTab[y]);
         for(int x = 0; x < 32; x++) {
             auto idx(colorTab[*(scr + atrTab[y])]);
-            auto pix(*scr++); _c[1] = colors[idx & 15]; _c[0] = colors[idx >> 4];
-            for(int b = 7 ; b >= 0; b--) *dst++ = _c[(pix >> b) & 1];
+            auto pix(*scr++); defCols[1] = colors[idx & 15]; defCols[0] = colors[idx >> 4];
+            for(int b = 7 ; b >= 0; b--) *dst++ = defCols[(pix >> b) & 1];
         }
         for(int x = 0; x < borderWidth; ++x) *dst++ = c;
     }
@@ -214,7 +212,7 @@ void zDevUla::update(int param) {
     if(param == ZX_UPDATE_FRAME) {
         if(speccy->dev<zCpuMain>()->frame < 32) {
             giga = 1 - giga; tm = 0; timing = timings;
-            //isGigaApply = (speccy->gigaScreen && giga);
+            isGigaApply = (speccy->gigaScreen && giga);
             isGigaApply = false;
             colorTab = &colTab[(blink++ & 16) << 4];
         }
@@ -345,10 +343,9 @@ bool zDevMem::read(u16 port, u8* ret, u32 ticks) {
 
 bool zDevMem::write(u16 port, u8 val, u32) {
     if(speccy->is48k()) return true;
-    auto ram(speccy->ram), rom(speccy->rom);
     // 0, 1, 2 - страница 0-7, 3 - экран 5/7, 4 - ПЗУ 0 - 128К 1 - 48К, 5 - блокировка, 6/7 - pentagon 256K/512K
     speccy->_7ffd = val;
-    ram = PAGE_RAM_CPU + (val & 7);
+    auto ram((u8)(PAGE_RAM_CPU + (val & 7))), rom(speccy->rom);
     switch(speccy->model) {
         case MODEL_SCORPION256:
             if(!(speccy->_1ffd & 2)) rom = PAGE_ROM_CPU + ((val & 16) >> 4);
@@ -692,10 +689,11 @@ void zDevMixer::release() {
 }
 
 void zDevMixer::update(int param) {
-    if(param == ZX_UPDATE_FRAME) mix();
-    else {
-        auto is(isEnable);
-        isEnable   = speccy->sndLaunch && speccy->execLaunch;
+    auto is(isEnable);
+    isEnable = speccy->sndLaunch && speccy->execLaunch;
+    if(param == ZX_UPDATE_FRAME) {
+        if(isEnable) mix();
+    } else {
         for(auto s : sources) s->nSamples = 0;
         memset(mixBuffer, 0, sizeof(mixBuffer));
         if(is != isEnable) {
@@ -728,20 +726,20 @@ void zDevMixer::mix() {
             if(sources[i]->activeCnt) divider++, sources[i]->activeCnt--;
         }
         if(divider) {
-            for(int i = minSamples; i--; p++) p->left /= divider, p->right /= divider;
+            for(auto i = minSamples; i--; p++) p->left /= divider, p->right /= divider;
         }
         p = mixBuffer; auto o(audioBuffer);
         for(auto i = minSamples; i--; p++) {
             *(o++) = (u16)((long)p->left);// - 0x8000L);
             *(o++) = (u16)((long)p->right);// - 0x8000L);
         }
-        player->setData((u8*)audioBuffer, minSamples << 2);
+        player->setData((u8*)audioBuffer, (int)(minSamples << 2));
         player->play(true);
     }
     auto diffSamples(maxSamples - minSamples);
     if(maxSamples > minSamples) {
         memmove(mixBuffer, &mixBuffer[minSamples], diffSamples * sizeof(SAMPLER));
     }
-    memset(&mixBuffer[diffSamples], 0x8000, (4096 - diffSamples) * sizeof(SAMPLER));
+    memset(&mixBuffer[diffSamples], 0, (4096 - diffSamples) * sizeof(SAMPLER));
     for(int i = 0; i < sourcesCount; i++) sources[i]->nSamples -= minSamples;
 }

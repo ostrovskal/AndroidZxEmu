@@ -3,7 +3,7 @@
     <string name="form_settings">Настройки</string>
     <string name="settings_system">SYSTEM</string>
     <string name="settings_border">BORDER</string>
-    <string name="settings_auto_save">Auto save</string>
+    <string name="settings_dark_theme">Dark theme</string>
     <string name="settings_gs_reset">GS reset</string>
     <string name="settings_tape_reset">Tape reset</string>
     <string name="settings_joystick">JOYSTICK</string>

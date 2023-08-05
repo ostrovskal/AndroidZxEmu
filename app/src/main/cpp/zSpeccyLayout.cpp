@@ -40,9 +40,9 @@ bool zSpeccyLayout::init() {
     fps = idView<zViewText>(R.id.speccyFps);
     // джойстики
     ac = (zViewController*)root->attach(new zViewController(styles_z_acontroller, z.R.id.acontroller, z.R.integer.acontrol, z.R.string.acontrollerMap),
-                                        ZS_GRAVITY_END | ZS_GRAVITY_BOTTOM, 0, 100_dp, 100_dp);
+                                        ZS_GRAVITY_END | ZS_GRAVITY_BOTTOM, 0, 100_dp, 128_dp);
     cc = (zViewController*)root->attach(new zViewController(styles_z_ccontroller, z.R.id.ccontroller, z.R.integer.ccontrol, z.R.string.ccontrollerMap),
-                                        ZS_GRAVITY_START | ZS_GRAVITY_BOTTOM, 0, 100_dp, 100_dp);
+                                        ZS_GRAVITY_START | ZS_GRAVITY_BOTTOM, 0, 100_dp, 128_dp);
     cc->setOnChangeButton([this](zView*, int b) {
         theApp->keyb->keyEvent(b | (int)(ac->getButtons() << 4), false); });
     ac->setOnChangeButton([this](zView*, int b) { theApp->keyb->keyEvent((b << 4) | (int)cc->getButtons(), false); });
@@ -147,8 +147,8 @@ void zSpeccyLayout::stateTools(int action, int id) {
             chk = false; dbg->updateVisible(true);
         } else {
             if(speccy->panelMode == 1) {
-                frame->lps.y = 80 - land * 10;
-                keyb->lps.y = 20 + land * 10;
+                frame->lps.y = 90 - land * 10 - speccy->sizeKeyb * 5;
+                keyb->lps.y = 10 + land * 10 + speccy->sizeKeyb * 5;
                 keyb->updateVisible(true);
             }
             chk = (speccy->panelMode == 0);
@@ -172,6 +172,11 @@ void zSpeccyLayout::stateTools(int action, int id) {
         // progress Tape
         tapeProgress->setRange(szi(0, speccy->tapeAllIndex));
         tapeProgress->setProgress(speccy->tapeIndex);
+    }
+    if(action & ZFT_UPD_CONTROLLER) {
+        szi sz(z_dp(112 + 16 * speccy->sizeJoy), z_dp(112 + 16 * speccy->sizeJoy));
+        ac->setSize(sz);
+        cc->setSize(sz);
     }
 }
 

@@ -32,7 +32,6 @@ void sshApp::processEvents(i32 event) {
         case APP_CMD_RESUME:
             DLOG("APP_CMD_RESUME");
             stateAllViews(Z_RESUME, (u8**)&android->savedState, (u32*)&android->savedStateSize);
-//            zJniHelper::instance()->hideNavigationPanel();
             break;
         case APP_CMD_WINDOW_REDRAW_NEEDED:
             redrawNativeWindow();
@@ -62,14 +61,16 @@ static cstr options_def[] = {
         "gsReset=true", "speed_tape=false", "sound=true", "filter=true",
         "execute=true", "debugging=false", "turbo=false", "snd_bp=true", "snd_ay=true",
         "hex=false", "show_debugger=false", "debugger_address=true", "debugger_code=true",
-        "debugger_content=true", "play_tape=false", "rec_tape=false", "basic_start=false",
-        "debug_reg16=false", "tapeAutoStartStop=true", "reset_tape=false", "auto_save=false",
+        "debugger_content=true", "play_tape=false", "rec_tape=false",
+        "debug_reg16=false", "tapeAutoStartStop=true", "reset_tape=false", "dark_mode=false",
         "swap_mouse=false", "giga_screen=false", "debugCpu=true", "snd_cv=false",
-        "snd_gs=false", "trap_dos=true", "fps=true", "showTape=true", "boolTmp=false",
+        "snd_gs=false", "trap_dos=true", "fps=true", "showTape=true",
+        "boolTmp1=false", "boolTmp2=false",
         "[BYTES]",
-        "border_size=3", "snd_chip_ay=0", "snd_channel_ay=1", "snd_freq=1", "snd_vol_bp=6",
+        "border_size=3", "joy_size=3","keyb_size=3",
+        "snd_chip_ay=0", "snd_channel_ay=1", "snd_freq=1", "snd_vol_bp=6",
         "snd_vol_ay=8", "snd_vol_cv=31", "snd_vol_gs=31", "cpu_speed=6", "settings_tab=0",
-        "debug_mode=0", "panel_mode=0",
+        "debug_mode=0", "panel_mode=0", "palette=0",
         "[HEX]",
         "color_nb=ff000000", "color_ns=ffc03020", "color_nr=ff1040c0", "color_nm=ffc040c0",
         "color_ng=ff10b040", "color_nc=ffb0c050", "color_ny=ff10c0e0", "color_nw=ffc0c0c0",
@@ -95,7 +96,6 @@ sshApp::sshApp(android_app* _android) : zViewManager(_android->activity, options
     android->onInputEvent = callback_inputEvent;
     tmpBuf                = new u8[ZX_SIZE_TMP_BUF];
     memset(tmpBuf, 0, ZX_SIZE_TMP_BUF);
-//    zJniHelper::init(android->activity, nullptr);
 }
 
 void sshApp::run() {
@@ -149,7 +149,6 @@ void sshApp::setContent() {
     frame->attach(tzx, VIEW_MATCH, VIEW_MATCH);
     main->attach(debugger, VIEW_MATCH, VIEW_MATCH);
     main->attach(keyb, VIEW_MATCH, VIEW_MATCH);
-    auto land(isLandscape());
     attachForm(bplist, 400_dp, 350_dp);
     attachForm(browser, 450_dp, 450_dp);
     attachForm(settings, 450_dp, 450_dp);

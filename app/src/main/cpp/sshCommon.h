@@ -31,6 +31,7 @@ extern cstr     keyNames[];
 inline u32      frequencies[]   = { 48000, 44100, 22050 };
 inline cstr     extValid[]      = { "sna", "z80", "tap", "tzx", "csw", "wav", "td0", "trd", "scl", "fdi", "udi",
                                     "$b", "$c", "zip", "scr", "tga", "zzz", "ezx" };
+inline cstr     stdJoyKeys[]    = { "K_UP,K_RIGHT,K_DOWN,K_LEFT,K_FIRE,", "4,2,3,1,5,", "9,7,8,6,0,", "UP,RIGHT,DOWN,LEFT,0,", "" };
 inline u8       defJoyKeys[8]   = { 46, 48, 47, 49, 50, 50, 50, 50 };
 //inline u8       defJoyKeys[8]   = { 4, 6, 7, 5, 9, 9, 9, 9 };
 inline u8*		tmpBuf(nullptr);

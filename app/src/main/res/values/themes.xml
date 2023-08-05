@@ -3,7 +3,7 @@
     <style name="myThemeDark">
         <item name="styles">@style/themeDark</item>
         <item name="themeIcons">@drawable/zx_icons</item>
-        <item name="themeSizeTextText">12dp</item>
+        <item name="themeActionBar">@style/zxActionBar</item>
     </style>
     <style name="myThemeLight">
         <item name="styles">@style/themeLight</item>

@@ -76,7 +76,6 @@ POKE2 NAME = VALUE
 */
 void zSpeccy::parserJoyPokes(const zArray<zString8>& sarr) {
     // стандартные кнопки джойстиков
-    static cstr stdJoyKeys[] = { "K_UP,K_RIGHT,K_DOWN,K_LEFT,K_FIRE,", "4,2,3,1,5,", "9,7,8,6,0,", "UP,RIGHT,DOWN,LEFT,0,", "" };
     auto jNames(theme->findArray(R.string.joy_names));
     auto kNames(theme->findArray(R.string.key_names));
     int jKeys(0); Z_JOY_POKES* jpks(nullptr);

@@ -7,6 +7,15 @@
 #include "zDevs.h"
 #include "zCpus.h"
 
+#define ZSI_TYPE_JOY                19
+#define ZSI_KEY_JOY_U               20
+#define ZSI_KEY_JOY_R               21
+#define ZSI_KEY_JOY_D               22
+#define ZSI_KEY_JOY_L               23
+#define ZSI_KEY_JOY_X               24
+#define ZSI_KEY_JOY_Y               25
+#define ZSI_KEY_JOY_A               26
+#define ZSI_KEY_JOY_B               27
 #define ZSI_GS_RESET                64
 #define ZSI_SPEED_TAPE              65
 #define ZSI_SND_LAUNCH              66
@@ -23,31 +32,33 @@
 #define ZSI_SHOW_DEBUG_CONTENT      77
 #define ZSI_PLAY_TAPE               78
 #define ZSI_REC_TAPE                79
-#define ZSI_BASIC_START             80
-#define ZSI_SHOW_REG16              81
-#define ZSI_AUTO_TAPE               82
-#define ZSI_RESET_TAPE              83
-#define ZSI_AUTO_SAVE               84
-#define ZSI_SWAP_MOUSE              85
-#define ZSI_GIGA                    86
-#define ZSI_DEBUG_CPU               87
-#define ZSI_COVOX_LAUNCH            88
-#define ZSI_GS_LAUNCH               89
-#define ZSI_TRAP_DOS                90
-#define ZSI_FPS                     91
-#define ZSI_SHOW_TAPE               92
+#define ZSI_SHOW_REG16              80
+#define ZSI_AUTO_TAPE               81
+#define ZSI_RESET_TAPE              82
+#define ZSI_DARK_THEME              83
+#define ZSI_SWAP_MOUSE              84
+#define ZSI_GIGA                    85
+#define ZSI_DEBUG_CPU               86
+#define ZSI_COVOX_LAUNCH            87
+#define ZSI_GS_LAUNCH               88
+#define ZSI_TRAP_DOS                89
+#define ZSI_FPS                     90
+#define ZSI_SHOW_TAPE               91
 #define ZSI_SIZE_BORDER             94
-#define ZSI_AY_CHIP                 95
-#define ZSI_AY_CHANNEL              96
-#define ZSI_SND_FREQ                97
-#define ZSI_BEEP_VOL                98
-#define ZSI_AY_VOL                  99
-#define ZSI_COV_VOL                 100
-#define ZSI_GS_VOL                  101
-#define ZSI_CPU_SPEED               102
-#define ZSI_SET_TABBED              103
-#define ZSI_DEBUG_MODE              104
-#define ZSI_PANEL_MODE              105
+#define ZSI_SIZE_JOY                95
+#define ZSI_SIZE_KEYB               96
+#define ZSI_AY_CHIP                 97
+#define ZSI_AY_CHANNEL              98
+#define ZSI_SND_FREQ                99
+#define ZSI_BEEP_VOL                100
+#define ZSI_AY_VOL                  101
+#define ZSI_COV_VOL                 102
+#define ZSI_GS_VOL                  103
+#define ZSI_CPU_SPEED               104
+#define ZSI_SET_TABBED              105
+#define ZSI_DEBUG_MODE              106
+#define ZSI_PANEL_MODE              107
+#define ZSI_PALETTES                108
 
 enum DEV_ACCESS { ACCESS_NO = 0, ACCESS_WR, ACCESS_RD, ACCESS_RW };
 
@@ -69,14 +80,14 @@ struct SPECCY {
     // 0. Байтовые значения, вычисляемые во время работы программы
     // Значение FPS
     float nfps;												// 15
-    // Текущий тип джойстика
-    u8 joyType;	    										// 19
+    // тип джойстика
+    u8 joyType;                                             // 19
     // Привазанные к джойстику коды кнопок клавиатуры(4 POV, 4 Buttons)
     u8 joyKeys[8];  										// 20
     // Значения в полурядах клавиатуры
     u8 semiRow[10];											// 28
     // Индекс файла загрузки ленты
-    i32 tapeIndex;											// 38
+    i32 tapeIndex;											// 39
     // всего индексов ленты
     i32 tapeAllIndex;										// 42
     // индекс блока ленты для передачи в UI
@@ -87,7 +98,7 @@ struct SPECCY {
     u32 jni;												// 50
     u32 kmode;                                              // 54
     bool cshift, sshift;                                    // 58
-    u32 tmp;                                                // 60
+    u32 tabbed;                                             // 60
     // 1. Булевы значения
     union {
         struct {
@@ -123,16 +134,14 @@ struct SPECCY {
             bool playTape;
             // Признак записи на магнитофон
             bool recTape;
-            // Признак автостарта бейсик-программ
-            bool basicStart;
             // Признак 16-тиричного вывода
             bool showReg16;
             // авто старт/стоп ленты
             bool tapeStartStop;
             // Признак сброса ленты при ресете/изменении модели
             bool resetTape;
-            // Признак авто сохранения настроек
-            bool autoSave;
+            // Признак темной темы оформления
+            bool darkTheme;
             // Обмен кнопок мыши
             bool swapMouse;
             // Гига скрин
@@ -157,6 +166,10 @@ struct SPECCY {
         struct {
             // Размер границы
             u8 sizeBorder;                                     // 94
+            // Размер джойстика
+            u8 sizeJoy;
+            // Размер клавиатуры
+            u8 sizeKeyb;
             // Тип звукового сопроцессора
             u8 ayChip;
             // Раскладка каналов в звуковом процессоре
@@ -179,14 +192,17 @@ struct SPECCY {
             u8 debugMode;
             // режим панели
             u8 panelMode;
+            // палитра
+            u8 pallete;
         };
-        u8 uints8[12];
+        u8 uints8[15];
     };
     // 3. Целые значения
     // значения оригинальных цветов (32 * 4)
-    u32 colors[32];											// 106
+    u32 colors[32];											// 109
+    u8 tmpBuf[256];
     // имя программы
-    zString8 progName;									    // 362
+    zString8 progName;									    // 237
     inline bool isQTape() const { return playTape && speedTape; }
     inline bool is48k() const { return (_7ffd & 32) || model == 0; }
     inline int value(int offs) const { return *((u8*)this + offs); }
@@ -194,6 +210,7 @@ struct SPECCY {
 #pragma pack(pop)
 
 class zSpeccy: public SPECCY {
+    friend class zFormSelFile;
 public:
     struct Z_JOY_POKES {
         Z_JOY_POKES(czs& nm) : programm(nm) { }

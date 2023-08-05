@@ -9,15 +9,15 @@
 			VIEW_MATCH, VIEW_MATCH)); 
 	auto settings04((zLinearLayout*)settings03->attach(new zLinearLayout(styles_zlinearlayout3, 0, true), 
 			0, 1, VIEW_WRAP, VIEW_MATCH)); 
-	settings04->attach(new zViewText(styles_zviewtext2, 0, R.string.settings_system), 
+	settings04->attach(new zViewText(styles_zviewtext3, 0, R.string.settings_system), 
 			VIEW_MATCH, VIEW_WRAP);
 	settings04->attach(new zViewSlider(styles_mainsystem, R.id.mainSystem, 0, szi(3, 12), 6, false), 
 			VIEW_MATCH, VIEW_WRAP);
-	settings04->attach(new zViewText(styles_zviewtext2, 0, R.string.settings_border), 
+	settings04->attach(new zViewText(styles_zviewtext3, 0, R.string.settings_border), 
 			VIEW_MATCH, VIEW_WRAP);
 	settings04->attach(new zViewSlider(styles_mainsystem, R.id.mainBorder, 0, szi(0, 6), 3, false), 
 			VIEW_MATCH, VIEW_WRAP);
-	settings04->attach(new zViewCheck(styles_browschk, R.id.mainAutoSave, R.string.settings_auto_save), 
+	settings04->attach(new zViewCheck(styles_browschk, R.id.mainDarkTheme, R.string.settings_dark_theme), 
 			VIEW_MATCH, VIEW_WRAP);
 	settings04->attach(new zViewCheck(styles_browschk, R.id.mainGsReset, R.string.settings_gs_reset), 
 			VIEW_MATCH, VIEW_WRAP);
@@ -27,11 +27,11 @@
 			VIEW_MATCH, VIEW_WRAP);
 	auto settings14((zLinearLayout*)settings03->attach(new zLinearLayout(styles_zlinearlayout5, 0, true), 
 			VIEW_WRAP, VIEW_MATCH)); 
-	settings14->attach(new zViewText(styles_zviewtext2, 0, R.string.settings_joystick), 
+	settings14->attach(new zViewText(styles_zviewtext3, 0, R.string.settings_joystick), 
 			VIEW_MATCH, VIEW_WRAP);
 	settings14->attach(new zViewSlider(styles_mainsystem, R.id.mainJoystick, 0, szi(0, 5), 3, false), 
 			VIEW_MATCH, VIEW_WRAP);
-	settings14->attach(new zViewText(styles_zviewtext2, 0, R.string.settings_keyboard), 
+	settings14->attach(new zViewText(styles_zviewtext3, 0, R.string.settings_keyboard), 
 			VIEW_MATCH, VIEW_WRAP);
 	settings14->attach(new zViewSlider(styles_mainsystem, R.id.mainKeyboard, 0, szi(0, 5), 3, false), 
 			VIEW_MATCH, VIEW_WRAP);
@@ -151,7 +151,7 @@
 			VIEW_WRAP, VIEW_WRAP);
 	settings114->attach(new zViewSelect(styles_z_spinner, R.id.dispSpinPalettes), 
 			VIEW_MATCH, VIEW_WRAP);
-	settings114->attach(new zViewCheck(styles_browschk, 0, R.string.Assembler_colors), 
+	settings114->attach(new zViewCheck(styles_browschk, R.id.dispChkAsm, R.string.Assembler_colors), 
 			VIEW_MATCH, VIEW_WRAP);
 	auto settings124((zLinearLayout*)settings33->attach(new zLinearLayout(styles_default, R.id.llSpeccyCols1, false), 
 			VIEW_MATCH, VIEW_MATCH)); 
@@ -267,5 +267,5 @@
 			VIEW_MATCH, VIEW_MATCH);
 	auto settings62((zTabWidget*)settings01->attach(new zTabWidget(styles_default, 0, 0, R.integer.iconZxHelp), 
 			VIEW_WRAP, VIEW_WRAP)); 
-	settings62->attach(new zViewText(styles_zviewtext13, 0, 0), 
+	settings62->attach(new zViewText(styles_helptext, R.id.helpText, 0), 
 			VIEW_MATCH, VIEW_MATCH);

@@ -219,5 +219,5 @@ void zRibbonDebugger::initItem(zViewText* nv, int idx) {
         x += len;
     }
     nv->updateText();
-    DLOG("sel %i", _sitem);
+//    DLOG("sel %i", _sitem);
 }

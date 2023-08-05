@@ -10,5 +10,8 @@ public:
             zViewForm(_sts, _id, _scapt, _sfoot, _capt, _m) { }
     virtual void onInit(bool _theme) override;
     virtual i32 updateVisible(bool set) override;
-    void setParams(zFile* fl, int option);
+    void setParams(zFile* _fl, int option);
+protected:
+    zViewRibbon* lst{nullptr};
+    int option{0}; zFile* fl{nullptr};
 };

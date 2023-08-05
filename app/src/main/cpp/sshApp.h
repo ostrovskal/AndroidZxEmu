@@ -23,6 +23,7 @@ constexpr int ZFT_UPD_MENU_GROUP= 2;
 constexpr int ZFT_UPD_MENU_DISP = 4;
 constexpr int ZFT_UPD_MENU_DBG  = 8;
 constexpr int ZFT_UPD_MENU_ITEM = 16;
+constexpr int ZFT_UPD_CONTROLLER= 32;
 constexpr int ZFT_ALL           = 255;
 
 class sshApp : public zViewManager {

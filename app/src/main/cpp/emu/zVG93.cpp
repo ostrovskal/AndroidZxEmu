@@ -956,7 +956,7 @@ int zDevVG93::is_readonly(int num, int write) {
 int zDevVG93::read_sector(int num, int sec) {
 	if(!fdds[num].valid()) return 0;
 	auto sector(fdds[num].sector(0, 0, sec));
-	//if(sector) memcpy(speccy->tmpBuffer, sector->content, 256); else memset(speccy->tmpBuffer, 0, 256);
+	if(sector) memcpy(speccy->tmpBuf, sector->content, 256); else memset(speccy->tmpBuf, 0, 256);
 	return sector != nullptr;
 }
 

@@ -34,7 +34,6 @@ void zFormBrowser::onInit(bool _theme) {
         lst->setOnClick([this](zView*, int s) {
             auto txt(lst->getAdapter()->getItem(s));
             auto dbl(touch->isDblClicked());
-            DLOG("dbl:%i",dbl);
             if(txt == "...") {
                 if(dbl) {
                     current = current.left(current.count() - 1).substrBeforeLast("/");
