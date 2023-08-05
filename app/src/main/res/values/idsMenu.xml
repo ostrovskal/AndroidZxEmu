@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <item name="tapePlay" type="id"/>
+    <item name="tapeTurbo" type="id"/>
+    <item name="tapeProgress" type="id"/>
+    <item name="llTape" type="id"/>
+
+    <integer name="MENU_DISPLAY">1000</integer>
+    <integer name="MENU_BROWSER">1001</integer>
+    <integer name="MENU_SETTINGS">1002</integer>
+    <integer name="MENU_PROPS">1003</integer>
+    <integer name="MENU_MODEL">1004</integer>
+    <integer name="MENU_OPERATIONS">1005</integer>
+    <integer name="MENU_MRU">1006</integer>
+    <integer name="MENU_QLOAD">1007</integer>
+    <integer name="MENU_QSAVE">1008</integer>
+    <integer name="MENU_EXIT">1009</integer>
+    <integer name="MENU_DEBUGGER">1010</integer>
+
+    <integer name="MENU_PROPS_SOUND">1100</integer>
+    <integer name="MENU_PROPS_MAGNITOPHON">1101</integer>
+    <integer name="MENU_PROPS_FILTER">1102</integer>
+    <integer name="MENU_PROPS_TURBO">1103</integer>
+    <integer name="MENU_PROPS_EXECUTE">1104</integer>
+    <integer name="MENU_PROPS_DEBUGGER">1105</integer>
+
+    <integer name="MENU_DEBUGGER_ADDR">1200</integer>
+    <integer name="MENU_DEBUGGER_CODE">1201</integer>
+    <integer name="MENU_DEBUGGER_CONTENT">1202</integer>
+
+    <integer name="MENU_OPS_POKES">1300</integer>
+    <integer name="MENU_OPS_RESET">1301</integer>
+    <integer name="MENU_OPS_RESTORE">1302</integer>
+    <integer name="MENU_OPS_ASSEMBLER">1303</integer>
+    <integer name="MENU_OPS_EDITOR_TZX">1304</integer>
+    <integer name="MENU_OPS_MAGIC">1305</integer>
+
+    <integer name="MENU_MODEL_48K">1400</integer>
+    <integer name="MENU_MODEL_128K">1401</integer>
+    <integer name="MENU_MODEL_PENTAGON128">1402</integer>
+    <integer name="MENU_MODEL_PENTAGON512">1403</integer>
+    <integer name="MENU_MODEL_SCORPION">1404</integer>
+
+    <integer name="MENU_MRU_1">1500</integer>
+    <integer name="MENU_MRU_2">1501</integer>
+    <integer name="MENU_MRU_3">1502</integer>
+    <integer name="MENU_MRU_4">1503</integer>
+    <integer name="MENU_MRU_5">1504</integer>
+    <integer name="MENU_MRU_6">1505</integer>
+    <integer name="MENU_MRU_7">1506</integer>
+    <integer name="MENU_MRU_8">1507</integer>
+    <integer name="MENU_MRU_9">1508</integer>
+    <integer name="MENU_MRU_10">1509</integer>
+</resources>

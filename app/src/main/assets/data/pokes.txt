@@ -1,0 +1,774 @@
+[Dizzy 4]
+Infinite Lives=0
+63001=183
+
+[Lode Runner]
+JOY: CURSOR(ENTER,4,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+35426=182
+35512=182
+Lives=x
+35375=x
+
+[Exolon]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+40221=0
+Infinite Ammo=0
+33646=0
+Infinite Grenades=0
+37456=0
+Double Fire=0
+33663=0
+One Shot=0
+44074=0
+Infinite Rockets=0
+37397=0
+No Cannon Fire=0
+36831=24
+No Flying Aliens=0
+42330=201
+Lot of Aliens=0
+42330=0
+42336=24
+No Aliens=0
+42338=0
+Fast Explode=0
+35456=0
+36845=0
+38221=0
+42338=0
+Mines are harmless=0
+40110=201
+
+[Dizzy VII]
+JOY: SINCLAIR II(ENTER,4,SPACE,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+57267=0
+Infinite Energy=0
+60808=182
+
+[North Star]
+JOY: KEMPSTON(ENTER,6,1,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+48371=182
+Infinite Ammo=0
+43680=0
+No Enemies=0
+44433=0
+
+[Joe Blade]
+JOY: KEMPSTON(C,J,S,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Time=0
+38480=201
+Infinite Energy=0
+37852=201
+No Enemies=0
+36748=201
+Unlock doors=0
+38402=201
+Infinite Bomb Time=0
+30763=54
+30764=1
+30765=38
+
+[Beantley Bear]
+JOY: KEMPSTON(0,2,0,N/A,N/A,N/A,N/A,N/A,N/A)
+
+[R-Type]
+JOY: SINCLAIR II(ENTER,0,SPACE,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+37374=0
+Weird=0
+38241=22
+38242=154
+Immunity=0
+38253=58
+38260=58
+
+[Dragon Spirit]
+JOY: SINCLAIR II(ENTER,3,SPACE,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+54498=0
+Immunity=0
+54449=201
+
+[Action Force II]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+51905=182
+Only 10 Hits To Kill Tank=0
+60579=49
+Infinite Energy=0
+51455=201
+
+[Deviants]
+Infinite Ammo=0
+35272=0
+35286=0
+Infinite Time=0
+26575=0
+Infinite Energy=0
+61196=0
+Auto Valves(??)=0
+26524=0
+
+[Action Force]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+50013=0
+Start level=x
+49326=x
+54234=x
+
+[Airwolf]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+45523=183
+Infinite Bonus=0
+44665=0
+Floating chopper (FNAR! Ed)=0
+58317=0
+
+[Airwolf II]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Immunity=0
+57391=58
+Infinite Lives=0
+53471=0
+
+[Arkanoid]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+33702=0
+
+[Arkanoid 2 128K]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+33875=0
+
+[Arkanoid 2 48K]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Lives=x
+33054=x
+Infinite Lives=0
+37484=182
+No Moving Bricks=0
+33423=0
+33429=0
+Two Bats=0
+40413=1
+Catch Bat=0
+40413=4
+Laser Bat=0
+40413=32
+Next Screen=0
+40414=1
+Power Ball=0
+40415=64
+Bricks=x
+40443=x
+Ball Speed=x
+40420=x
+
+[Blind Panic]
+Infinite Energy=0
+58201=0
+Infinite Keys=0
+38688=195
+38773=195
+Autofire=0
+34513=58
+Start with bomb=0
+33497=66
+
+[Batty]
+Infinite Lives=0
+48440=0
+Lives=x
+47633=x
+
+[Capitan Trueno]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Part 1=0
+Infinite Lives=0
+39840=182
+Infinite Energy=0
+38308=201
+Part 2=0
+Infinite Lives=0
+26168=182
+Infinite Energy=0
+28712=58
+
+[Chase HQ]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Credits=0
+39998=166
+Infinite Time=0
+39937=0
+1 Hit To Capture=0
+46351=62
+Infinite Turbos=0
+45221=0
+
+[Crystal Kingdom Dizzy]
+Infinite Lives=0
+57267=0
+Infinite Energy=0
+60808=182
+
+[Chicago 30s]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Lives=x
+37801=x
+Infinite lives=0
+63794=0
+
+[Chronos]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+56906=167
+Autofire=0
+26987=201
+Lives=x
+53407=x
+
+[Commando]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+27653=182
+Infinite Grenades=0
+27773=58
+
+[Cybernoid]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+36687=0
+Infinite Shields=0
+31818=0
+No Sound=0
+61683=201
+Immunity=0
+36571=201
+No Enemies=0
+36055=201
+39784=201
+No Guns=0
+34732=201
+36156=201
+No Tunnel Aliens=0
+36928=201
+No Snakes=0
+37479=201
+No Rockets=0
+38896=201
+No Flying Aliens=0
+39906=201
+Infinite Weapons=0
+31799=0
+Immediate Backshot=0
+27374=1
+Infinite Backshot=0
+36680 0=0
+Eternal Satellite=0
+36683=0
+Eternal Satellite (var2)=0
+27211=0
+Lives=x
+25941=x
+
+[Cybernoid 2 : The Revenge]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+36198=0
+Infinite Shields=0
+30529=0
+Infinite Weapons=0
+30597=0
+Immunity=0
+26896=0
+No Guns=0
+35504=201
+No Lifts=0
+33216=201
+No Snake=0
+36699=201
+No Rockets=0
+38441=201
+No Flying Aliens=0
+38677=201
+No Passage Aliens=0
+33725=201
+Game Speed=x
+33725=x
+
+[Dan Dare 1 : Pilot Of The Future]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Energy=0
+47732=201
+Infinite Ammo=0
+43544=0
+Infinite Time=0
+60677=0
+No Treens=0
+61840=0
+Fall Any Height=0
+42870=24
+No Jail Level 3=0
+42110=0
+Immunity=0
+56382=201
+
+[Dan Dare 2 : Mekon's Revenge]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Energy=0
+58278=62
+58279=80
+58280=18
+58281=201
+Infinite Time=0
+60677=0
+No Treens=0
+61827=0
+61840=0
+Immunuty=0
+56382=201
+Infinite Lives=0
+54390=0
+No crunch=0
+53050=201
+Lives=x
+53822=x
+64594=x
+
+[Dan Dare 3 : The Escape]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Fuel=0
+41922=0
+Infinite Lives=0
+58494=0
+Infinite Ammo=0
+52036=0
+Better Armed=0
+34317=0
+
+[Flying Shark]
+Infinite Lives=0
+54462=201
+No Enemies=0
+51631=201
+Immunity=0
+48115=58
+Lives=x
+42464=x
+Bombs=x
+42490=x
+
+[Galaxians]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite lives=0
+25465=1
+25471=6
+25487=182
+
+[Ghouls 'N' Ghosts 48K]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Lives=x
+35612=x
+Infinite Lives=0
+35390=0
+
+[Glug Glug]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives Player 1=0
+34139=0
+34211=0
+Infinite Lives Player 2=0
+34176=0
+34227=0
+Unstoppable bullets=0
+31288=0
+Nasties stay dead=0
+31482=0
+
+[Highway Encounter]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Time=0
+37268=43
+
+[Ice Temple]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+63132=0
+Multi-POKE=0
+60934=119
+60935=201
+
+[Last Ninja 2]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+36578=0
+
+[Last Ninja Remix]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+36577=33
+
+[Licence To Kill]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+128K=0
+Infinite Lives=0
+48633=183
+55802=0
+Infinite Energy=0
+54608=0
+57106=0
+58674=0
+59701=0
+Infinite Ammo=0
+54933=0
+Infinite Time=0
+57952=0
+48K=0
+Lives=x
+47713=x
+Infinite Lives Level 1=0
+55802=0
+Infinite Lives Level 2=0
+48181=183
+Infinite Lives Level 3=0
+48428=183
+Infinite Lives Level 4=0
+48633=183
+Infinite Lives Level 5=0
+59174=183
+Infinite Lives Level 6=0
+59285=183
+Infinite Lives=0
+48633=183
+55802=0
+Infinite Energy=0
+59400=0
+54604=0
+57078=0
+58646=0
+Infinite Bonus=0
+47372=239
+Infinite Ammo=0
+54919=0
+Infinite Time=0
+57927=0
+Immune To Boats=0
+56241=0
+
+[Marauder]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+35160=175
+35161=50
+35162=95
+35163=250
+Infinite Smart Bombs=0
+34225=0
+All die instantly=0
+34219=0
+34225=0
+34230=0
+Lives=x
+26178=x
+Smart Bombs=x
+26183=x
+
+[Mega Nova (Part One)]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+32382=0
+Lives=x
+31705=x
+
+[Myth]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+33611=0
+Infinite Credits=0
+62045=0
+
+[Navy Moves]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+English version=0
+Infinite Lives Part 1=0
+49923=0
+Infinite Lives Part 2=0
+54035=0
+Spanish version=0
+Infinite Lives Part 1=0
+49962=0
+Infinite Lives Part 2=0
+54047=0
+
+[Nebulus]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+32921=0
+Infinite Time=0
+43650=0
+
+[Nether Earth]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Use anything when making robots=0
+51812=58
+51815=0
+Infinite supplies=0
+44399=18
+44615=33
+Infinite credits=0
+51841=0
+
+[Operation Wolf]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+128K version=0
+Infinite Magazines=0
+40727=183
+Infinite Damage=0
+41150=0
+41762=0
+Infinite Continues=0
+40838=0
+48K version=0
+Infinite grenades=0
+40710=0
+Infinite ammo=0
+40681=0
+Infinite continues=0
+40784=0
+Damage (1-255)=x
+40733=x
+Infinite Damage=0
+41708=0
+
+[Panama Joe]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+38633=183
+Lives (1-255)=x
+35198=x
+
+[Pheenix]
+37.04=37.04
+Infinite Lives=0
+29375=0
+
+[Pyramid]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Time & Energy=0
+44685=0
+
+[Quazatron]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+58347=195
+58348=220
+58349=224
+Infinite Power=0
+58238=0
+58255=24
+58256=65
+
+[Race (The)]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Time=0
+55541=0
+Seconds (1-255)=x
+55549=x
+
+[River Raid]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite lives=0
+24251=0
+
+[Robocop]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+25917=0
+No Pause When Shot=0
+25795=0
+Turbo Speed=0
+34039=0
+Immunity=0
+39540=201
+No Enemies=0
+31007=0
+Infinite Time=0
+45722=201
+Infinite Time (var2)=0
+25424=0
+
+[Robocop II]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+38765=0
+Lives (1-128)=x
+27587=x
+
+[Rogue Trooper]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+30942=0
+Infinite Ammo=0
+35091=0
+Infinite Strength=0
+30882=42
+
+[Rygar]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Lives (1-255)=x
+56743=x
+Infinite Lives=0
+61577=0
+Time (1-255)=x
+56798=x
+Infinite Time=0
+51216=0
+
+[Satan]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Part 1=0
+Infinite lives=0
+46589=0
+Infinite time=0
+53970=0
+Immunity=0
+46353=24
+Part 2 (Code - 01020304)=0
+Infinite lives=0
+46528=183
+Infinite time=0
+46658=42
+Immunity=0
+44808=201
+Buy anything=0
+45371=62
+
+[Sentinel]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Energy=0
+32458=62
+32459=150
+34106=150
+37407=62
+37408=150
+37490=0
+???????????????=0
+31684=0
+
+[Silkworm]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+38052=182
+Immunity (both players)=0
+47894=0
+47898=58
+
+[Savage]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+PART 1=0
+Infinite Lives=0
+39319=0
+57520=0
+58601=0
+Infinite Energy=0
+39297=0
+58584=0
+Lives (1-99)=x
+37299=x
+PART 2=0
+Infinite Lives=0
+32664=183
+Lives (1-99)=x
+35803=x
+Immune to pillars=0
+32629=195
+PART 3=0
+Lives (1-99)=x
+34398=x
+Infinite Lives=0
+57848=183
+Infinite Energy=0
+57919=0
+
+[Zynaps]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+45425=182
+Immunity=0
+39775=201
+
+[Trantor]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Energy=0
+56596=0
+Infinite Time=0
+56711=0
+Infinite Ammo=0
+54236=0
+No Enemies=0
+52514=0
+Immunity=0
+61008=201
+
+[Way Of The Exploding Fist]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Time (1-255)=x
+44793=x
+
+[Way Of The Exploding Fist II]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+27061=0
+Lives (1-255)=x
+27233=x
+
+[Way Of The Exploding Fist +]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite time=0
+30591=0
+
+[Xenon]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+25029=182
+Infinite Energy=0
+25004=0
+
+[Wec Le Mans]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Time=0
+33249=195
+
+[DownToEarth]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Infinite Lives=0
+40141=182
+Infinite Ammo=0
+38583=0
+38911=0
+39168=0
+39387=0
+Infinite Time=0
+39815=0
+
+[S.D.I.]
+JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+Immunity=0
+49997=201
+Infinite Lives=0
+41229=0
+41302=0
+Infinite Damage=0
+46628=0
+
+[Spellbound Dizzy]
+Infinite Lives=0
+51291=0
+

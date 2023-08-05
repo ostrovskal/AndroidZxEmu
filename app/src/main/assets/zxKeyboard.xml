@@ -1,0 +1,47 @@
+<?xml version = "1.0" encoding="utf-8" ?>
+<keyboards default="c">
+	<layout name="c" width="709" height="193">
+		<button x="1" y="1" width="62" height="47" />
+		<button x="64" y="1" width="62" height="47" />
+		<button x="127" y="1" width="62" height="47" />
+		<button x="190" y="1" width="62" height="47" />
+		<button x="253" y="1" width="62" height="47" />
+		<button x="316" y="1" width="62" height="47" />
+		<button x="379" y="1" width="62" height="47" />
+		<button x="442" y="1" width="62" height="47" />
+		<button x="505" y="1" width="62" height="47" />
+		<button x="568" y="1" width="62" height="47" />
+		<button x="1" y="49" width="62" height="47" />
+		<button x="64" y="49" width="62" height="47" />
+		<button x="127" y="49" width="62" height="47" />
+		<button x="190" y="49" width="62" height="47" />
+		<button x="253" y="49" width="62" height="47" />
+		<button x="316" y="49" width="66" height="47" />
+		<button x="383" y="49" width="58" height="47" />
+		<button x="442" y="49" width="62" height="47" />
+		<button x="505" y="49" width="62" height="47" />
+		<button x="568" y="49" width="62" height="47" />
+		<button x="80" y="97" width="60" height="47" />
+		<button x="141" y="97" width="60" height="47" />
+		<button x="202" y="97" width="60" height="47" />
+		<button x="263" y="97" width="60" height="47" />
+		<button x="324" y="97" width="60" height="47" />
+		<button x="385" y="97" width="60" height="47" />
+		<button x="446" y="97" width="60" height="47" />
+		<button x="507" y="97" width="60" height="47" />
+		<button x="568" y="97" width="60" height="47" />
+		<button x="631" y="49" width="77" height="47" />
+		<button x="1" y="97" width="78" height="47" />
+		<button x="72" y="145" width="62" height="47" />
+		<button x="135" y="145" width="62" height="47" />
+		<button x="198" y="145" width="62" height="47" />
+		<button x="455" y="145" width="58" height="47" />
+		<button x="514" y="145" width="68" height="47" />
+		<button x="583" y="145" width="62" height="47" />
+		<button x="646" y="145" width="62" height="47" />
+		<button x="629" y="97" width="79" height="47" />
+		<button x="262" y="145" width="191" height="47" />
+		<button x="2" y="145" width="69" height="47" />
+		<button x="631" y="1" width="77" height="47" />
+	</layout>
+</keyboards>

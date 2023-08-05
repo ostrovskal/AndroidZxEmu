@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:z="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/formSelFile"
+    android:layout_width="280dp" android:layout_height="300dp"
+    z:styles="@style/form" android:text="Выбор файла" z:styleCaption="@style/formCaption"
+    z:gravity="center" z:formMode="none" z:modal="true" z:typeView="zFormSelFile" z:nameView="selfile">
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        z:pad="3dp" android:orientation="horizontal">
+    </LinearLayout>
+</RelativeLayout>

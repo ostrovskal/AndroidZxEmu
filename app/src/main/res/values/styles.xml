@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="zxActionBar">
+        <item name="styles">@style/bar</item>
+        <item name="background">@drawable/zx_icons</item>
+        <item name="bkTiles">@integer/zxBar</item>
+    </style>
+    <style name="debBut">
+        <item name="styles">@style/tools</item>
+        <item name="sizeMinW">5dp</item>
+        <item name="sizeMinH">5dp</item>
+        <item name="fkScale">0.42</item>
+        <item name="icScale">0.33</item>
+        <item name="textColor">#fff</item>
+        <item name="textSize">14sp</item>
+        <item name="textStyle">bold</item>
+        <item name="icon">?attr/themeIcons</item>
+        <item name="fkGravity">center</item>
+        <item name="pad">0dp</item>
+    </style>
+    <style name="debFlags">
+        <item name="sizeMinW">1px</item>
+        <item name="textSize">11sp</item>
+        <item name="gravity">center</item>
+        <item name="textColor">#fff</item>
+        <item name="ipadVert">1dp</item>
+        <item name="ipadHorz">2dp</item>
+    </style>
+    <style name="debForm">
+        <item name="styles">@style/form</item>
+        <item name="gravity">center</item>
+        <item name="formMode">none</item>
+        <item name="mskTiles">@integer/rect</item>
+    </style>
+    <style name="debEdit">
+        <item name="sizeMinH">12dp</item>
+        <item name="sizeMinW">12dp</item>
+        <item name="foreground">?attr/themeColor</item>
+        <item name="fkScale">0.25</item>
+        <item name="textDistance">0dp</item>
+        <item name="fkGravity">center</item>
+        <item name="pad">1dp</item>
+        <item name="ipad">1dp</item>
+        <item name="inputMode">zx</item>
+        <item name="textLines">1</item>
+        <item name="textSize">15sp</item>
+        <item name="textColor">#000</item>
+        <item name="gravity">center</item>
+    </style>
+    <style name="debEditRead">
+        <item name="styles">@style/debEdit</item>
+        <item name="behavior">none</item>
+        <item name="decorate">readOnly</item>
+    </style>
+    <style name="zxSlider">
+        <item name="styles">@style/slider</item>
+        <item name="pad">2dp</item>
+        <item name="sizeMinH">5dp</item>
+    </style>
+    <style name="zxCheck">
+        <item name="styles">@style/checkbox</item>
+        <item name="fkScale">0.6</item>
+        <item name="pad">1dp</item>
+        <item name="textDistance">3dp</item>
+        <item name="textSize">15sp</item>
+        <item name="textStyle">bold</item>
+        <item name="textColor">#fff</item>
+    </style>
+    <style name="zxKeyb">
+        <item name="styles">@style/keyboardBase</item>
+        <item name="fkScale">0.5</item>
+        <item name="sizeMinW">1dp</item>
+        <item name="icon">?attr/themeIcons</item>
+    </style>
+    <style name="setRibbon">
+        <item name="fbo">true</item>
+        <item name="bkTiles">@integer/nullDrop</item>
+        <item name="selector">?attr/themeColorSelector</item>
+        <item name="duration">30</item>
+        <item name="decorate">alwaysSel|scrollbar</item>
+        <item name="fadeScrollBars">false</item>
+        <item name="tilesScrollBars">@integer/rect</item>
+        <item name="pad">5dp</item>
+    </style>
+    <style name="diskHeadText">
+        <item name="textSize">14sp</item>
+        <item name="textStyle">bold</item>
+        <item name="textColor">#fff</item>
+        <item name="gravity">center</item>
+    </style>
+    <style name="dispColorText">
+        <item name="textShadowOffset">2,2</item>
+        <item name="textSize">12sp</item>
+        <item name="textLines">2</item>
+        <item name="textStyle">normal</item>
+        <item name="textColor">#fff</item>
+        <item name="gravity">center</item>
+        <item name="margin">1dp</item>
+    </style>
+    <style name="bpEdit">
+        <item name="fkTiles">@integer/edit</item>
+        <item name="fkScale">0.55</item>
+        <item name="icGravity">end|center_vertical</item>
+        <item name="icTiles">@integer/iconEditEx</item>
+        <item name="icScale">0.6</item>
+        <item name="textDistance">1dp</item>
+        <item name="fkGravity">center</item>
+        <item name="pad">1dp</item>
+        <item name="ipadHorz">3dp</item>
+        <item name="ipadVert">1dp</item>
+        <item name="inputMode">zx</item>
+        <item name="textLines">1</item>
+        <item name="textSize">16sp</item>
+        <item name="gravity">start|center_vertical</item>
+    </style>
+    <style name="zxTools">
+        <item name="styles">@style/tools</item>
+        <item name="sizeMinW">5dp</item>
+        <item name="sizeMinH">5dp</item>
+        <item name="fkScale">0.33</item>
+        <item name="icScale">0.33</item>
+        <item name="textColor">#fff</item>
+        <item name="icon">?attr/themeIcons</item>
+        <item name="pad">2dp</item>
+    </style>
+    <style name="pokButton">
+        <item name="styles">@style/button</item>
+        <item name="fkScale">0.33</item>
+        <item name="icon">?attr/themeIcons</item>
+    </style>
+    <style name="pokRibbon">
+        <item name="styles">@style/setRibbon</item>
+        <item name="decorate">scrollbar|overscroll</item>
+    </style>
+    <style name="debListText">
+        <item name="font">@drawable/font_mono</item>
+        <item name="textSize">16sp</item>
+        <item name="textStyle">normal|mono</item>
+        <item name="textColor">?attr/themeColor</item>
+        <item name="gravity">start</item>
+        <item name="ipadVert">2dp</item>
+    </style>
+    <style name="browsListText">
+        <item name="textSize">20sp</item>
+        <item name="textStyle">normal</item>
+        <item name="textColor">?attr/themeColor</item>
+        <item name="gravity">start</item>
+        <item name="pad">1dp</item>
+        <item name="textEllipsis">end</item>
+    </style>
+    <style name="textCapt">
+        <item name="textSize">16sp</item>
+        <item name="textEllipsis">middle</item>
+        <item name="textLines">2</item>
+        <item name="textStyle">bold</item>
+        <item name="textColor">?attr/themeColorTextText</item>
+        <item name="gravity">start</item>
+    </style>
+    <style name="browsBut">
+        <item name="styles">@style/tools</item>
+        <item name="icon">?attr/themeIcons</item>
+        <item name="pad">2dp</item>
+    </style>
+</resources>

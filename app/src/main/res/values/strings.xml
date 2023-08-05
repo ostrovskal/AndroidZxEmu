@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">ZX Emulator</string>
+    <string name="form_settings">Настройки</string>
+    <string name="settings_system">SYSTEM</string>
+    <string name="settings_border">BORDER</string>
+    <string name="settings_auto_save">Auto save</string>
+    <string name="settings_gs_reset">GS reset</string>
+    <string name="settings_tape_reset">Tape reset</string>
+    <string name="settings_joystick">JOYSTICK</string>
+    <string name="settings_keyboard">KEYBOARD</string>
+    <string name="settings_swap_mouse_buttons">Swap mouse buttons</string>
+    <string name="settings_giga_screen">Giga screen</string>
+    <string name="settings_trap_tr_dos">Trap TR-DOS</string>
+    <string name="settings_show_fps">Show FPS</string>
+    <string name="settings_auto_tape">Auto tape</string>
+    <string name="msg_error">Error</string>
+    <string name="msg_warning">Warning</string>
+    <string name="browser_flt" translatable="false">Snapshot|Tape|Network|Disk A:|Disk B:|Disk C:|Disk D:</string>
+    <string name="disks" translatable="false">A:|B:|C:|D:</string>
+    <string name="bp_ops" translatable="false">EMPTY|EXEC|RMEM|WMEM|RPORT|WPORT</string>
+    <string name="bp_cond" translatable="false">==|&lt;&gt;|&lt;|&gt;|&lt;=|&gt;=</string>
+    <string name="joy_names" translatable="false">KEMPSTON|SINCLAIR I|SINCLAIR II|CURSOR|CUSTOM</string>
+    <string name="key_names" translatable="false">1|2|3|4|5|6|7|8|9|0|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|ENTER|CAPS|Z|X|C|V|B|N|M|SYMBOL|SPACE|EXT|DEL|UP|DOWN|LEFT|RIGHT|K_UP|K_DOWN|K_LEFT|K_RIGHT|K_FIRE|N/A</string>
+</resources>

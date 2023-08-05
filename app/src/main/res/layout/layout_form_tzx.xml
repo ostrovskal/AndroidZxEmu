@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:z="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/formTzx" android:layout_width="280dp" android:layout_height="300dp"
+    z:gravity="center" z:formMode="none" z:modal="false" z:behavior="none"
+    z:typeView="zFormTZX" z:nameView="tzx">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tzxMsg"
+            android:gravity="center"
+            z:textLines="2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#fff" android:textSize="24sp"
+            z:visibled="false" z:textShadowOffset="2,2" z:behavior="none" />
+        <LinearLayout
+            android:id="@+id/tzxSel"
+            z:visibled="false"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</RelativeLayout>

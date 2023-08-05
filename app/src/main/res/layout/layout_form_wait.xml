@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:z="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/formWait" android:layout_width="280dp" android:layout_height="300dp"
+    z:gravity="center" z:formMode="none" z:modal="false" z:behavior="none" z:nameView="wait">
+    <ProgressBar
+        android:id="@+id/waitPrg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        z:styles="@style/circularProgress" />
+</RelativeLayout>

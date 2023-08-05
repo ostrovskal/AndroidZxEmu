@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:z="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/formBrowser" z:styles="@style/form" android:text="Управление файлами"
+    z:styleCaption="@style/formCaption" z:styleFooter="@style/formFooter"
+    z:gravity="center" z:formMode="none" z:modal="true"
+    z:typeView="zFormBrowser" z:nameView="browser">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Spinner
+                android:id="@+id/browsSpin"
+                android:layout_weight="35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                z:adapterData="@string/browser_flt"
+                z:styles="@style/spinner"/>
+            <TextView
+                android:id="@+id/browsDisk"
+                android:layout_weight="65"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                z:styles="@style/diskHeadText"
+                android:gravity="start|center_vertical"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <EditText
+                    android:id="@+id/browsEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    z:styles="@style/bpEdit" z:inputMode="text" />
+                <ListView
+                    android:id="@+id/browsList"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    z:styles="@style/setRibbon"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <Button
+                    android:id="@+id/browsOpen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    z:styles="@style/browsBut"
+                    z:iconka="@integer/iconZxOpen"/>
+                <Button
+                    android:id="@+id/browsSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    z:styles="@style/browsBut"
+                    z:iconka="@integer/iconZxSave"/>
+                <Button
+                    android:id="@+id/browsEject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    z:styles="@style/browsBut"
+                    z:iconka="@integer/iconZxEject"/>
+                <CheckBox
+                    android:id="@+id/browsChk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    z:styles="@style/zxCheck" android:text="zip" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <Button
+                    android:id="@+id/browsFolder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    z:styles="@style/browsBut"
+                    z:iconka="@integer/iconZxFolder1"/>
+                <Button
+                    android:id="@+id/browsDel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    z:styles="@style/browsBut"
+                    z:iconka="@integer/iconZxDel"/>
+                <Button
+                    android:id="@+id/browsTrDos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    z:styles="@style/browsBut"
+                    z:iconka="@integer/iconZxTrDos"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

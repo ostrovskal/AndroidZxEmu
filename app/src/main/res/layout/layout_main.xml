@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:z="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llMain" z:nameView="mainLL"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/speccy" android:layout_weight="70"
+        z:behavior="touchable|clickable|longClickable" z:typeView="zSpeccyLayout" z:nameView="frame"
+        z:bkOes="352,288" z:bkColor="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/speccyFps"
+            android:gravity="end"
+            android:layout_gravity="end|bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff" android:textSize="28sp"
+            z:textShadowOffset="2,2" z:behavior="none" />
+        <ImageView
+            android:id="@+id/speccyStatus"
+            android:layout_gravity="end|top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            z:iconka="@integer/iconZxDisk" z:behavior="none"
+            z:styles="@style/menuImage"/>
+<!--
+        <LinearLayout
+            android:id="@+id/llTape"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_gravity="start|bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/tapeTurbo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                z:iconka="@integer/iconZxAccelOff"
+                z:styles="@style/zxTools" />
+            <Button
+                android:id="@+id/tapePlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                z:iconka="@integer/iconZxPlay"
+                z:styles="@style/zxTools" />
+            <ProgressBar
+                android:id="@+id/tapeProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                z:range="0,100" z:progress="70" z:orientation="vertical"
+                z:styles="@style/linearProgress"/>
+        </LinearLayout>
+-->
+    </FrameLayout>
+</LinearLayout>
