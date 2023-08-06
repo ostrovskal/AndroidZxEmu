@@ -92,7 +92,7 @@ static zStyle styles_setribbon[] = {
 };
 
 static zStyle styles_diskheadtext[] = {
-	{ Z_TEXT_SIZE, 14 },
+	{ Z_TEXT_SIZE, 15 },
 	{ Z_TEXT_STYLE, ZS_TEXT_BOLD },
 	{ Z_TEXT_FOREGROUND_COLOR, 0xFFFFFFFF },
 	{ Z_GRAVITY | ZT_END, ZS_GRAVITY_CENTER }

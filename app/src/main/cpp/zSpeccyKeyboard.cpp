@@ -269,7 +269,7 @@ void zSpeccyKeyboard::onMeasure(cszm& spec) {
 void zSpeccyKeyboard::onDraw() {
     if(!isDrawing) return;
     // сформировать клавиатуру
-    static int szs[] = { 0, 15_dp, 12_dp, 12_dp, 12_dp, 12_dp, 11_dp, 11_dp };
+    static int szs[] = { 0, 16_dp, 13_dp, 13_dp, 13_dp, 13_dp, 11_dp, 11_dp };
     auto baseTxt(atView<zViewButton>(0));
     baseTxt->updateStatus(ZS_VISIBLED, true);
     drw[DRW_FK]->measure(rview.w, rview.h, 0, false);
