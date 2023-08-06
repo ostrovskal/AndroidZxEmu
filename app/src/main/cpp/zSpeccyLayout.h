@@ -16,7 +16,7 @@ public:
     // обработка хэндлера
     void                processHandler();
     // отправить сообщение
-    void                send(int what, int a1 = 0, int a2 = 0, cstr s = nullptr) { handler.send(nullptr, what, 50, a1, a2, s); }
+    void                send(int what, int a1 = 0, int a2 = 0, cstr s = nullptr);
     void                stateTools(int action, int id = 0);
     void                onCommand(int id, zMenuItem* mi);
     void                activateDebugger();

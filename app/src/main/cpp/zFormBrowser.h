@@ -26,7 +26,7 @@ protected:
     zViewRibbon* lst{nullptr};
     zViewSelect* flt{nullptr};
     zViewButton* but[6]{};
-    int filter{-1};
+    int filter{0};
     zString8 root{}, current{}, diskPath{};
     zString8Array files{};
     zString8Array fltExt{};

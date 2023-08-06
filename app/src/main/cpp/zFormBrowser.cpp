@@ -8,7 +8,7 @@
 #include <thread>
 
 i32 zFormBrowser::updateVisible(bool set) {
-    if(set) setFilter(filter);
+    if(set) setFilter(filter, true);
     return zViewForm::updateVisible(set);
 }
 
@@ -48,7 +48,6 @@ void zFormBrowser::onInit(bool _theme) {
                 edt->setText(txt.substrBeforeLast("("));
                 if(dbl) onCommand(R.id.browsOpen);
             }
-            updateControls();
         });
     }
 }

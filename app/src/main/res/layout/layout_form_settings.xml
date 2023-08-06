@@ -273,6 +273,10 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="Left"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="Up"/>
                     <TextView
                         android:layout_width="match_parent"
@@ -282,15 +286,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Down"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Left"/>
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/joySpinLeft"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        z:adapterData="@string/key_names"
+                        z:styles="@style/spinner" />
                     <Spinner
                         android:id="@+id/joySpinUp"
                         android:layout_width="match_parent"
@@ -309,12 +315,6 @@
                         android:layout_height="wrap_content"
                         z:adapterData="@string/key_names"
                         z:styles="@style/spinner" />
-                    <Spinner
-                        android:id="@+id/joySpinLeft"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        z:adapterData="@string/key_names"
-                        z:styles="@style/spinner" />
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -323,11 +323,11 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="X"/>
+                        android:text="Y"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Y"/>
+                        android:text="X"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -342,13 +342,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <Spinner
-                        android:id="@+id/joySpinX"
+                        android:id="@+id/joySpinY"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         z:adapterData="@string/key_names"
                         z:styles="@style/spinner" />
                     <Spinner
-                        android:id="@+id/joySpinY"
+                        android:id="@+id/joySpinX"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         z:adapterData="@string/key_names"

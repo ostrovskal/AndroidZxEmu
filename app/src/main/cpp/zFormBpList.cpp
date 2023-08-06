@@ -72,7 +72,7 @@ void zFormBpList::stateTools(bool list) {
         getView<zViewEdit>(VW_ADDR1)->setText(abp[0]);
         getView<zViewEdit>(VW_ADDR2)->setText(abp[1]);
     }
-    auto access(idView<zViewSelect>(R.id.bpSpinOps)->getSelectedItem());
+    auto access(idView<zViewSelect>(R.id.bpSpinOps)->getItemSelected());
     auto disable1(access < ZX_BP_RMEM), disable2(access == ZX_BP_NONE);
     views[VW_COND]->disable(disable1);
     views[VW_VAL]->disable(disable1);

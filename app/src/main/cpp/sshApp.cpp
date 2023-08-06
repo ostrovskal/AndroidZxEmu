@@ -111,7 +111,7 @@ void sshApp::run() {
 }
 
 void sshApp::setContent() {
-    debug = true;
+//    debug = true;
 #include "layout_main.h"
     // 1. фрейм
     frame = frame01; main = mainLL;

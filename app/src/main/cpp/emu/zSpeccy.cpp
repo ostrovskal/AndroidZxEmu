@@ -63,7 +63,7 @@ void zSpeccy::joyMakePresets(int id) const {
         auto adapt(spin->getAdapter());
         adapt->clear(false); adapt->addAll(presets);
         auto idx(presets.indexOf(progName));
-        spin->setItemSelected(idx);
+        if(idx != -1) spin->setItemSelected(idx);
     }
 }
 
@@ -308,11 +308,13 @@ bool zSpeccy::_load(zFile* fl, int index, int option) {
     auto type(z_extension(name)); zDevVG93* disk(nullptr); zDevTape* tape(nullptr);
     switch(type) {
         case ZX_FMT_EZX: {
-            // указатель перенести в другое место
-            auto ptmp(new u8[size]);
-            memcpy(ptmp, ptr, size);
-            ret = restoreState(ptmp);
-            delete[] ptmp; break;
+            if(size > 64) {
+                // указатель перенести в другое место
+                auto ptmp(new u8[size]);
+                memcpy(ptmp, ptr, size);
+                ret = restoreState(ptmp);
+                delete[] ptmp; break;
+            }
         }
         case ZX_FMT_WAV: case ZX_FMT_CSW:
             fl->close();
@@ -445,9 +447,11 @@ void zSpeccy::programName(cstr nm, bool trim) {
         joyType = joy->joy.type;
         memcpy(joyKeys, joy->joy.keys, sizeof(joy->joy.keys));
     } else {
+/*
         // по умолчанию - KEMPSTON
         joyType = 0;
         memcpy(joyKeys, defJoyKeys, sizeof(defJoyKeys));
+*/
     }
     updateDebugger();
     modifySTATE(ZX_CAPT, 0)

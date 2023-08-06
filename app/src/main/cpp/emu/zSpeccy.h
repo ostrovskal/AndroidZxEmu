@@ -8,12 +8,12 @@
 #include "zCpus.h"
 
 #define ZSI_TYPE_JOY                19
-#define ZSI_KEY_JOY_U               20
-#define ZSI_KEY_JOY_R               21
-#define ZSI_KEY_JOY_D               22
-#define ZSI_KEY_JOY_L               23
-#define ZSI_KEY_JOY_X               24
-#define ZSI_KEY_JOY_Y               25
+#define ZSI_KEY_JOY_L               20
+#define ZSI_KEY_JOY_U               21
+#define ZSI_KEY_JOY_R               22
+#define ZSI_KEY_JOY_D               23
+#define ZSI_KEY_JOY_Y               24
+#define ZSI_KEY_JOY_X               25
 #define ZSI_KEY_JOY_A               26
 #define ZSI_KEY_JOY_B               27
 #define ZSI_GS_RESET                64
@@ -200,7 +200,7 @@ struct SPECCY {
     // 3. Целые значения
     // значения оригинальных цветов (32 * 4)
     u32 colors[32];											// 109
-    u8 tmpBuf[256];
+    u8 sectorBuf[256];
     // имя программы
     zString8 progName;									    // 237
     inline bool isQTape() const { return playTape && speedTape; }

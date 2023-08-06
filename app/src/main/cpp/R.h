@@ -2,7 +2,7 @@
 // Автоматически генерируемый файл ресурсов.
 // Не редактируйте его.
 // Автор: Шаталов С.В.
-// Sun Aug  6 03:16:17 2023
+// Sun Aug  6 17:50:31 2023
 
 #pragma once
 
@@ -111,9 +111,9 @@ struct _R {
 			soundSlrBeeper	= 0x000010A3, 	soundChkCovox	= 0x000010A4, 
 			soundSlrCovox	= 0x000010A5, 	soundChkAY	= 0x000010A6, 	soundSlrAY	= 0x000010A7, 
 			soundChkGS	= 0x000010A8, 	soundSlrGS	= 0x000010A9, 	joySpinLyt	= 0x000010AA, 
-			joySpinPresets	= 0x000010AB, 	joySpinUp	= 0x000010AC, 	joySpinRight	= 0x000010AD, 
-			joySpinDown	= 0x000010AE, 	joySpinLeft	= 0x000010AF, 	joySpinX	= 0x000010B0, 
-			joySpinY	= 0x000010B1, 	joySpinA	= 0x000010B2, 	joySpinB	= 0x000010B3, 
+			joySpinPresets	= 0x000010AB, 	joySpinLeft	= 0x000010AC, 	joySpinUp	= 0x000010AD, 
+			joySpinRight	= 0x000010AE, 	joySpinDown	= 0x000010AF, 	joySpinY	= 0x000010B0, 
+			joySpinX	= 0x000010B1, 	joySpinA	= 0x000010B2, 	joySpinB	= 0x000010B3, 
 			dispSpinPalettes	= 0x000010B4, 	dispChkAsm	= 0x000010B5, 	llSpeccyCols1	= 0x000010B6, 
 			dispTextBl	= 0x000010B7, 	dispTextB	= 0x000010B8, 	dispTextR	= 0x000010B9, 
 			dispTextM	= 0x000010BA, 	dispTextG	= 0x000010BB, 	dispTextC	= 0x000010BC, 
@@ -185,8 +185,8 @@ struct _R {
 			Chip	= 0x0000008A, 	Channels	= 0x0000008B, 	Frequency	= 0x0000008C, 
 			Beeper	= 0x0000008D, 	Covox	= 0x0000008E, 	AY	= 0x0000008F, 
 			General_sound	= 0x00000090, 	Layout	= 0x00000091, 	Presets	= 0x00000092, 
-			Up	= 0x00000093, 	Right	= 0x00000094, 	Down	= 0x00000095, 
-			Left	= 0x00000096, 	Palettes_	= 0x00000097, 	Assembler_colors	= 0x00000098, 
+			Left	= 0x00000093, 	Up	= 0x00000094, 	Right	= 0x00000095, 
+			Down	= 0x00000096, 	Palettes_	= 0x00000097, 	Assembler_colors	= 0x00000098, 
 			black	= 0x00000099, 	blue	= 0x0000009A, 	red	= 0x0000009B, 
 			purple	= 0x0000009C, 	green	= 0x0000009D, 	cyan	= 0x0000009E, 
 			yellow	= 0x0000009F, 	white	= 0x000000A0, 	bright_black	= 0x000000A1, 
@@ -224,7 +224,7 @@ struct _R {
 			sellist	= 0x0000002F, 	zviewtext3	= 0x00000030, 	mainsystem	= 0x00000031, 
 			zlinearlayout5	= 0x00000032, 	soundspinchip	= 0x00000033, 
 			soundspinchannels	= 0x00000034, 	soundspinfreq	= 0x00000035, 
-			joyspinlyt	= 0x00000036, 	joyspinup	= 0x00000037, 	disptextbl	= 0x00000038, 
+			joyspinlyt	= 0x00000036, 	joyspinleft	= 0x00000037, 	disptextbl	= 0x00000038, 
 			disptextb	= 0x00000039, 	disptextr	= 0x0000003A, 	disptextm	= 0x0000003B, 
 			disptextg	= 0x0000003C, 	disptextc	= 0x0000003D, 	disptexty	= 0x0000003E, 
 			disptextw	= 0x0000003F, 	diskspindisk	= 0x00000040, 	helptext	= 0x00000041, 
@@ -294,7 +294,7 @@ static zStyles styles[] = {
 		{ _R::_style::soundspinchannels, styles_soundspinchannels },
 		{ _R::_style::soundspinfreq, styles_soundspinfreq },
 		{ _R::_style::joyspinlyt, styles_joyspinlyt },
-		{ _R::_style::joyspinup, styles_joyspinup },
+		{ _R::_style::joyspinleft, styles_joyspinleft },
 		{ _R::_style::disptextbl, styles_disptextbl },
 		{ _R::_style::disptextb, styles_disptextb },
 		{ _R::_style::disptextr, styles_disptextr },
@@ -360,10 +360,10 @@ static zResource resources[] = {
 		{ _R::_string::black, "black" },
 		{ _R::_string::Assembler_colors, "Assembler colors" },
 		{ _R::_string::Palettes_, "Palettes:" },
-		{ _R::_string::Left, "Left" },
 		{ _R::_string::Down, "Down" },
 		{ _R::_string::Right, "Right" },
 		{ _R::_string::Up, "Up" },
+		{ _R::_string::Left, "Left" },
 		{ _R::_string::Presets, "Presets" },
 		{ _R::_string::Layout, "Layout" },
 		{ _R::_string::General_sound, "General sound" },
@@ -487,7 +487,7 @@ static zResource resources[] = {
 		{ _R::_string::menuOpenSave, "Browse..." },
 		{ _R::_string::palette_speccy, "Custom|sshEmu|Z80Stealth|White/Black|Strange|ElectroScale|JPP|RealSpec" },
 		{ _R::_string::palette_asm, "Custom|Darkest|Lighting" },
-		{ _R::_string::key_names, "1|2|3|4|5|6|7|8|9|0|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|ENTER|CAPS|Z|X|C|V|B|N|M|SYMBOL|SPACE|EXT|DEL|UP|DOWN|LEFT|RIGHT|K_UP|K_DOWN|K_LEFT|K_RIGHT|K_FIRE|N/A" },
+		{ _R::_string::key_names, "1|2|3|4|5|6|7|8|9|0|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|ENTER|CAPS|Z|X|C|V|B|N|M|SYMBOL|SPACE|EXT|DEL|UP|DOWN|LEFT|RIGHT|K_LEFT|K_UP|K_RIGHT|K_DOWN|K_FIRE|N/A" },
 		{ _R::_string::joy_names, "KEMPSTON|SINCLAIR I|SINCLAIR II|CURSOR|CUSTOM" },
 		{ _R::_string::bp_cond, "==|<>|<|>|<=|>=" },
 		{ _R::_string::bp_ops, "EMPTY|EXEC|RMEM|WMEM|RPORT|WPORT" },

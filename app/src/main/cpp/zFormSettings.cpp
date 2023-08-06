@@ -91,9 +91,9 @@ static int ids[] = { // main
                      R.id.soundChkCovox, ZSI_COVOX_LAUNCH, R.id.soundSlrCovox, ZSI_COV_VOL,
                      R.id.soundChkGS, ZSI_GS_LAUNCH, R.id.soundSlrGS, ZSI_GS_VOL,
                      // joy
-                     R.id.joySpinLyt, ZSI_TYPE_JOY, R.id.joySpinPresets, 0,
-                     R.id.joySpinUp, ZSI_KEY_JOY_U, R.id.joySpinRight, ZSI_KEY_JOY_R, R.id.joySpinDown, ZSI_KEY_JOY_D, R.id.joySpinLeft, ZSI_KEY_JOY_L,
-                     R.id.joySpinX, ZSI_KEY_JOY_X, R.id.joySpinY, ZSI_KEY_JOY_Y, R.id.joySpinA, ZSI_KEY_JOY_A, R.id.joySpinB, ZSI_KEY_JOY_B,
+                     R.id.joySpinPresets, 0, R.id.joySpinLyt, ZSI_TYPE_JOY,
+                     R.id.joySpinLeft, ZSI_KEY_JOY_L, R.id.joySpinUp, ZSI_KEY_JOY_U, R.id.joySpinRight, ZSI_KEY_JOY_R, R.id.joySpinDown, ZSI_KEY_JOY_D,
+                     R.id.joySpinY, ZSI_KEY_JOY_Y, R.id.joySpinX, ZSI_KEY_JOY_X, R.id.joySpinA, ZSI_KEY_JOY_A, R.id.joySpinB, ZSI_KEY_JOY_B,
                      // display
                      R.id.dispSpinPalettes, ZSI_PALETTES, R.id.dispChkAsm, 0,
                      R.id.dispTextB, 113, R.id.dispTextR, 117, R.id.dispTextM, 121,
@@ -109,7 +109,7 @@ static int ids[] = { // main
                      // casette
                      R.id.casetList, 0,
                      // disk
-                     R.id.diskSpinDisk, 0, R.id.diskChkReadOnly, 0, R.id.diskList, 0,
+                     R.id.diskList, 0, R.id.diskSpinDisk, 0, R.id.diskChkReadOnly, 0,
                      // help
                      R.id.helpText, 0, 0, 0 };
 
@@ -214,14 +214,14 @@ void zFormSettings::onInit(zView* v, int a1) {
         case R.id.mainKeyboard: case R.id.mainSystem:
             ((zViewSlider*)v)->setProgress(speccy->value(a1));
             break;
-        case R.id.mainShowFPS:
-            frame->idView(R.id.speccyFps)->updateStatus(ZS_VISIBLED, speccy->value(a1));
-        case R.id.mainDarkTheme:
-            if(id == R.id.mainDarkTheme)
-                theApp->setTheme(a1 ? styles_mythemedark : styles_mythemelight, resources_ptr_arrays, ::styles);
+        case R.id.mainShowFPS: case R.id.mainDarkTheme:
         case R.id.mainGsReset: case R.id.mainTapeReset: case R.id.mainAutoTape:
         case R.id.mainSwapMouse: case R.id.mainGigaScreen: case R.id.mainTrapTRDOS:
-            ((zViewCheck*)v)->checked(speccy->value(a1));
+            a1 = speccy->value(a1); ((zViewCheck*)v)->checked(a1);
+            if(id == R.id.mainDarkTheme)
+                theApp->setTheme(a1 ? styles_mythemedark : styles_mythemelight, resources_ptr_arrays, ::styles);
+            else if(id == R.id.mainShowFPS)
+                frame->idView(R.id.speccyFps)->updateStatus(ZS_VISIBLED, a1);
             break;
             // sound
         case R.id.soundSpinChip: case R.id.soundSpinChannels: case R.id.soundSpinFreq:
@@ -238,14 +238,12 @@ void zFormSettings::onInit(zView* v, int a1) {
             break;
             // joy
         case R.id.joySpinLyt:
-            applyJoyStd(speccy->joyType);
+            a1 = speccy->joyType;
+            ((zViewSelect*)v)->setItemSelected(a1);
+            //applyJoyStd(a1);
             break;
         case R.id.joySpinPresets:
             speccy->joyMakePresets(id);
-            applyJoyPresets(0);
-            break;
-        case R.id.joySpinY: case R.id.joySpinA: case R.id.joySpinB:
-            ((zViewSelect*)v)->setItemSelected(speccy->joyKeys[id - R.id.joySpinY + 5]);
             break;
         // display
         case R.id.dispTextB: case R.id.dispTextR: case R.id.dispTextM: case R.id.dispTextG:
@@ -297,8 +295,8 @@ void zFormSettings::onInit(zView* v, int a1) {
             break;
         // help
         case R.id.helpText:
-            ((zViewText*)v)->setOnClickUrl([](zView*, czs& link) {
-                DLOG("link %s", link.str());
+            ((zViewText*)v)->setOnClickUrl([](zView* v, czs& link) {
+                ((zViewText*)v)->setHtmlText((cstr)manager->assetFile(link), [](cstr, bool, zHtml*) { return false; });
             });
             break;
     }
@@ -365,7 +363,7 @@ void zFormSettings::applyPalette() {
                             R.id.dispTextOps, R.id.dispTextCmds, R.id.dispTextReg, R.id.dispTextFlags, R.id.dispTextLabels,
                             R.id.dispTextBkgLines, R.id.dispTextNumLines, R.id.dispTextCurLine, R.id.dispTextNulls };
     bool chkAsm(idView(R.id.dispChkAsm)->isChecked());
-    int num(idView<zViewSelect>(R.id.dispSpinPalettes)->getSelectedItem());
+    int num(idView<zViewSelect>(R.id.dispSpinPalettes)->getItemSelected());
     if(num) {
         num--; num *= 16;
         auto pal(chkAsm ? &palettes_asm[num] : &palettes_speccy[num]);
@@ -378,7 +376,6 @@ void zFormSettings::applyPalette() {
 void zFormSettings::makeDiskCatalog(int num) {
     // catalog sectors
     static int offsets[] = { 0, 8, 9, 11, 13, 14, 15 };
-    int idx(0);
     auto adapt(idView<zViewRibbon>(R.id.diskList)->getAdapter());
     adapt->clear(false);
     for(int i = 0 ; i < 8; i++) {
@@ -387,7 +384,7 @@ void zFormSettings::makeDiskCatalog(int num) {
         for(int r = 0 ; r < 16; r++) {
             // columns
             zString8 rec;
-            auto buf(speccy->tmpBuf + (r << 4)); auto marker(*buf);
+            auto buf(speccy->sectorBuf + (r << 4)); auto marker(*buf);
             if(marker < 32) { if(marker == 0) return; continue; }
             for(int c = 0; c < 7; c++) {
                 zString8 val; int n(*(u16*)(buf + offsets[c]));
@@ -400,25 +397,24 @@ void zFormSettings::makeDiskCatalog(int num) {
                 }
                 rec.appendNotEmpty(val, "\n");
             }
-            adapt->add(rec); idx++;
+            adapt->add(rec);
         }
     }
 }
 
-static int idsJSpin[] = { R.id.joySpinUp, R.id.joySpinRight, R.id.joySpinDown, R.id.joySpinLeft,
-                          R.id.joySpinX, R.id.joySpinY, R.id.joySpinA, R.id.joySpinB };
+static int idsJSpin[] = { R.id.joySpinLeft, R.id.joySpinUp, R.id.joySpinRight, R.id.joySpinDown,
+                          R.id.joySpinY, R.id.joySpinX, R.id.joySpinA, R.id.joySpinB };
 
 void zFormSettings::applyJoyStd(int num) {
     auto keys(theme->findArray(R.string.key_names)); auto is(num != 4);
     auto arr(zString8(stdJoyKeys[num]).split(","));
-    for(int i = 0 ; i < 5; i++) {
+    for(int i = 0 ; i < 8; i++) {
         auto sel(idView<zViewSelect>(idsJSpin[i]));
-        if(is) {
-            auto idx(keys.indexOf(arr[i]));
-            if(idx != -1) sel->setItemSelected(idx);
-        }
-        sel->disable(is);
+        auto key(is && i < 5 ? keys.indexOf(arr[i]) : speccy->joyKeys[i]);
+        speccy->joyKeys[i] = key; sel->setItemSelected(key);
+        sel->disable(is && i < 5);
     }
+
 }
 
 void zFormSettings::applyJoyPresets(int num) {
@@ -426,7 +422,8 @@ void zFormSettings::applyJoyPresets(int num) {
     idView<zViewSelect>(R.id.joySpinLyt)->setItemSelected(num);
     for(int i = 0 ; i < 8; i++) {
         auto sel(idView<zViewSelect>(idsJSpin[i]));
-        sel->setItemSelected(j->joy.keys[i]);
+        auto idx(j->joy.keys[i]); speccy->joyKeys[i] = idx;
+        sel->setItemSelected(idx);
         sel->disable(num != 4 && i < 5);
     }
 }

@@ -304,3 +304,7 @@ void zSpeccyLayout::processHandler() {
 void zSpeccyLayout::changeTheme() {
     for(auto& c : children) c->changeTheme();
 }
+
+void zSpeccyLayout::send(int what, int a1, int a2, cstr s) {
+    handler.send(nullptr, what, 50, a1, a2, s);
+}

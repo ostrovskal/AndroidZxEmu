@@ -339,7 +339,7 @@ static zStyle styles_joyspinlyt[] = {
 	{ Z_STYLES | ZT_END, z.R.style.spinner }
 };
 
-static zStyle styles_joyspinup[] = {
+static zStyle styles_joyspinleft[] = {
 	{ Z_ADAPTER_DATA, R.string.key_names },
 	{ Z_STYLES | ZT_END, z.R.style.spinner }
 };
