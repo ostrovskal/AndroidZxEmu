@@ -6,10 +6,10 @@
 
 #include "emu/zSpeccy.h"
 
-class zSpeccyLayout : public zFrameLayout {
+class zSpeccyLayout : public zViewSurface {
     friend class zSpeccy;
 public:
-    zSpeccyLayout(zStyle* _styles, int _id) : zFrameLayout(_styles, _id) { }
+    zSpeccyLayout(zStyle* _styles, int _id, cszi& sz) : zViewSurface(_styles, _id, sz) { }
     virtual ~zSpeccyLayout();
     // начальная инициализация
     bool                init();
@@ -26,7 +26,7 @@ public:
 protected:
     // уведомление о событии
     virtual void        notifyEvent(HANDLER_MESSAGE* msg) override;
-    virtual void        updateTexture(cszi& sz) override;
+    virtual void        updateTexture() override;
     // цикл сообщений
     zHandler            handler{};
     zViewController*    ac{nullptr};

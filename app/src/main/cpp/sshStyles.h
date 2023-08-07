@@ -410,9 +410,9 @@ static zStyle styles_tzxmsg[] = {
 };
 
 static zStyle styles_speccy[] = {
-	{ Z_BEHAVIOR, ZS_TOUCHABLE | ZS_CLICKABLE | ZS_LCLICKABLE },
-	{ Z_BACKGROUND_OES, 0x01600120 },
-	{ Z_BACKGROUND_COLOR | ZT_END, 0xFFFFFFFF }
+	{ Z_BEHAVIOR, ZS_CLICKABLE | ZS_LCLICKABLE },
+	{ Z_FOREGROUND_COLOR, 0xFFFFFFFF },
+	{ Z_FOREGROUND_TILES | ZT_END, 0 }
 };
 
 static zStyle styles_speccyfps[] = {

@@ -51,7 +51,7 @@ bool zSpeccyLayout::init() {
     speccy = new zSpeccy();
     if(speccy->init()) {
         // filter
-        drw[DRW_BK]->texture->enableFilter(speccy->filter);
+        drw[DRW_FK]->texture->enableFilter(speccy->filter);
         return true;
     }
     return false;
@@ -68,9 +68,9 @@ void zSpeccyLayout::setCaption() {
     capt->setText(txt);
 }
 
-void zSpeccyLayout::updateTexture(cszi& sz) {
+void zSpeccyLayout::updateTexture() {
     if(speccy->fps) fps->setText(z_fmt8("%0.2f", speccy->nfps));
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sz.w, sz.h, 0,
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.w, size.h, 0,
                  GL_RGBA, GL_UNSIGNED_BYTE, speccy->dev<zDevUla>()->frameBuffer + 202752);
 }
 
@@ -247,7 +247,7 @@ void zSpeccyLayout::onCommand(int id, zMenuItem* mi) {
             action = ZFT_UPD_MENU_DBG;
             break;
         case R.integer.MENU_PROPS_FILTER:
-            drw[DRW_BK]->texture->enableFilter(speccy->filter);
+            drw[DRW_FK]->texture->enableFilter(speccy->filter);
             break;
         case R.integer.MENU_PROPS_EXECUTE:
         case R.integer.MENU_PROPS_TURBO:

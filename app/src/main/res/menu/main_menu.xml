@@ -119,7 +119,7 @@
     </item>
     <item
         android:id="@integer/MENU_OPERATIONS"
-        android:icon="@integer/iconZx1"
+        android:icon="@integer/iconZxOps"
         android:title="@string/menuOperations"
         android:showAsAction="ifRoom" >
         <menu>
@@ -175,12 +175,12 @@
     </item>
     <item
         android:id="@integer/MENU_QSAVE"
-        android:icon="@integer/iconZxSave"
+        android:icon="@integer/iconZxQSave"
         android:title="@string/menuQuickSave"
         android:showAsAction="never" />
     <item
         android:id="@integer/MENU_QLOAD"
-        android:icon="@integer/iconZxOpen"
+        android:icon="@integer/iconZxQOpen"
         android:title="@string/menuQuickLoad"
         android:showAsAction="never" />
     <item

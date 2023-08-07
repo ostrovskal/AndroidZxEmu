@@ -77,7 +77,7 @@ POKE2 NAME = VALUE
 void zSpeccy::parserJoyPokes(const zArray<zString8>& sarr) {
     // стандартные кнопки джойстиков
     auto jNames(theme->findArray(R.string.joy_names));
-    auto kNames(theme->findArray(R.string.key_names));
+    auto kNames(theme->findArray(R.string.key_names2));
     int jKeys(0); Z_JOY_POKES* jpks(nullptr);
     bool isd(false); zString8 poke;
     // поиск значений
@@ -441,18 +441,6 @@ uint8_t* zSpeccy::saveState() {
 
 void zSpeccy::programName(cstr nm, bool trim) {
     progName = (trim ? z_trimName(nm) : zString8(nm));
-    // установить джойстик
-    auto joy(findJoyPokes(progName));
-    if(joy) {
-        joyType = joy->joy.type;
-        memcpy(joyKeys, joy->joy.keys, sizeof(joy->joy.keys));
-    } else {
-/*
-        // по умолчанию - KEMPSTON
-        joyType = 0;
-        memcpy(joyKeys, defJoyKeys, sizeof(defJoyKeys));
-*/
-    }
     updateDebugger();
     modifySTATE(ZX_CAPT, 0)
 }
