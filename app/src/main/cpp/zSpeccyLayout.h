@@ -23,6 +23,7 @@ public:
     void                setStatus(int img) { _status->setImage(img); }
     void                setCaption();
     virtual void        changeTheme() override;
+    void                setParamControllers();
 protected:
     // уведомление о событии
     virtual void        notifyEvent(HANDLER_MESSAGE* msg) override;

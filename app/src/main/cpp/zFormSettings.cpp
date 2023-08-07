@@ -142,19 +142,8 @@ void zFormSettings::onInit(bool _theme) {
             for(int i = 0 ; i < sizeof(ids) / 4; i += 2)
                 onSave(idView(ids[i]), ids[i + 1], code == z.R.id.def);
             if(code == z.R.id.yes) {
-                auto keys(theme->findArray(R.string.key_names));
-                speccy->updateJoyPokes(); auto root(manager->getSystemView(true));
-                auto cc(root->idView<zViewController>(z.R.id.ccontroller));
-                auto ac(root->idView<zViewController>(z.R.id.acontroller));
-                auto tex(manager->cache->get("zx_icons", nullptr));
-                // установить надписи/значки на кнопках джойстика
-                for(int i = 0 ; i < 8; i++) {
-                    auto c(i < 4 ? cc : ac);
-                    auto k(keys[speccy->joyKeys[i]]);
-                    auto tx(k.substrBefore("_", k));
-                    auto ic(tex->getTile(k.substrAfter("_")));
-                    c->setDecorateKey(i, ic == -1 ? tx : "", ic);
-                }
+                speccy->updateJoyPokes();
+                frame->setParamControllers();
             }
             return code != z.R.id.def;
         });

@@ -441,6 +441,7 @@ uint8_t* zSpeccy::saveState() {
 
 void zSpeccy::programName(cstr nm, bool trim) {
     progName = (trim ? z_trimName(nm) : zString8(nm));
+    frame->setParamControllers();
     updateDebugger();
     modifySTATE(ZX_CAPT, 0)
 }

@@ -308,3 +308,19 @@ void zSpeccyLayout::changeTheme() {
 void zSpeccyLayout::send(int what, int a1, int a2, cstr s) {
     handler.send(nullptr, what, 50, a1, a2, s);
 }
+
+void zSpeccyLayout::setParamControllers() {
+    auto keys(theme->findArray(R.string.key_names));
+    auto root(manager->getSystemView(true));
+    auto cc(root->idView<zViewController>(z.R.id.ccontroller));
+    auto ac(root->idView<zViewController>(z.R.id.acontroller));
+    auto tex(manager->cache->get("zx_icons", nullptr));
+    // установить надписи/значки на кнопках джойстика
+    for(int i = 0 ; i < 8; i++) {
+        auto c(i < 4 ? cc : ac);
+        auto k(keys[speccy->joyKeys[i]]);
+        auto tx(k.substrBefore("\b", k));
+        auto ic(tex->getTile(k.substrAfter("\b")));
+        c->setDecorateKey(i & 3, ic == -1 ? tx : "", ic);
+    }
+}

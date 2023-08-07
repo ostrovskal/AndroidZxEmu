@@ -2,7 +2,7 @@
 // Автоматически генерируемый файл ресурсов.
 // Не редактируйте его.
 // Автор: Шаталов С.В.
-// Mon Aug  7 08:30:22 2023
+// Mon Aug  7 14:35:54 2023
 
 #pragma once
 
@@ -490,7 +490,7 @@ static zResource resources[] = {
 		{ _R::_string::menuOpenSave, "Browse..." },
 		{ _R::_string::palette_speccy, "Custom|sshEmu|Z80Stealth|White/Black|Strange|ElectroScale|JPP|RealSpec" },
 		{ _R::_string::palette_asm, "Custom|Darkest|Lighting" },
-		{ _R::_string::key_names, "1|2|3|4|5|6|7|8|9|0|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|ENTER_iconZxOk|CAPS_iconZxShiftPress|Z|X|C|V|B|N|M|SYMBOL_iconZxSymPress|SPACE|EXT|DEL_iconZxDelete|UP_iconZxArrowUp|DOWN_iconZxArrowDown|LEFT_iconZxArrowLeft|RIGHT_iconZxArrowRight|KLEFT_iconZxKArrowLeft|KUP_iconZxKArrowUp|KRIGHT_iconZxKArrowRight|KDOWN_iconZxKArrowDown|KFIRE_iconZxKFire|N/A" },
+		{ _R::_string::key_names, "1|2|3|4|5|6|7|8|9|0|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|ENTER\biconZxOk|CAPS\biconZxShiftPress|Z|X|C|V|B|N|M|SYMBOL\biconZxSymPress|SPACE|EXT|DEL\biconZxDelete|UP\biconZxArrowUp|DOWN\biconZxArrowDown|LEFT\biconZxArrowLeft|RIGHT\biconZxArrowRight|KLEFT\biconZxKArrowLeft|KUP\biconZxKArrowUp|KRIGHT\biconZxKArrowRight|KDOWN\biconZxKArrowDown|KFIRE\biconZxKFire|N/A" },
 		{ _R::_string::key_names2, "1|2|3|4|5|6|7|8|9|0|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|ENTER|CAPS|Z|X|C|V|B|N|M|SYMBOL|SPACE|EXT|DEL|UP|DOWN|LEFT|RIGHT|KLEFT|KUP|KRIGHT|KDOWN|KFIRE|N/A" },
 		{ _R::_string::joy_names, "KEMPSTON|SINCLAIR I|SINCLAIR II|CURSOR|CUSTOM" },
 		{ _R::_string::bp_cond, "==|<>|<|>|<=|>=" },
