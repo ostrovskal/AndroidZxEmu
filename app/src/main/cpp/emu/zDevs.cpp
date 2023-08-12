@@ -688,11 +688,11 @@ void zDevMixer::release() {
 }
 
 void zDevMixer::update(int param) {
-    auto is(isEnable);
-    isEnable = speccy->sndLaunch && speccy->execLaunch;
     if(param == ZX_UPDATE_FRAME) {
         if(isEnable) mix();
     } else {
+        auto is(isEnable);
+        isEnable = speccy->sndLaunch && speccy->execLaunch;
         for(auto s : sources) s->nSamples = 0;
         memset(mixBuffer, 0, sizeof(mixBuffer));
         if(is != isEnable) {

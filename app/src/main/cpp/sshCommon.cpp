@@ -90,7 +90,6 @@ int zxCmd(int cmd, int arg1, int arg2, cstr arg3) {
         case ZX_CMD_RESET:  speccy->update(ZX_UPDATE_RESET, 0); break;
         case ZX_CMD_DISK_OPS: ret = speccy->diskOperation(arg1, arg2, str); break;
         case ZX_CMD_TAPE_UI: speccy->dev<zDevTape>()->execUI(arg1); break;
-        case ZX_CMD_ASSEMBLER: break; //ret = speccy->assembler->parser(1, arg1, arg3, nullptr); break;
         case ZX_CMD_MAGIC:  speccy->dev<zCpuMain>()->reqNMI = true; break;
     }
     return ret;

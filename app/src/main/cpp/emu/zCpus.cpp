@@ -338,7 +338,7 @@ void zCpu::setBreak() {
     // сообщение для выхода - активировать отладчик
     speccy->flags |= ZX_BP;
     // остановить звук
-    speccy->dev<zDevMixer>()->update(ZX_UPDATE_STATE);
+//    speccy->dev<zDevMixer>()->update(ZX_UPDATE_STATE);
 }
 
 u8* zCpu::speedSave() {

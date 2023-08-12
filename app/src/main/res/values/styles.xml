@@ -35,17 +35,17 @@
     </style>
     <style name="debEdit">
         <item name="sizeMinH">12dp</item>
-        <item name="sizeMinW">12dp</item>
-        <item name="foreground">?attr/themeColor</item>
-        <item name="fkScale">0.25</item>
+        <item name="sizeMinW">20dp</item>
+        <item name="fkTiles">@integer/nullRectRound</item>
+        <item name="fkScale">0.33</item>
         <item name="textDistance">0dp</item>
         <item name="fkGravity">center</item>
-        <item name="pad">1dp</item>
+        <item name="pad">0dp</item>
         <item name="ipad">1dp</item>
         <item name="inputMode">zx</item>
         <item name="textLines">1</item>
         <item name="textSize">15sp</item>
-        <item name="textColor">#000</item>
+        <item name="textColor">#fff</item>
         <item name="gravity">center</item>
     </style>
     <style name="debEditRead">
@@ -104,7 +104,7 @@
         <item name="fkScale">0.55</item>
         <item name="icGravity">end|center_vertical</item>
         <item name="icTiles">@integer/iconEditEx</item>
-        <item name="icScale">0.6</item>
+        <item name="icScale">0.4</item>
         <item name="textDistance">1dp</item>
         <item name="fkGravity">center</item>
         <item name="pad">1dp</item>
@@ -112,6 +112,7 @@
         <item name="ipadVert">1dp</item>
         <item name="inputMode">zx</item>
         <item name="textLines">1</item>
+        <item name="textColor">#fff</item>
         <item name="textSize">16sp</item>
         <item name="gravity">start|center_vertical</item>
     </style>

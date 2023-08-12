@@ -6,6 +6,7 @@
 #include "zFormDebugger.h"
 #include "zRibbonDebugger.h"
 #include "emu/zDisAsm.h"
+#include "zFormAssembler.h"
 
 constexpr int TB_SPECCY         = 0;
 constexpr int TB_CPU	        = 1;
@@ -239,22 +240,23 @@ void zFormDebugger::onCommand(int id, bool dbl) {
             action = SD_TOOLS_LST;
             break;
         case R.id.editAsm:
+            DLOG("assem1");
             auto data(_asm->getText());
+            auto assem(theApp->getForm<zFormAssembler>(FORM_ASM));
             if(speccy->debugMode == MODE_PC) {
                 auto pc(_list->selItems[MODE_PC]);
-                auto ret(zxCmd(ZX_CMD_ASSEMBLER, pc, 0, data));
+                auto ret(assem->parser(1, pc, data, nullptr));
                 if(ret == 0) {
-//                    speccy->assembler->copy(cpu, pc);
+                    assem->copy(cpu, pc);
                     action = SD_TOOLS_LST;
                 }
                 else {
                     // если ошибка
-                    //SendMessage(hWndEdit, EM_SETSEL, LOWORD(speccy->jni), HIWORD(speccy->jni));
-                    //SetFocus(hWndEdit);
+                    zViewManager::showToast("Error Assembler");
                 }
             } else if(speccy->debugMode == MODE_DT) {
-                //auto n(speccy->_asm->quickParser(data));
-                //if(n >= 0) _list->update(n, SFLAG_DT | SFLAG_SEL);
+                auto n(assem->quickParser(data));
+                if(n >= 0) _list->update(n, SFLAG_DT | SFLAG_SEL);
             }
             break;
     }
@@ -273,6 +275,9 @@ void zFormDebugger::onInit(bool _theme) {
     for(auto& id : ids) idView(id)->setOnClick(onClickButton);
     _list = idView<zRibbonDebugger>(R.id.listDebugger);
     _asm  = idView<zViewEdit>(R.id.editAsm);
+    _asm->setOnChangeText([this](zView* v, int act) {
+        if(act == MSG_EDIT_FINISH) onCommand(v->id, false);
+    });
     cpu   = speccy->getCpu(speccy->debugCpu);
     fillRegisters(true);
 }
