@@ -2,7 +2,7 @@
 // Автоматически генерируемый файл ресурсов.
 // Не редактируйте его.
 // Автор: Шаталов С.В.
-// Sat Aug 12 12:33:45 2023
+// Sat Aug 12 18:13:58 2023
 
 #pragma once
 
@@ -223,16 +223,15 @@ struct _R {
 			zlinearlayout2	= 0x00000024, 	butbp	= 0x00000025, 	editasm	= 0x00000026, 
 			textfs	= 0x00000027, 	zlinearlayout3	= 0x00000028, 	editpc	= 0x00000029, 
 			editts	= 0x0000002A, 	zlinearlayout6	= 0x0000002B, 	ll8	= 0x0000002C, 
-			llgs	= 0x0000002D, 	zviewtext2	= 0x0000002E, 	sellist	= 0x0000002F, 
-			zviewtext3	= 0x00000030, 	mainsystem	= 0x00000031, 	zlinearlayout5	= 0x00000032, 
-			soundspinchip	= 0x00000033, 	soundspinchannels	= 0x00000034, 
-			soundspinfreq	= 0x00000035, 	joyspinlyt	= 0x00000036, 	joyspinleft	= 0x00000037, 
-			disptextbl	= 0x00000038, 	disptextb	= 0x00000039, 	disptextr	= 0x0000003A, 
-			disptextm	= 0x0000003B, 	disptextg	= 0x0000003C, 	disptextc	= 0x0000003D, 
-			disptexty	= 0x0000003E, 	disptextw	= 0x0000003F, 	diskspindisk	= 0x00000040, 
-			helptext	= 0x00000041, 	formtzx	= 0x00000042, 	tzxmsg	= 0x00000043, 
-			speccy	= 0x00000044, 	speccyfps	= 0x00000045, 	speccystatus	= 0x00000046, 
-};
+			llgs	= 0x0000002D, 	zviewtext2	= 0x0000002E, 	mainsystem	= 0x0000002F, 
+			zlinearlayout5	= 0x00000030, 	soundspinchip	= 0x00000031, 
+			soundspinchannels	= 0x00000032, 	soundspinfreq	= 0x00000033, 
+			joyspinlyt	= 0x00000034, 	joyspinleft	= 0x00000035, 	disptextbl	= 0x00000036, 
+			disptextb	= 0x00000037, 	disptextr	= 0x00000038, 	disptextm	= 0x00000039, 
+			disptextg	= 0x0000003A, 	disptextc	= 0x0000003B, 	disptexty	= 0x0000003C, 
+			disptextw	= 0x0000003D, 	diskspindisk	= 0x0000003E, 	helptext	= 0x0000003F, 
+			formtzx	= 0x00000040, 	tzxmsg	= 0x00000041, 	speccy	= 0x00000042, 
+			speccyfps	= 0x00000043, 	speccystatus	= 0x00000044, };
 	};
 	_style style;
 };
@@ -289,8 +288,6 @@ static zStyles styles[] = {
 		{ _R::_style::ll8, styles_ll8 },
 		{ _R::_style::llgs, styles_llgs },
 		{ _R::_style::zviewtext2, styles_zviewtext2 },
-		{ _R::_style::sellist, styles_sellist },
-		{ _R::_style::zviewtext3, styles_zviewtext3 },
 		{ _R::_style::mainsystem, styles_mainsystem },
 		{ _R::_style::zlinearlayout5, styles_zlinearlayout5 },
 		{ _R::_style::soundspinchip, styles_soundspinchip },

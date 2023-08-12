@@ -9,11 +9,11 @@
 			VIEW_MATCH, VIEW_MATCH)); 
 	auto settings04((zLinearLayout*)settings03->attach(new zLinearLayout(styles_zlinearlayout3, 0, true), 
 			0, 1, VIEW_WRAP, VIEW_MATCH)); 
-	settings04->attach(new zViewText(styles_zviewtext3, 0, R.string.settings_system), 
+	settings04->attach(new zViewText(styles_zviewtext2, 0, R.string.settings_system), 
 			VIEW_MATCH, VIEW_WRAP);
 	settings04->attach(new zViewSlider(styles_mainsystem, R.id.mainSystem, 0, szi(3, 12), 6, false), 
 			VIEW_MATCH, VIEW_WRAP);
-	settings04->attach(new zViewText(styles_zviewtext3, 0, R.string.settings_border), 
+	settings04->attach(new zViewText(styles_zviewtext2, 0, R.string.settings_border), 
 			VIEW_MATCH, VIEW_WRAP);
 	settings04->attach(new zViewSlider(styles_mainsystem, R.id.mainBorder, 0, szi(0, 6), 3, false), 
 			VIEW_MATCH, VIEW_WRAP);
@@ -27,11 +27,11 @@
 			VIEW_MATCH, VIEW_WRAP);
 	auto settings14((zLinearLayout*)settings03->attach(new zLinearLayout(styles_zlinearlayout5, 0, true), 
 			VIEW_WRAP, VIEW_MATCH)); 
-	settings14->attach(new zViewText(styles_zviewtext3, 0, R.string.settings_joystick), 
+	settings14->attach(new zViewText(styles_zviewtext2, 0, R.string.settings_joystick), 
 			VIEW_MATCH, VIEW_WRAP);
 	settings14->attach(new zViewSlider(styles_mainsystem, R.id.mainJoystick, 0, szi(0, 5), 3, false), 
 			VIEW_MATCH, VIEW_WRAP);
-	settings14->attach(new zViewText(styles_zviewtext3, 0, R.string.settings_keyboard), 
+	settings14->attach(new zViewText(styles_zviewtext2, 0, R.string.settings_keyboard), 
 			VIEW_MATCH, VIEW_WRAP);
 	settings14->attach(new zViewSlider(styles_mainsystem, R.id.mainKeyboard, 0, szi(0, 5), 3, false), 
 			VIEW_MATCH, VIEW_WRAP);

@@ -11,12 +11,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            z:styles="@style/textCapt" android:text="Select file:"/>
+            z:styles="@style/diskHeadText" android:text="Select file:"/>
         <ListView
             android:id="@+id/selList"
             z:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            z:styles="@style/browsListText"/>
+            z:styles="@style/setRibbon"/>
     </LinearLayout>
 </RelativeLayout>

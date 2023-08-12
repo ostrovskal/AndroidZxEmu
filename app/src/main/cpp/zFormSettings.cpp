@@ -244,7 +244,7 @@ void zFormSettings::onInit(zView* v, int a1) {
         case R.id.joySpinLyt:
             a1 = speccy->joyType;
             ((zViewSelect*)v)->setItemSelected(a1);
-            //applyJoyStd(a1);
+            applyJoyStd(a1);
             break;
         case R.id.joySpinPresets:
             speccy->joyMakePresets(id);

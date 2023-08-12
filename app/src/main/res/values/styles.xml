@@ -76,7 +76,7 @@
     <style name="setRibbon">
         <item name="fbo">true</item>
         <item name="bkTiles">@integer/nullDrop</item>
-        <item name="selector">?attr/themeColorSelector</item>
+        <item name="selTiles">@integer/nullRect</item>
         <item name="duration">30</item>
         <item name="decorate">alwaysSel|scrollbar</item>
         <item name="fadeScrollBars">false</item>

@@ -3,7 +3,7 @@
 	selfile->onInit(false);
 	auto selfile01((zLinearLayout*)selfile->attach(new zLinearLayout(styles_zlinearlayout1, 0, true), 
 			VIEW_MATCH, VIEW_MATCH)); 
-	selfile01->attach(new zViewText(styles_zviewtext2, 0, R.string.Select_file_), 
+	selfile01->attach(new zViewText(styles_zviewtext1, 0, R.string.Select_file_), 
 			VIEW_MATCH, VIEW_WRAP);
-	selfile01->attach(new zViewRibbon(styles_sellist, R.id.selList, true), 
+	selfile01->attach(new zViewRibbon(styles_bplist, R.id.selList, true), 
 			VIEW_MATCH, VIEW_MATCH);

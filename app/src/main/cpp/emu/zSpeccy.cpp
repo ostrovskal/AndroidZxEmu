@@ -161,6 +161,8 @@ zSpeccy::zSpeccy() {
     memset(wdevs, 0, sizeof(wdevs));
     // машина по умолчанию(до загрузки состояния)
     machine = &machines[MODEL_48];
+    // джойстик по умолчанию - KEMPSTON
+    joyType = 0; memcpy(joyKeys, defJoyKeys, sizeof(defJoyKeys));
 }
 
 zSpeccy::~zSpeccy() {
@@ -448,7 +450,6 @@ void zSpeccy::programName(cstr nm, bool trim) {
 
 int zSpeccy::diskOperation(int ops, int index, zString8& path) {
     int ret(0), num(index & 3);
-    auto disk(dev<zDevVG93>());
     switch(ops & 7) {
         case ZX_DISK_OPS_GET_READONLY:  path = zDevVG93::path(num, nullptr, nullptr); ret = zDevVG93::is_readonly(num); break;
         case ZX_DISK_OPS_EJECT:         zDevVG93::eject(num); ret = 1; break;

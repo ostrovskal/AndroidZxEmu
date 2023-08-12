@@ -83,7 +83,7 @@ static zStyle styles_zxkeyb[] = {
 static zStyle styles_setribbon[] = {
 	{ Z_FBO, true },
 	{ Z_BACKGROUND_TILES, z.R.integer.nullDrop },
-	{ Z_SELECTOR | ZT_THEME, Z_THEME_COLOR_SELECTOR },
+	{ Z_SELECTOR_TILES, z.R.integer.nullRect },
 	{ Z_DURATION, 30 },
 	{ Z_DECORATE, ZS_ALWAYS_SEL | ZS_SCROLLBAR },
 	{ Z_SCROLLBAR_FADE, false },
@@ -299,14 +299,6 @@ static zStyle styles_llgs[] = {
 };
 
 static zStyle styles_zviewtext2[] = {
-	{ Z_STYLES | ZT_END, R.style.textCapt }
-};
-
-static zStyle styles_sellist[] = {
-	{ Z_STYLES | ZT_END, R.style.browsListText }
-};
-
-static zStyle styles_zviewtext3[] = {
 	{ Z_TEXT_STYLE | ZT_END, ZS_TEXT_BOLD }
 };
 
