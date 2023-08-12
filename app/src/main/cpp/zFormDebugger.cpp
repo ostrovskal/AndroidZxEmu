@@ -155,10 +155,10 @@ void zFormDebugger::stateTools(int action, int id) {
             nval = ((int)((*(i32*)ptr) & ~reg.mask) | nval);
             if(id == R.id.editPC || id == R.id.editSP) {
                 if(id == R.id.editSP) {
-                    _list->update(nval, SFLAG_SP | SSEL_SP);
+                    _list->update(nval, SFLAG_SP);
                 } else {
                     cpu->halt = 0;
-                    _list->update(nval, SFLAG_PC | SSEL_PC);
+                    _list->update(nval, SFLAG_PC);
                 }
                 if(!(action & SD_TOOLS_CH_SP_PC)) break;
             }
@@ -169,9 +169,9 @@ void zFormDebugger::stateTools(int action, int id) {
     if(action & SD_TOOLS_LST) {
         if(action & SD_TOOLS_UPD_SREG) {
             switch(speccy->debugMode) {
-                case MODE_SP: _list->update(cpu->sp, SFLAG_SP | SSEL_SP); break;
+                case MODE_SP: _list->update(cpu->sp, SFLAG_SP); break;
                 case MODE_PC:
-                    _list->update(cpu->pc, checkSTATE(ZX_TRACE) ? SFLAG_SEL : SFLAG_PC | SSEL_PC);
+                    _list->update(cpu->pc, checkSTATE(ZX_TRACE) ? SFLAG_SEL : SFLAG_PC);
                     modifySTATE(0, ZX_TRACE)
                     break;
             }
@@ -226,7 +226,7 @@ void zFormDebugger::onCommand(int id, bool dbl) {
             action |= SD_TOOLS_BUT;
             if(id == R.id.butPlay) {
                 // остановить/запустить звук
-                frame->send(ZX_MESSAGE_PROPS);
+                //frame->send(ZX_MESSAGE_PROPS);
             }
             speccy->execLaunch ^= 1;
             break;
@@ -253,7 +253,7 @@ void zFormDebugger::onCommand(int id, bool dbl) {
                     //SetFocus(hWndEdit);
                 }
             } else if(speccy->debugMode == MODE_DT) {
-                //auto n(speccy->assembler->quickParser(data));
+                //auto n(speccy->_asm->quickParser(data));
                 //if(n >= 0) _list->update(n, SFLAG_DT | SFLAG_SEL);
             }
             break;

@@ -294,25 +294,25 @@
                     <Spinner
                         android:id="@+id/joySpinLeft"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         z:adapterData="@string/key_names"
                         z:styles="@style/spinner" />
                     <Spinner
                         android:id="@+id/joySpinUp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         z:adapterData="@string/key_names"
                         z:styles="@style/spinner" />
                     <Spinner
                         android:id="@+id/joySpinRight"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         z:adapterData="@string/key_names"
                         z:styles="@style/spinner" />
                     <Spinner
                         android:id="@+id/joySpinDown"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         z:adapterData="@string/key_names"
                         z:styles="@style/spinner" />
                 </LinearLayout>
@@ -344,25 +344,25 @@
                     <Spinner
                         android:id="@+id/joySpinY"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         z:adapterData="@string/key_names"
                         z:styles="@style/spinner" />
                     <Spinner
                         android:id="@+id/joySpinX"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         z:adapterData="@string/key_names"
                         z:styles="@style/spinner" />
                     <Spinner
                         android:id="@+id/joySpinA"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         z:adapterData="@string/key_names"
                         z:styles="@style/spinner" />
                     <Spinner
                         android:id="@+id/joySpinB"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         z:adapterData="@string/key_names"
                         z:styles="@style/spinner" />
                 </LinearLayout>

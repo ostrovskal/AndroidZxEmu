@@ -213,7 +213,6 @@ void zDevUla::update(int param) {
         if(speccy->dev<zCpuMain>()->frame < 32) {
             giga = 1 - giga; tm = 0; timing = timings;
             isGigaApply = (speccy->gigaScreen && giga);
-            isGigaApply = false;
             colorTab = &colTab[(blink++ & 16) << 4];
         }
         if(fscr) {
@@ -711,7 +710,7 @@ void zDevMixer::update(int param) {
 
 void zDevMixer::mix() {
     int sourcesCount(sources.size());
-    if(sourcesCount == 0 || !isEnable) return;
+    if(sourcesCount == 0 || !isEnable || !player) return;
     auto minSamples(sources[0]->nSamples), maxSamples(sources[0]->nSamples);
     for(int i = 1; i < sourcesCount; i++) {
         auto samples(sources[i]->nSamples);

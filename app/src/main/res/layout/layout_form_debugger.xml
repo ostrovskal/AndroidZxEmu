@@ -8,6 +8,42 @@
         android:layout_height="match_parent"
         z:pad="1dp" android:orientation="vertical">
         <!-- инструменты -->
+        <CellLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            z:layout_cells="10,0" z:layout_space="0dp">
+            <Button
+                android:id="@+id/butBp" z:layout_x="0px" z:layout_width="1px" z:layout_height="1px"
+                z:styles="@style/debBut" z:iconka="@integer/iconZxBp"/>
+            <Button
+                android:id="@+id/butBpList" z:layout_x="1px" z:layout_width="1px" z:layout_height="1px"
+                z:styles="@style/debBut" z:iconka="@integer/iconZxBps"/>
+            <Button
+                android:id="@+id/butStep" z:layout_x="2px" z:layout_width="1px" z:layout_height="1px"
+                z:styles="@style/debBut" z:iconka="@integer/iconZxTraceStep"/>
+            <Button
+                android:id="@+id/butStepIn" z:layout_x="3px" z:layout_width="1px" z:layout_height="1px"
+                z:styles="@style/debBut" z:iconka="@integer/iconZxTraceIn"/>
+            <Button
+                android:id="@+id/butStepOut" z:layout_x="4px" z:layout_width="1px" z:layout_height="1px"
+                z:styles="@style/debBut" z:iconka="@integer/iconZxTraceExit"/>
+            <Button
+                android:id="@+id/butPlay" z:layout_x="5px" z:layout_width="1px" z:layout_height="1px"
+                z:styles="@style/debBut" z:iconka="@integer/iconZxPlay"/>
+            <Button
+                android:id="@+id/butRadix" z:layout_x="6px" z:layout_width="1px" z:layout_height="1px"
+                z:styles="@style/debBut" z:text="DEC" />
+            <Button
+                android:id="@+id/butList" z:layout_x="7px" z:layout_width="1px" z:layout_height="1px"
+                z:styles="@style/debBut" z:text="DA" />
+            <Button
+                android:id="@+id/butSize" z:layout_x="8px" z:layout_width="1px" z:layout_height="1px"
+                z:styles="@style/debBut" z:text="16" />
+            <Button
+                android:id="@+id/butCpu" z:layout_x="9px" z:layout_width="1px" z:layout_height="1px"
+                z:styles="@style/debBut" z:text="CPU" />
+        </CellLayout>
+<!--
         <ScrollView
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -21,66 +57,56 @@
                     android:id="@+id/butBp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    z:styles="@style/debBut"
-                    z:iconka="@integer/iconZxBp"/>
+                    z:styles="@style/debBut" z:iconka="@integer/iconZxBp"/>
                 <Button
                     android:id="@+id/butBpList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    z:styles="@style/debBut"
-                    z:iconka="@integer/iconZxBps"/>
+                    z:styles="@style/debBut" z:iconka="@integer/iconZxBps"/>
                 <Button
                     android:id="@+id/butStep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    z:styles="@style/debBut"
-                    z:iconka="@integer/iconZxTraceStep"/>
+                    z:styles="@style/debBut" z:iconka="@integer/iconZxTraceStep"/>
                 <Button
                     android:id="@+id/butStepIn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    z:styles="@style/debBut"
-                    z:iconka="@integer/iconZxTraceIn"/>
+                    z:styles="@style/debBut" z:iconka="@integer/iconZxTraceIn"/>
                 <Button
                     android:id="@+id/butStepOut"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    z:styles="@style/debBut"
-                    z:iconka="@integer/iconZxTraceExit"/>
+                    z:styles="@style/debBut" z:iconka="@integer/iconZxTraceExit"/>
                 <Button
                     android:id="@+id/butPlay"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    z:styles="@style/debBut"
-                    z:iconka="@integer/iconZxPlay"/>
+                    z:styles="@style/debBut" z:iconka="@integer/iconZxPlay"/>
                 <Button
                     android:id="@+id/butRadix"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    z:styles="@style/debBut"
-                    z:text="DEC"/>
+                    z:styles="@style/debBut" z:text="DEC"/>
                 <Button
                     android:id="@+id/butList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    z:styles="@style/debBut"
-                    z:text="DA"/>
+                    z:styles="@style/debBut" z:text="DA"/>
                 <Button
                     android:id="@+id/butSize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    z:styles="@style/debBut"
-                    z:text="16"/>
+                    z:styles="@style/debBut" z:text="16"/>
                 <Button
                     android:id="@+id/butCpu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    z:styles="@style/debBut"
-                    z:text="CPU"/>
+                    z:styles="@style/debBut" z:text="CPU"/>
             </LinearLayout>
         </ScrollView>
+-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

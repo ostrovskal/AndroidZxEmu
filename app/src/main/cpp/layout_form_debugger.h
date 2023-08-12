@@ -3,37 +3,35 @@
 	debugger->onInit(false);
 	auto debugger01((zLinearLayout*)debugger->attach(new zLinearLayout(styles_zlinearlayout2, 0, true), 
 			VIEW_MATCH, VIEW_MATCH)); 
-	auto debugger02((zScrollLayout*)debugger01->attach(new zScrollLayout(styles_default, 0, false), 
+	auto debugger02((zCellLayout*)debugger01->attach(new zCellLayout(styles_default, 0, szi(10, 0), 0_dp), 
 			VIEW_MATCH, VIEW_WRAP)); 
-	auto debugger03((zLinearLayout*)debugger02->attach(new zLinearLayout(styles_zlinearlayout3, 0, false), 
-			VIEW_MATCH, VIEW_WRAP)); 
-	debugger03->attach(new zViewButton(styles_butbp, R.id.butBp, 0, R.integer.iconZxBp), 
-			VIEW_WRAP, VIEW_WRAP);
-	debugger03->attach(new zViewButton(styles_butbp, R.id.butBpList, 0, R.integer.iconZxBps), 
-			VIEW_WRAP, VIEW_WRAP);
-	debugger03->attach(new zViewButton(styles_butbp, R.id.butStep, 0, R.integer.iconZxTraceStep), 
-			VIEW_WRAP, VIEW_WRAP);
-	debugger03->attach(new zViewButton(styles_butbp, R.id.butStepIn, 0, R.integer.iconZxTraceIn), 
-			VIEW_WRAP, VIEW_WRAP);
-	debugger03->attach(new zViewButton(styles_butbp, R.id.butStepOut, 0, R.integer.iconZxTraceExit), 
-			0, 1, VIEW_WRAP, VIEW_WRAP);
-	debugger03->attach(new zViewButton(styles_butbp, R.id.butPlay, 0, R.integer.iconZxPlay), 
-			0, 1, VIEW_WRAP, VIEW_WRAP);
-	debugger03->attach(new zViewButton(styles_butbp, R.id.butRadix, R.string.DEC, -1), 
-			VIEW_WRAP, VIEW_WRAP);
-	debugger03->attach(new zViewButton(styles_butbp, R.id.butList, R.string.DA, -1), 
-			VIEW_WRAP, VIEW_WRAP);
-	debugger03->attach(new zViewButton(styles_butbp, R.id.butSize, R.string._16, -1), 
-			VIEW_WRAP, VIEW_WRAP);
-	debugger03->attach(new zViewButton(styles_butbp, R.id.butCpu, R.string.CPU, -1), 
-			VIEW_WRAP, VIEW_WRAP);
+	debugger02->attach(new zViewButton(styles_butbp, R.id.butBp, 0, R.integer.iconZxBp), 
+			1, 1);
+	debugger02->attach(new zViewButton(styles_butbp, R.id.butBpList, 0, R.integer.iconZxBps), 
+			1, 0, 1, 1);
+	debugger02->attach(new zViewButton(styles_butbp, R.id.butStep, 0, R.integer.iconZxTraceStep), 
+			2, 0, 1, 1);
+	debugger02->attach(new zViewButton(styles_butbp, R.id.butStepIn, 0, R.integer.iconZxTraceIn), 
+			3, 0, 1, 1);
+	debugger02->attach(new zViewButton(styles_butbp, R.id.butStepOut, 0, R.integer.iconZxTraceExit), 
+			4, 0, 1, 1);
+	debugger02->attach(new zViewButton(styles_butbp, R.id.butPlay, 0, R.integer.iconZxPlay), 
+			5, 0, 1, 1);
+	debugger02->attach(new zViewButton(styles_butbp, R.id.butRadix, R.string.DEC, -1), 
+			6, 0, 1, 1);
+	debugger02->attach(new zViewButton(styles_butbp, R.id.butList, R.string.DA, -1), 
+			7, 0, 1, 1);
+	debugger02->attach(new zViewButton(styles_butbp, R.id.butSize, R.string._16, -1), 
+			8, 0, 1, 1);
+	debugger02->attach(new zViewButton(styles_butbp, R.id.butCpu, R.string.CPU, -1), 
+			9, 0, 1, 1);
 	auto debugger12((zLinearLayout*)debugger01->attach(new zLinearLayout(styles_default, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
-	auto debugger13((zLinearLayout*)debugger12->attach(new zLinearLayout(styles_default, 0, true), 
+	auto debugger03((zLinearLayout*)debugger12->attach(new zLinearLayout(styles_default, 0, true), 
 			0, 45, VIEW_MATCH, VIEW_MATCH)); 
-	debugger13->attach(new zViewEdit(styles_editasm, R.id.editAsm, 0), 
+	debugger03->attach(new zViewEdit(styles_editasm, R.id.editAsm, 0), 
 			VIEW_MATCH, VIEW_WRAP);
-	auto debugger04((zLinearLayout*)debugger13->attach(new zLinearLayout(styles_default, 0, false), 
+	auto debugger04((zLinearLayout*)debugger03->attach(new zLinearLayout(styles_default, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
 	debugger04->attach(new zViewText(styles_textfs, R.id.textFS, R.string.S), 
 			VIEW_MATCH, VIEW_MATCH);
@@ -55,7 +53,7 @@
 			VIEW_WRAP, VIEW_MATCH);
 	debugger04->attach(new zViewText(styles_textfs, R.id.textDOS, R.string.DOS), 
 			VIEW_WRAP, VIEW_MATCH);
-	auto debugger14((zLinearLayout*)debugger13->attach(new zLinearLayout(styles_zlinearlayout3, 0, false), 
+	auto debugger14((zLinearLayout*)debugger03->attach(new zLinearLayout(styles_zlinearlayout3, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
 	debugger14->attach(new zViewText(styles_textfs, R.id.textPC, R.string.PC), 
 			VIEW_WRAP, VIEW_WRAP);
@@ -65,7 +63,7 @@
 			VIEW_WRAP, VIEW_WRAP);
 	debugger14->attach(new zViewEdit(styles_editpc, R.id.editSP, 0), 
 			VIEW_MATCH, VIEW_WRAP);
-	auto debugger24((zLinearLayout*)debugger13->attach(new zLinearLayout(styles_zlinearlayout3, 0, false), 
+	auto debugger24((zLinearLayout*)debugger03->attach(new zLinearLayout(styles_zlinearlayout3, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
 	debugger24->attach(new zViewText(styles_textfs, R.id.textI, R.string.I), 
 			VIEW_WRAP, VIEW_WRAP);
@@ -79,7 +77,7 @@
 			VIEW_WRAP, VIEW_MATCH);
 	debugger24->attach(new zViewEdit(styles_editpc, R.id.editIM, 0), 
 			VIEW_MATCH, VIEW_WRAP);
-	auto debugger34((zLinearLayout*)debugger13->attach(new zLinearLayout(styles_zlinearlayout3, 0, false), 
+	auto debugger34((zLinearLayout*)debugger03->attach(new zLinearLayout(styles_zlinearlayout3, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
 	debugger34->attach(new zViewText(styles_textfs, R.id.textTS, R.string.TS), 
 			VIEW_WRAP, VIEW_MATCH);
@@ -87,11 +85,11 @@
 			VIEW_MATCH, VIEW_WRAP);
 	debugger34->attach(new zViewEdit(styles_editts, R.id.editTS1, 0), 
 			VIEW_WRAP, VIEW_WRAP);
-	auto debugger23((zLinearLayout*)debugger12->attach(new zLinearLayout(styles_default, R.id.ll16, true), 
+	auto debugger13((zLinearLayout*)debugger12->attach(new zLinearLayout(styles_default, R.id.ll16, true), 
 			0, 55, VIEW_MATCH, VIEW_WRAP)); 
-	auto debugger44((zLinearLayout*)debugger23->attach(new zLinearLayout(styles_default, 0, false), 
+	auto debugger44((zLinearLayout*)debugger13->attach(new zLinearLayout(styles_default, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
-	auto debugger05((zLinearLayout*)debugger44->attach(new zLinearLayout(styles_zlinearlayout7, 0, true), 
+	auto debugger05((zLinearLayout*)debugger44->attach(new zLinearLayout(styles_zlinearlayout6, 0, true), 
 			VIEW_WRAP, VIEW_MATCH)); 
 	debugger05->attach(new zViewText(styles_textfs, R.id.textAF, R.string.AF), 
 			VIEW_WRAP, VIEW_MATCH);
@@ -115,7 +113,7 @@
 			VIEW_MATCH, VIEW_WRAP);
 	debugger15->attach(new zViewEdit(styles_editpc, R.id.editIX, 0), 
 			VIEW_MATCH, VIEW_WRAP);
-	auto debugger25((zLinearLayout*)debugger44->attach(new zLinearLayout(styles_zlinearlayout7, 0, true), 
+	auto debugger25((zLinearLayout*)debugger44->attach(new zLinearLayout(styles_zlinearlayout6, 0, true), 
 			VIEW_WRAP, VIEW_MATCH)); 
 	debugger25->attach(new zViewText(styles_textfs, R.id.textAF_, R.string.AF_), 
 			VIEW_WRAP, VIEW_MATCH);
@@ -139,11 +137,11 @@
 			VIEW_MATCH, VIEW_WRAP);
 	debugger35->attach(new zViewEdit(styles_editpc, R.id.editIY, 0), 
 			VIEW_MATCH, VIEW_WRAP);
-	auto debugger33((zLinearLayout*)debugger12->attach(new zLinearLayout(styles_ll8, R.id.ll8, true), 
+	auto debugger23((zLinearLayout*)debugger12->attach(new zLinearLayout(styles_ll8, R.id.ll8, true), 
 			0, 55, VIEW_MATCH, VIEW_WRAP)); 
-	auto debugger54((zLinearLayout*)debugger33->attach(new zLinearLayout(styles_default, 0, false), 
+	auto debugger54((zLinearLayout*)debugger23->attach(new zLinearLayout(styles_default, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
-	auto debugger45((zLinearLayout*)debugger54->attach(new zLinearLayout(styles_zlinearlayout7, 0, true), 
+	auto debugger45((zLinearLayout*)debugger54->attach(new zLinearLayout(styles_zlinearlayout6, 0, true), 
 			VIEW_WRAP, VIEW_MATCH)); 
 	debugger45->attach(new zViewText(styles_textfs, R.id.textF, R.string.F), 
 			VIEW_WRAP, VIEW_MATCH);
@@ -167,7 +165,7 @@
 			VIEW_MATCH, VIEW_WRAP);
 	debugger55->attach(new zViewEdit(styles_editpc, R.id.editXL, 0), 
 			VIEW_MATCH, VIEW_WRAP);
-	auto debugger65((zLinearLayout*)debugger54->attach(new zLinearLayout(styles_zlinearlayout7, 0, true), 
+	auto debugger65((zLinearLayout*)debugger54->attach(new zLinearLayout(styles_zlinearlayout6, 0, true), 
 			VIEW_WRAP, VIEW_MATCH)); 
 	debugger65->attach(new zViewText(styles_textfs, R.id.textA, R.string.A), 
 			VIEW_WRAP, VIEW_MATCH);
@@ -191,7 +189,7 @@
 			VIEW_MATCH, VIEW_WRAP);
 	debugger75->attach(new zViewEdit(styles_editpc, R.id.editXH, 0), 
 			VIEW_MATCH, VIEW_WRAP);
-	auto debugger85((zLinearLayout*)debugger54->attach(new zLinearLayout(styles_zlinearlayout7, 0, true), 
+	auto debugger85((zLinearLayout*)debugger54->attach(new zLinearLayout(styles_zlinearlayout6, 0, true), 
 			VIEW_WRAP, VIEW_MATCH)); 
 	debugger85->attach(new zViewText(styles_textfs, R.id.textF_, R.string.F_), 
 			VIEW_WRAP, VIEW_MATCH);
@@ -215,7 +213,7 @@
 			VIEW_MATCH, VIEW_WRAP);
 	debugger95->attach(new zViewEdit(styles_editpc, R.id.editYL, 0), 
 			VIEW_MATCH, VIEW_WRAP);
-	auto debugger105((zLinearLayout*)debugger54->attach(new zLinearLayout(styles_zlinearlayout7, 0, true), 
+	auto debugger105((zLinearLayout*)debugger54->attach(new zLinearLayout(styles_zlinearlayout6, 0, true), 
 			VIEW_WRAP, VIEW_MATCH)); 
 	debugger105->attach(new zViewText(styles_textfs, R.id.textA_, R.string.A_), 
 			VIEW_WRAP, VIEW_MATCH);

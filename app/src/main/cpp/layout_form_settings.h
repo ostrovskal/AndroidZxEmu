@@ -114,13 +114,13 @@
 	auto settings84((zLinearLayout*)settings23->attach(new zLinearLayout(styles_default, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
 	settings84->attach(new zViewSelect(styles_joyspinleft, R.id.joySpinLeft), 
-			VIEW_MATCH, VIEW_WRAP);
+			VIEW_MATCH, VIEW_MATCH);
 	settings84->attach(new zViewSelect(styles_joyspinleft, R.id.joySpinUp), 
-			VIEW_MATCH, VIEW_WRAP);
+			VIEW_MATCH, VIEW_MATCH);
 	settings84->attach(new zViewSelect(styles_joyspinleft, R.id.joySpinRight), 
-			VIEW_MATCH, VIEW_WRAP);
+			VIEW_MATCH, VIEW_MATCH);
 	settings84->attach(new zViewSelect(styles_joyspinleft, R.id.joySpinDown), 
-			VIEW_MATCH, VIEW_WRAP);
+			VIEW_MATCH, VIEW_MATCH);
 	auto settings94((zLinearLayout*)settings23->attach(new zLinearLayout(styles_default, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
 	settings94->attach(new zViewText(styles_default, 0, R.string.Y), 
@@ -134,13 +134,13 @@
 	auto settings104((zLinearLayout*)settings23->attach(new zLinearLayout(styles_default, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
 	settings104->attach(new zViewSelect(styles_joyspinleft, R.id.joySpinY), 
-			VIEW_MATCH, VIEW_WRAP);
+			VIEW_MATCH, VIEW_MATCH);
 	settings104->attach(new zViewSelect(styles_joyspinleft, R.id.joySpinX), 
-			VIEW_MATCH, VIEW_WRAP);
+			VIEW_MATCH, VIEW_MATCH);
 	settings104->attach(new zViewSelect(styles_joyspinleft, R.id.joySpinA), 
-			VIEW_MATCH, VIEW_WRAP);
+			VIEW_MATCH, VIEW_MATCH);
 	settings104->attach(new zViewSelect(styles_joyspinleft, R.id.joySpinB), 
-			VIEW_MATCH, VIEW_WRAP);
+			VIEW_MATCH, VIEW_MATCH);
 	auto settings32((zTabWidget*)settings01->attach(new zTabWidget(styles_default, 0, 0, R.integer.iconZxDisplay), 
 			VIEW_WRAP, VIEW_WRAP)); 
 	auto settings33((zLinearLayout*)settings32->attach(new zLinearLayout(styles_default, 0, true), 

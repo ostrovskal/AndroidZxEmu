@@ -11,10 +11,7 @@ constexpr int MODE_DT	= 2;
 constexpr int SFLAG_PC	= 1;
 constexpr int SFLAG_SP	= 2;
 constexpr int SFLAG_DT	= 4;
-constexpr int SSEL_PC	= 8;
-constexpr int SSEL_SP	= 16;
-constexpr int SSEL_DT	= 32;
-constexpr int SFLAG_SEL = 64;
+constexpr int SFLAG_SEL = 8;
 
 class zRibbonDebugger : public zViewRibbon {
     friend class zAdapterDbgList;
@@ -31,7 +28,8 @@ public:
     int entries[3]{}, selItems[3]{};
     zString8 cmdAsm{};
 protected:
-    virtual i32 onTouchEvent() override;
+//    virtual i32 onTouchEvent() override;
+    virtual void notifyEvent(HANDLER_MESSAGE* msg) override;
     virtual void onLayout(crti &position, bool changed) override;
     u16 itemPC(zCpu* cpu, u16 entry, char* buf);
     u16 itemDT(zCpu* cpu, u16 entry, char* buf);

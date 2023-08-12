@@ -266,7 +266,7 @@ void zSpeccy::execute() {
             mix->update(ZX_UPDATE_FRAME);
             auto tm2(z_timeMillis());
             auto tm((int)(tm2 - tm1));
-            if(tm > 5000) tm = lm1, tm1 = tm2;
+            if(tm > 1000) tm = lm1, tm1 = tm2;
             if(!isQTape()) {
                 auto lm2(lm1 - tm);
                 if(lm2 > 0) {

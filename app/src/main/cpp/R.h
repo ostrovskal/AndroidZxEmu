@@ -2,7 +2,7 @@
 // Автоматически генерируемый файл ресурсов.
 // Не редактируйте его.
 // Автор: Шаталов С.В.
-// Mon Aug  7 14:35:54 2023
+// Sat Aug 12 12:33:45 2023
 
 #pragma once
 
@@ -220,19 +220,19 @@ struct _R {
 			bpspincond	= 0x0000001B, 	zviewtext1	= 0x0000001C, 	bplist	= 0x0000001D, 
 			browsspin	= 0x0000001E, 	browsdisk	= 0x0000001F, 	browsedit	= 0x00000020, 
 			browsopen	= 0x00000021, 	browschk	= 0x00000022, 	zviewform2	= 0x00000023, 
-			zlinearlayout2	= 0x00000024, 	zlinearlayout3	= 0x00000025, 
-			butbp	= 0x00000026, 	editasm	= 0x00000027, 	textfs	= 0x00000028, 
-			editpc	= 0x00000029, 	editts	= 0x0000002A, 	zlinearlayout7	= 0x0000002B, 
-			ll8	= 0x0000002C, 	llgs	= 0x0000002D, 	zviewtext2	= 0x0000002E, 
-			sellist	= 0x0000002F, 	zviewtext3	= 0x00000030, 	mainsystem	= 0x00000031, 
-			zlinearlayout5	= 0x00000032, 	soundspinchip	= 0x00000033, 
-			soundspinchannels	= 0x00000034, 	soundspinfreq	= 0x00000035, 
-			joyspinlyt	= 0x00000036, 	joyspinleft	= 0x00000037, 	disptextbl	= 0x00000038, 
-			disptextb	= 0x00000039, 	disptextr	= 0x0000003A, 	disptextm	= 0x0000003B, 
-			disptextg	= 0x0000003C, 	disptextc	= 0x0000003D, 	disptexty	= 0x0000003E, 
-			disptextw	= 0x0000003F, 	diskspindisk	= 0x00000040, 	helptext	= 0x00000041, 
-			formtzx	= 0x00000042, 	tzxmsg	= 0x00000043, 	speccy	= 0x00000044, 
-			speccyfps	= 0x00000045, 	speccystatus	= 0x00000046, };
+			zlinearlayout2	= 0x00000024, 	butbp	= 0x00000025, 	editasm	= 0x00000026, 
+			textfs	= 0x00000027, 	zlinearlayout3	= 0x00000028, 	editpc	= 0x00000029, 
+			editts	= 0x0000002A, 	zlinearlayout6	= 0x0000002B, 	ll8	= 0x0000002C, 
+			llgs	= 0x0000002D, 	zviewtext2	= 0x0000002E, 	sellist	= 0x0000002F, 
+			zviewtext3	= 0x00000030, 	mainsystem	= 0x00000031, 	zlinearlayout5	= 0x00000032, 
+			soundspinchip	= 0x00000033, 	soundspinchannels	= 0x00000034, 
+			soundspinfreq	= 0x00000035, 	joyspinlyt	= 0x00000036, 	joyspinleft	= 0x00000037, 
+			disptextbl	= 0x00000038, 	disptextb	= 0x00000039, 	disptextr	= 0x0000003A, 
+			disptextm	= 0x0000003B, 	disptextg	= 0x0000003C, 	disptextc	= 0x0000003D, 
+			disptexty	= 0x0000003E, 	disptextw	= 0x0000003F, 	diskspindisk	= 0x00000040, 
+			helptext	= 0x00000041, 	formtzx	= 0x00000042, 	tzxmsg	= 0x00000043, 
+			speccy	= 0x00000044, 	speccyfps	= 0x00000045, 	speccystatus	= 0x00000046, 
+};
 	};
 	_style style;
 };
@@ -279,13 +279,13 @@ static zStyles styles[] = {
 		{ _R::_style::browschk, styles_browschk },
 		{ _R::_style::zviewform2, styles_zviewform2 },
 		{ _R::_style::zlinearlayout2, styles_zlinearlayout2 },
-		{ _R::_style::zlinearlayout3, styles_zlinearlayout3 },
 		{ _R::_style::butbp, styles_butbp },
 		{ _R::_style::editasm, styles_editasm },
 		{ _R::_style::textfs, styles_textfs },
+		{ _R::_style::zlinearlayout3, styles_zlinearlayout3 },
 		{ _R::_style::editpc, styles_editpc },
 		{ _R::_style::editts, styles_editts },
-		{ _R::_style::zlinearlayout7, styles_zlinearlayout7 },
+		{ _R::_style::zlinearlayout6, styles_zlinearlayout6 },
 		{ _R::_style::ll8, styles_ll8 },
 		{ _R::_style::llgs, styles_llgs },
 		{ _R::_style::zviewtext2, styles_zviewtext2 },

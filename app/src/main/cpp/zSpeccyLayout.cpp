@@ -301,10 +301,6 @@ void zSpeccyLayout::processHandler() {
     if(checkSTATE(ZX_CAPT)) { setCaption(); modifySTATE(0, ZX_CAPT) }
 }
 
-void zSpeccyLayout::changeTheme() {
-    for(auto& c : children) c->changeTheme();
-}
-
 void zSpeccyLayout::send(int what, int a1, int a2, cstr s) {
     handler.send(nullptr, what, 50, a1, a2, s);
 }

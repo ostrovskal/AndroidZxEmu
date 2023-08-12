@@ -260,10 +260,6 @@ static zStyle styles_zlinearlayout2[] = {
 	{ Z_PADDING | ZT_END, 0x01010101 }
 };
 
-static zStyle styles_zlinearlayout3[] = {
-	{ Z_GRAVITY | ZT_END, ZS_GRAVITY_VCENTER }
-};
-
 static zStyle styles_butbp[] = {
 	{ Z_STYLES | ZT_END, R.style.debBut }
 };
@@ -277,6 +273,10 @@ static zStyle styles_textfs[] = {
 	{ Z_STYLES | ZT_END, R.style.debFlags }
 };
 
+static zStyle styles_zlinearlayout3[] = {
+	{ Z_GRAVITY | ZT_END, ZS_GRAVITY_VCENTER }
+};
+
 static zStyle styles_editpc[] = {
 	{ Z_STYLES | ZT_END, R.style.debEdit }
 };
@@ -285,7 +285,7 @@ static zStyle styles_editts[] = {
 	{ Z_STYLES | ZT_END, R.style.debEditRead }
 };
 
-static zStyle styles_zlinearlayout7[] = {
+static zStyle styles_zlinearlayout6[] = {
 	{ Z_GRAVITY | ZT_END, ZS_GRAVITY_HCENTER }
 };
 

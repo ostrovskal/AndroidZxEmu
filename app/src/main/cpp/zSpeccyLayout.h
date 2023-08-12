@@ -22,7 +22,6 @@ public:
     void                activateDebugger();
     void                setStatus(int img) { _status->setImage(img); }
     void                setCaption();
-    virtual void        changeTheme() override;
     void                setParamControllers();
 protected:
     // уведомление о событии

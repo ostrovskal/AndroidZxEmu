@@ -65,11 +65,11 @@ bool zRibbonDebugger::scrolling(int delta) {
 
 void zRibbonDebugger::onLayout(crti &position, bool changed) {
     if(!countCols) {
-        auto tv(((zViewText*)cacheViews[0]));
+        auto tv((zViewText*)cacheViews[0]);
         if(tv) {
             auto wc(tv->getWidthText("1"));
             countCols = rclient.w / wc;
-            items.resize(z_round((float) rclient.h / (float) tv->rview.h));
+            items.resize(z_round((float)rclient.h / (float)tv->rview.h) + 1);
         }
     }
     zViewRibbon::onLayout(position, changed);
@@ -80,42 +80,41 @@ void zRibbonDebugger::setMode(int m, zCpu* cpu) {
     speccy->debugMode = m;
     auto flags(0), data(0);
     switch(m) {
-        case MODE_PC: data = cpu->pc; flags = SSEL_PC | SFLAG_PC; break;
-        case MODE_SP: data = cpu->sp; flags = SSEL_SP | SFLAG_SP; break;
-        case MODE_DT: data = entries[MODE_DT]; flags = SSEL_DT | SFLAG_DT; break;
+        case MODE_PC: data = cpu->pc; flags = SFLAG_PC; break;
+        case MODE_SP: data = cpu->sp; flags = SFLAG_SP; break;
+        case MODE_DT: data = entries[MODE_DT]; flags = SFLAG_DT; break;
     }
     update(data, flags);
 }
 
 void zRibbonDebugger::update(int data, int flags) {
-    auto mode(speccy->debugMode);
     if(flags & SFLAG_SP) {
-        entries[MODE_SP] = data - (items.size() & -2);
-        correctSP();
-        if(flags & SSEL_SP) selItems[MODE_SP] = data;
+        entries[MODE_SP] = data - (items.size() & (~1));
+        correctSP(); selItems[MODE_SP] = data;
     }
     if(flags & SFLAG_DT) {
         entries[MODE_DT] = data;
-        correctDT();
-        if(flags & SSEL_DT) selItems[MODE_DT] = data;
+        correctDT(); selItems[MODE_DT] = data;
     }
     if(flags & SFLAG_PC) {
         entries[MODE_PC] = data;
-        if(flags & SSEL_PC) selItems[MODE_PC] = data;
+        selItems[MODE_PC] = data;
     }
     if(flags & SFLAG_SEL) {
+        auto mode(speccy->debugMode);
         selItems[mode] = data;
         // найти в массиве адресов
-        int i = 0;
+        int i(0), ii(items.size() / 2);
         for(; i < items.size(); i++) {
             if(items[i] == data) {
-                auto ii(items.size() / 2);
                 if(i > ii) entries[mode] = items[i - ii];
                 break;
             }
         }
-        if(i >= items.size() && mode != MODE_SP) entries[mode] = data;
+        if(i >= items.size() && mode != MODE_SP)
+            entries[mode] = data;
     }
+    selectItem = clickItem = -1;
     requestPosition();
 }
 
@@ -173,39 +172,38 @@ u16 zRibbonDebugger::itemPC(zCpu* cpu, u16 entry, char* buf) {
     return ret;
 }
 
-i32 zRibbonDebugger::onTouchEvent() {
-    auto ret(zViewRibbon::onTouchEvent());
-    if(ret && selectItem) {
+void zRibbonDebugger::notifyEvent(HANDLER_MESSAGE *msg) {
+    if(msg->what == MSG_SELECTED && selectItem != -1) {
         auto idx(items[selectItem]);
         if(touch->isDblClicked()) {
             // jump
             auto cpu(speccy->getCpu(speccy->debugCpu));
             auto mode(zDisAsm::jump(cpu, (u16)idx, speccy->debugMode, true));
             if(mode != -1) {
-                auto jmp((u16)(speccy->jni & 0xffff));
-                setMode(mode, cpu); entries[ret] = jmp; selItems[ret] = jmp;
+                auto jmp((u16)((speccy->jni >> 16) & 0xffff));
+                setMode(mode, cpu); entries[mode] = jmp; selItems[mode] = jmp;
                 theApp->getForm<zFormDebugger>(FORM_DEBUG)->onCommand(R.id.listDebugger, true);
             }
         } else {
             selItems[speccy->debugMode] = idx;
         }
         update(0, 0);
+    } else {
+        zViewRibbon::notifyEvent(msg);
     }
-    return ret;
 }
 
 void zRibbonDebugger::initItem(zViewText* nv, int idx) {
-    int _sitem(-1);
     auto mode(speccy->debugMode); u16 entry, ret;
-    entry = idx == 0 ? entries[mode] : items[idx - 1];
+    if(!idx) { entry = entries[mode]; items[0] = entry; } else entry = items[idx];
     auto cpu(speccy->getCpu(speccy->debugCpu)); auto buf((char*)&tmpBuf[INDEX_DA]);
     switch(mode) {
         case MODE_PC: ret = itemPC(cpu, entry, buf); break;
         case MODE_DT: ret = itemDT(cpu, entry, buf); break;
         case MODE_SP: ret = itemSP(cpu, entry, buf); break;
     }
-    if(selItems[mode] == ret) _sitem = idx;
-    items[idx] = ret; nv->setText(buf);
+    if(selItems[mode] == entry) selectItem = clickItem = idx;
+    items[idx + 1] = ret; nv->setText(buf);
     int len, x(0), lex(0); auto ln(buf); auto isAddr(speccy->showDebugAddress);
     while((len = getLexem(&ln, x, lex))) {
         if(ln < (buf + speccy->jni)) {
@@ -219,5 +217,4 @@ void zRibbonDebugger::initItem(zViewText* nv, int idx) {
         x += len;
     }
     nv->updateText();
-//    DLOG("sel %i", _sitem);
 }
