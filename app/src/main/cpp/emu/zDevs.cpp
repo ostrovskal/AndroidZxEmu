@@ -76,12 +76,11 @@ void zDevUla::TIMING::set(int _t, ZONE _zone, u32* _dst, int _so, int _ao) {
 
 zDevUla::zDevUla() {
     frameBuffer  = new u32[352 * 864];
-    memset(frameBuffer, 0, 352 * 576 * 4);
+    memset(frameBuffer, 0, 352 * 864 * 4);
     memset(timings, 0, sizeof(timings));
     memset(atrTab, 0, sizeof(atrTab));
     memset(scrTab, 0, sizeof(scrTab));
     memset(colTab, 0, sizeof(colTab));
-    colors = speccy->colors;
     // вычисление таблицы адреса строк экрана
     int i = 0;
     for(int p = 0; p < 4; p++) {
@@ -131,12 +130,12 @@ static u32 defCols[] = { 0, 0 };
 
 static u32 gigaBlend(u32** src, u32 c1) {
     auto s(*src); auto c0(*s); s++;
-    auto r0((int)c0 & 0xFF), g0((int)(c0 >> 8) & 0xff), b0((int)(c0 >> 16) & 0xff);
-    auto r1((int)c1 & 0xFF), g1((int)(c1 >> 8) & 0xff), b1((int)(c1 >> 16) & 0xff);
+    auto b0((int)c0 & 0xFF), g0((int)(c0 >> 8) & 0xff), r0((int)(c0 >> 16) & 0xff);
+    auto b1((int)c1 & 0xFF), g1((int)(c1 >> 8) & 0xff), r1((int)(c1 >> 16) & 0xff);
     r0 = (int)(((float)r0 * 0.66f + (float)r1 * 0.66f) * 0.75f);
     g0 = (int)(((float)g0 * 0.66f + (float)g1 * 0.66f) * 0.75f);
     b0 = (int)(((float)b0 * 0.66f + (float)b1 * 0.66f) * 0.75f);
-    *src = s; return (r0 | (g0 << 8) | (b0 << 16));
+    *src = s; return (b0 | (g0 << 8) | (r0 << 16));
 }
 
 void zDevUla::updateBorder(int offs, int count) {
@@ -258,9 +257,10 @@ void zDevUla::update(int param) {
             tm = blink = giga = 0;
             timing = timings;
         }
+        for(int i = 0 ; i < 16; i++) colors[i] = zColor(speccy->colors[i]).toABGR();
         VIDEO = speccy->dev<zDevMem>()->page(speccy->vid);
         colorBorder = speccy->_fe & 7;
-        auto sz((float)((6 - speccy->sizeBorder) * 16));
+        auto sz((float)(speccy->sizeBorder * 16));
         frame->setScale(352.0f / (256 + sz), 288.0f / (192 + sz));
     }
 }
@@ -689,19 +689,19 @@ void zDevMixer::release() {
 
 void zDevMixer::update(int param) {
     if(param == ZX_UPDATE_FRAME) {
-        if(isEnable) mix();
+        if(isEnable && player) mix();
     } else {
         auto is(isEnable);
         isEnable = speccy->sndLaunch && speccy->execLaunch;
         for(auto s : sources) s->nSamples = 0;
         memset(mixBuffer, 0, sizeof(mixBuffer));
+        if(param == ZX_UPDATE_PRIVATE) { release(); is = !isEnable; }
         if(is != isEnable) {
             if(!isEnable) release();
             else {
                 zPlayerParams pr;
                 pr.rate = frequencies[speccy->sndFreq] * 1000;
-                pr.chan = 2; pr.bits = 16;
-                pr.bufSize = sizeof(mixBuffer);
+                pr.chan = 2; pr.bits = 16; pr.bufSize = sizeof(mixBuffer);
                 player = manager->sound.createPlayer(1234, TYPE_MEM, pr);
             }
         }
@@ -710,7 +710,7 @@ void zDevMixer::update(int param) {
 
 void zDevMixer::mix() {
     int sourcesCount(sources.size());
-    if(sourcesCount == 0 || !isEnable || !player) return;
+    if(sourcesCount == 0) return;
     auto minSamples(sources[0]->nSamples), maxSamples(sources[0]->nSamples);
     for(int i = 1; i < sourcesCount; i++) {
         auto samples(sources[i]->nSamples);

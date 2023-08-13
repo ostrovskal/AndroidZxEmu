@@ -116,9 +116,8 @@ constexpr int ZX_MESSAGE_MODEL          = 3;
 constexpr int ZX_MESSAGE_MAGIC          = 4;
 constexpr int ZX_MESSAGE_CPU            = 5;
 constexpr int ZX_MESSAGE_LOAD           = 7;
-constexpr int ZX_MESSAGE_JOYSTICK       = 9;
-constexpr int ZX_MESSAGE_SAVE           = 10;
-constexpr int ZX_MESSAGE_DEBUG          = 11;
+constexpr int ZX_MESSAGE_DEBUG          = 8;
+constexpr int ZX_MESSAGE_SAVE           = 9;
 
 constexpr int ZX_ARG_IO_QUICK           = 128;
 constexpr int ZX_ARG_IO_MRU             = 64;

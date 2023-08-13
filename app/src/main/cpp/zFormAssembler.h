@@ -13,15 +13,15 @@
 #define ERROR_DISP_OUT_OF_RANGE             -4
 #define ERROR_RELATIVE_JUMP_OUT_OF_RANGE    -5
 #define ERROR_NUMBER_OUT_OF_RANGE           -6
-#define ERROR_DISP_NOT_FOUND                -7
-#define ERROR_COMMAND_NOT_FOUND             -8
+//#define ERROR_DISP_NOT_FOUND                -7
+//#define ERROR_COMMAND_NOT_FOUND             -8
 #define ERROR_CLOSE_BRAKKET_NOT_FOUND       -9
 #define ERROR_INVALID_INDEXED_OPERATION     -10
 #define ERROR_INVALID_RST_NUMBER            -11
 #define ERROR_INVALID_INTERRUPT_MODE        -12
 #define ERROR_KEYWORD_NOT_FOUND             -13
 #define ERROR_EXPECT_END_OF_COMMAD          -14
-#define ERROR_BIT_OUT_OF_RANGE              -15
+//#define ERROR_BIT_OUT_OF_RANGE              -15
 #define ERROR_INVALID_ADDRESS_OPERAND       -16
 #define ERROR_DUPLICATE_LABEL               -17
 #define ERROR_LABEL_NOT_FOUND               -18
@@ -30,7 +30,7 @@
 #define ERROR_VALUE_OUT_OF_RANGE            -21
 #define ERROR_INVALID_ESCAPE_SEQUENCE       -22
 #define ERROR_INVALID_STRING                -23
-#define ERROR_INVALID_BRACKET               -24
+//#define ERROR_INVALID_BRACKET               -24
 #define ERROR_UNDEFINED_OPERATION           -25
 #define ERROR_WRONG_OPERATION               -26
 #define ERROR_UNEXPECTED_LEXEM              -27
@@ -41,14 +41,8 @@ public:
     enum { PAR_COUNT_EMPTY, PAR_COUNT_ONE, PAR_COUNT_TWO, PAR_COUNT_ONE_OR_TWO, PAR_COUNT_TWO_OR_THREE };
     zFormAssembler(zStyle* _sts, i32 _id, zStyle* _sts_capt, zStyle* _sts_foot, u32 _capt, bool _m);
     virtual void onInit(bool _theme) override;
-/*
-    zAssembler() : lexPos(nullptr), text(nullptr), lb(nullptr), labels(nullptr), buf(nullptr),
-                   number(0), icmd(0), disp(0), scmd(0), rep(1), pc(0), pass(0), is_lb(0) {
-        memset(cmdBuf, 0, sizeof(cmdBuf));
-    }
-*/
     // парсер
-    int parser(int pass, int address, cstr text, zArray<Z_LABEL>* labels);
+    int parser(int pass, int address, cstr text, zArray<Z_LABEL*>* labels);
     // скопировать инструкцию в буфер
     int copy(uint8_t* address) {
         memcpy(address, cmdBuf, scmd);
@@ -59,15 +53,15 @@ public:
         return scmd;
     }
     // признак инструкции
-    bool isCmd() const { return rep || scmd; }
+    [[maybe_unused]] bool isCmd() const { return rep || scmd; }
     // текущий начальный адрес
-    int getOrg() const { return *(u16*)cmdBuf; }
+    [[maybe_unused]] int getOrg() const { return *(u16*)cmdBuf; }
     // число повторений команды
-    int getRepeat() const { return rep; }
+    [[maybe_unused]] int getRepeat() const { return rep; }
     // парсер выражения
     int quickParser(const char* text);
     // размер инструкции
-    int scmd;
+    int scmd{0};
 protected:
     // преобразование выражения во внутреннюю структуру
     int exprConvert(char** place);
@@ -76,7 +70,7 @@ protected:
     // парсер строки
     bool parseString(char** place, int& ret);
     // парсер простого выражения(в скобках)
-    int parseSubExpress(char* place);
+    static int parseSubExpress(char* place);
     // парсер выражения
     int parseExpress(char** place, bool disp);
     // парсер операнда инструкции
@@ -86,34 +80,34 @@ protected:
     // парсер оператора
     int parserOperator(int len);
     // проверка на флаги
-    bool checkFlags(int flags, bool is_jr);
+    static bool checkFlags(int flags, bool is_jr);
     // проверка на 16 бит регистры
-    bool checkReg16(int reg, bool is_sp);
+    static bool checkReg16(int reg, bool is_sp);
     // проверк на 8 бит регистры
-    bool checkReg8(int reg);
+    static bool checkReg8(int reg);
     // добавление метки
     Z_LABEL* add_label(char* place, int len, bool ret_always);
     // получение следующей лексемы
     int nextLexem(char** text);
     // получение кода ключевого слова
-    int getCmd(const char* cmd, int len);
+    static int getCmd(const char* cmd, int len);
     // пропуск запятой, если есть
     int skipComma(char** text);
     // начальная позиция анализатора
-    char* lexPos;
+    char* lexPos{nullptr};
     // текст строки
-    char* text;
-    int icmd, pc, pass, is_lb, rep;
+    char* text{nullptr};
+    int icmd{0}, pc{0}, pass{0}, is_lb{0}, rep{0};
     // буфер инструкции
-    uint8_t cmdBuf[16];
+    u8 cmdBuf[16]{};
     // смещение
-    uint8_t disp;
+    u8 disp{0};
     // число
-    int number;
+    int number{0};
     // текущая позиция буфера инструкции
-    uint8_t* buf;
+    u8* buf{nullptr};
     // текущая метка
-    Z_LABEL* lb;
+    Z_LABEL* lb{nullptr};
     // массив меток
-    zArray<Z_LABEL>* labels;
+    zArray<Z_LABEL*>* labels{nullptr};
 };

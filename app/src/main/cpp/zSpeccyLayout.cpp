@@ -174,7 +174,7 @@ void zSpeccyLayout::stateTools(int action, int id) {
         tapeProgress->setProgress(speccy->tapeIndex);
     }
     if(action & ZFT_UPD_CONTROLLER) {
-        szi sz(z_dp(112 + 16 * speccy->sizeJoy), z_dp(112 + 16 * speccy->sizeJoy));
+        szi sz(z_dp(128 + 20 * speccy->sizeJoy), z_dp(128 + 20 * speccy->sizeJoy));
         ac->setSize(sz);
         cc->setSize(sz);
     }

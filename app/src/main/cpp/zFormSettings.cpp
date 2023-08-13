@@ -73,11 +73,11 @@ static u32 palettes_speccy[] = {
 
 static u32 palettes_asm[] = {
         // [DARK]
-        0x00000000, 0x00505050, 0x00A0A0A0, 0x0000FFFF, 0x00FF00FF, 0x00FFFF00, 0x0000FF00, 0x00FFFFFF,
-        0x00FFA070, 0x000000FF, 0x00FF8010, 0x00FFFFFF, 0x00303030, 0x00F0F0F0, 0x00404040, 0x00000000,
+        0xFF000000, 0xFF505050, 0xFFA0A0A0, 0xFF00FFFF, 0xFFFF00FF, 0xFFFFFF00, 0xFF00FF00, 0xFFFFFFFF,
+        0xFFFFA070, 0xFF0000FF, 0xFFFF8010, 0xFFFFFFFF, 0xFF303030, 0xFFF0F0F0, 0xFF404040, 0xFF000000,
         // [WHITE]
-        0x00EFEFEF, 0x00C0C0C0, 0x00000000, 0x00007F7F, 0x007F007F, 0x007F7F00, 0x00007F00, 0x007F7F7F,
-        0x007F5060, 0x0000007F, 0x007F6010, 0x007F1010, 0x00303030, 0x00707070, 0x00404040, 0x00000000
+        0xFFEFEFEF, 0xFFC0C0C0, 0xFF000000, 0xFF007F7F, 0xFF7F007F, 0xFF7F7F00, 0xFF007F00, 0xFF7F7F7F,
+        0xFF7F5060, 0xFF00007F, 0xFF7F6010, 0xFF7F1010, 0xFF303030, 0xFF707070, 0xFF404040, 0xFF000000
 };
 
 static int ids[] = { // main
@@ -96,7 +96,8 @@ static int ids[] = { // main
                      R.id.joySpinY, ZSI_KEY_JOY_Y, R.id.joySpinX, ZSI_KEY_JOY_X, R.id.joySpinA, ZSI_KEY_JOY_A, R.id.joySpinB, ZSI_KEY_JOY_B,
                      // display
                      R.id.dispSpinPalettes, ZSI_PALETTES, R.id.dispChkAsm, 0,
-                     R.id.dispTextB, 113, R.id.dispTextR, 117, R.id.dispTextM, 121,
+                     // 35
+                     R.id.dispTextBl, 109, R.id.dispTextB, 113, R.id.dispTextR, 117, R.id.dispTextM, 121,
                      R.id.dispTextG, 125, R.id.dispTextC, 129, R.id.dispTextY, 133, R.id.dispTextW, 137,
                      R.id.dispTextBrBl, 141, R.id.dispTextBrB, 145, R.id.dispTextBrR, 149, R.id.dispTextBrM, 153,
                      R.id.dispTextBrG, 157, R.id.dispTextBrC, 161, R.id.dispTextBrY, 165, R.id.dispTextBrW, 169,
@@ -104,12 +105,11 @@ static int ids[] = { // main
                      R.id.dispTextStrs, 189, R.id.dispTextSplits, 193, R.id.dispTextComment, 197, R.id.dispTextOps, 201,
                      R.id.dispTextCmds, 205, R.id.dispTextReg, 209, R.id.dispTextFlags, 213, R.id.dispTextLabels, 217,
                      R.id.dispTextBkgLines, 221, R.id.dispTextNumLines, 225, R.id.dispTextCurLine, 229, R.id.dispTextNulls, 233,
-                     R.id.dispTextBl, 109,
                      R.id.dispSlrR, 0, R.id.dispSlrG, 0, R.id.dispSlrB, 0,
                      // casette
                      R.id.casetList, 0,
                      // disk
-                     R.id.diskList, 0, R.id.diskSpinDisk, 0, R.id.diskChkReadOnly, 0,
+                     R.id.diskList, 0, R.id.diskSpinDisk, 0,
                      // help
                      R.id.helpText, 0, 0, 0 };
 
@@ -138,10 +138,22 @@ void zFormSettings::onInit(bool _theme) {
             }
         }
         setOnClose([this](zViewForm*, int code) {
-            if(code == z.R.id.no) memcpy((u8*)speccy, savedValues, sizeof(savedValues));
-            for(int i = 0 ; i < sizeof(ids) / 4; i += 2)
-                onSave(idView(ids[i]), ids[i + 1], code == z.R.id.def);
-            if(code == z.R.id.yes) {
+            if(code == z.R.id.no) {
+                memcpy((u8*)speccy, savedValues, sizeof(savedValues));
+            } else if(code == z.R.id.def) {
+                idView<zViewSelect>(R.id.dispSpinPalettes)->setItemSelected(0);
+                for(int i = 0 ; i < sizeof(ids) / 4; i += 2) {
+                    auto offs(ids[i + 1]); u32 def;
+                    if(offs) {
+                        if(settings->getDefault(offs - 64, &def)) {
+                            auto ptr((u8*)speccy + offs);
+                            if(offs < 109) *(u8*)ptr = (u8)def; else *(u32*)ptr = def;
+                        }
+                    }
+                    onInit(idView(ids[i]), offs);
+                }
+            } else if(code == z.R.id.yes) {
+                speccy->dev<zDevUla>()->update(ZX_UPDATE_PRIVATE);
                 speccy->updateJoyPokes();
                 frame->setParamControllers();
             }
@@ -151,7 +163,6 @@ void zFormSettings::onInit(bool _theme) {
 }
 
 void zFormSettings::onCommand(zView* v, int a1) {
-    zString8 tmp;
     auto id(v->id); int action(0), cmd(-1);
     auto offs(z_remap(id, ids));
     if(offs > 0 && offs < 109) *(u8*)((u8*)speccy + offs) = (u8)a1;
@@ -160,12 +171,14 @@ void zFormSettings::onCommand(zView* v, int a1) {
         case R.id.mainBorder: case R.id.mainSystem: cmd = ZX_MESSAGE_PROPS; break;
         case R.id.mainJoystick: action = ZFT_UPD_CONTROLLER; break;
         case R.id.mainKeyboard: action = ZFT_UPD_MENU_DBG; break;
-        case R.id.mainDarkTheme: onInit(v, a1); break;
+        case R.id.mainDarkTheme: onInit(v, offs); break;
             // sound
         case R.id.soundChkBeeper: case R.id.soundChkAY:
         case R.id.soundChkCovox: case R.id.soundChkGS:
             onInit(v, offs);
-        case R.id.soundSpinChip: case R.id.soundSpinChannels: case R.id.soundSpinFreq:
+        case R.id.soundSpinFreq:
+            if(id == R.id.soundSpinFreq) speccy->dev<zDevMixer>()->update(ZX_UPDATE_PRIVATE);
+        case R.id.soundSpinChip: case R.id.soundSpinChannels:
         case R.id.soundSlrBeeper: case R.id.soundSlrAY:
         case R.id.soundSlrCovox: case R.id.soundSlrGS:
             cmd = ZX_MESSAGE_PROPS;
@@ -193,7 +206,7 @@ void zFormSettings::onCommand(zView* v, int a1) {
             if(selColor) {
                 auto c(&selColor->drw[DRW_BK]->color);
                 id = id - R.id.dispSlrR; c->vec[id] = ((float)a1 / 255.0f);
-                speccy->colors[(argColor - 109) / 4] = c->toABGR();
+                speccy->colors[(argColor - 109) / 4] = c->toARGB();
                 selColor->invalidate();
             }
             break;
@@ -202,8 +215,6 @@ void zFormSettings::onCommand(zView* v, int a1) {
             break;
         // disk
         case R.id.diskSpinDisk: onInit(v, a1); break;
-        case R.id.diskChkReadOnly:
-            break;
     }
     if(cmd != -1) frame->send(cmd);
     if(action) frame->stateTools(action);
@@ -212,7 +223,7 @@ void zFormSettings::onCommand(zView* v, int a1) {
 void zFormSettings::onInit(zView* v, int a1) {
     static int idsChk[] = { R.id.soundChkBeeper, R.id.soundSlrBeeper, R.id.soundChkAY, R.id.soundSlrAY,
                             R.id.soundChkCovox, R.id.soundSlrCovox, R.id.soundChkGS, R.id.soundSlrGS, 0, 0 };
-    auto id(v->id);
+    auto id(v->id); auto val(speccy->value(a1));
     switch(id) {
         case R.id.mainBorder: case R.id.mainJoystick:
         case R.id.mainKeyboard: case R.id.mainSystem:
@@ -221,24 +232,24 @@ void zFormSettings::onInit(zView* v, int a1) {
         case R.id.mainShowFPS: case R.id.mainDarkTheme:
         case R.id.mainGsReset: case R.id.mainTapeReset: case R.id.mainAutoTape:
         case R.id.mainSwapMouse: case R.id.mainGigaScreen: case R.id.mainTrapTRDOS:
-            a1 = speccy->value(a1); ((zViewCheck*)v)->checked(a1);
+            ((zViewCheck*)v)->checked(val);
             if(id == R.id.mainDarkTheme)
-                theApp->setTheme(a1 ? styles_mythemedark : styles_mythemelight, resources_ptr_arrays, ::styles);
+                theApp->setTheme(val ? styles_mythemedark : styles_mythemelight, resources_ptr_arrays, ::styles);
             else if(id == R.id.mainShowFPS)
-                frame->idView(R.id.speccyFps)->updateStatus(ZS_VISIBLED, a1);
+                frame->idView(R.id.speccyFps)->updateStatus(ZS_VISIBLED, val);
             break;
             // sound
         case R.id.soundSpinChip: case R.id.soundSpinChannels: case R.id.soundSpinFreq:
-            ((zViewSlider*)v)->setProgress(speccy->value(a1));
+            ((zViewSelect*)v)->setItemSelected(val);
             break;
         case R.id.soundChkBeeper: case R.id.soundChkAY:
         case R.id.soundChkCovox: case R.id.soundChkGS:
-            ((zViewCheck*)v)->checked(speccy->value(a1));
-            idView(z_remap(id, idsChk))->disable(!speccy->value(a1));
+            ((zViewCheck*)v)->checked(val);
+            idView(z_remap(id, idsChk))->disable(!val);
             break;
         case R.id.soundSlrBeeper: case R.id.soundSlrAY:
         case R.id.soundSlrGS: case R.id.soundSlrCovox:
-            ((zViewSlider*)v)->setProgress(speccy->value(a1));
+            ((zViewSlider*)v)->setProgress(val);
             break;
             // joy
         case R.id.joySpinLyt:
@@ -266,21 +277,24 @@ void zFormSettings::onInit(zView* v, int a1) {
             selColor = v; argColor = a1;
             selColor->drw[DRW_BK]->tile = z.R.integer.ellips;
             selColor->drw[DRW_BK]->measure(0, 0, PIVOT_ALL, true);
-            applyColorSlider(a1);
+            selColor->drw[DRW_BK]->color = speccy->colors[(a1 - 109) / 4];
+            applyColorSlider();
             break;
-        case R.id.dispChkAsm: {
+        case R.id.dispChkAsm:
             idView<zLinearLayout>(a1 ? R.id.llSpeccyCols1 : R.id.llAsmCols1)->updateVisible(false);
             idView<zLinearLayout>(a1 ? R.id.llSpeccyCols2 : R.id.llAsmCols2)->updateVisible(false);
             idView<zLinearLayout>(a1 ? R.id.llAsmCols1 : R.id.llSpeccyCols1)->updateVisible(true);
             idView<zLinearLayout>(a1 ? R.id.llAsmCols2 : R.id.llSpeccyCols2)->updateVisible(true);
-            auto adapt(idView<zViewSelect>(R.id.dispSpinPalettes)->getAdapter());
+        case R.id.dispSpinPalettes: {
+            auto spin(idView<zViewSelect>(R.id.dispSpinPalettes));
+            auto adapt(spin->getAdapter());
             adapt->clear(false);
-            adapt->addAll(theme->findArray(a1 ? R.string.palette_asm : R.string.palette_speccy));
-        }
-        case R.id.dispSpinPalettes:
+            adapt->addAll(theme->findArray(idView<zViewCheck>(R.id.dispChkAsm)->isChecked() ? R.string.palette_asm : R.string.palette_speccy));
+//            spin->setItemSelected(0);
             applyPalette();
             break;
-            // casette
+        }
+        // casette
         case R.id.casetList:
             ((zViewRibbon*)v)->setAdapter(new zAdapterTape());
             break;
@@ -292,8 +306,8 @@ void zFormSettings::onInit(zView* v, int a1) {
             idView<zViewText>(R.id.diskTextFile)->setText(z_trimName(tmp, true));
             // установить секторы
             makeDiskCatalog(a1);
-        }
             break;
+        }
         case R.id.diskList:
             ((zViewRibbon*)v)->setAdapter(new zAdapterDiskList());
             break;
@@ -306,74 +320,13 @@ void zFormSettings::onInit(zView* v, int a1) {
     }
 }
 
-void zFormSettings::onSave(zView* v, int a1, bool def) {
-    auto id(v->id);
-    switch(id) {
-        case R.id.mainBorder: break;
-        case R.id.mainJoystick: break;
-        case R.id.mainKeyboard: break;
-        case R.id.mainSystem: break;
-        case R.id.mainDarkTheme: break;
-        case R.id.mainGsReset: break;
-        case R.id.mainTapeReset: break;
-        case R.id.mainAutoTape: break;
-        case R.id.mainSwapMouse: break;
-        case R.id.mainGigaScreen: break;
-        case R.id.mainTrapTRDOS: break;
-        case R.id.mainShowFPS: break;
-            // sound
-        case R.id.soundSpinChip: break;
-        case R.id.soundSpinChannels: break;
-        case R.id.soundSpinFreq: break;
-        case R.id.soundChkBeeper: break;
-        case R.id.soundSlrBeeper: break;
-        case R.id.soundChkAY: break;
-        case R.id.soundSlrAY: break;
-        case R.id.soundChkCovox: break;
-        case R.id.soundSlrCovox: break;
-        case R.id.soundChkGS: break;
-        case R.id.soundSlrGS: break;
-            // joy
-        case R.id.joySpinLyt: break;
-        case R.id.joySpinPresets: break;
-        case R.id.joySpinUp: break;
-        case R.id.joySpinRight: break;
-        case R.id.joySpinDown: break;
-        case R.id.joySpinLeft: break;
-        case R.id.joySpinX: break;
-        case R.id.joySpinY: break;
-        case R.id.joySpinA: break;
-        case R.id.joySpinB: break;
-            // display
-        case R.id.dispSpinPalettes: break;
-        case R.id.dispChkAsm: break;
-            // casette
-        case R.id.casetList: break;
-            // disk
-        case R.id.diskSpinDisk:
-            break;
-        case R.id.diskChkReadOnly: break;
-        case R.id.diskList: break;
-            // help
-        case R.id.helpText: break;
-    }
-}
-
 void zFormSettings::applyPalette() {
-    static int idsTxt[] = { R.id.dispTextBl, R.id.dispTextB, R.id.dispTextR, R.id.dispTextM, R.id.dispTextG, R.id.dispTextC, R.id.dispTextY,
-                            R.id.dispTextW, R.id.dispTextBrBl, R.id.dispTextBrB, R.id.dispTextBrR, R.id.dispTextBrM, R.id.dispTextBrG,
-                            R.id.dispTextBrC, R.id.dispTextBrY, R.id.dispTextBrW, R.id.dispTextBkg, R.id.dispTextSels,
-                            R.id.dispTextText, R.id.dispTextNumber, R.id.dispTextStrs, R.id.dispTextSplits, R.id.dispTextComment,
-                            R.id.dispTextOps, R.id.dispTextCmds, R.id.dispTextReg, R.id.dispTextFlags, R.id.dispTextLabels,
-                            R.id.dispTextBkgLines, R.id.dispTextNumLines, R.id.dispTextCurLine, R.id.dispTextNulls };
-    bool chkAsm(idView(R.id.dispChkAsm)->isChecked());
+    bool chkAsm(idView(R.id.dispChkAsm)->isChecked() * 16);
     int num(idView<zViewSelect>(R.id.dispSpinPalettes)->getItemSelected());
-    if(num) {
-        num--; num *= 16;
-        auto pal(chkAsm ? &palettes_asm[num] : &palettes_speccy[num]);
-        for(int i = 0 ; i < 16; i++) {
-            idView(idsTxt[i + chkAsm * 16])->drw[DRW_BK]->color = pal[i];
-        }
+    num *= 16; auto pal(chkAsm ? &palettes_asm[num] : &palettes_speccy[num]);
+    memcpy(&speccy->colors[chkAsm], pal, 64);
+    for(int i = 0 ; i < 16; i++) {
+        idView(ids[(35 + i + chkAsm) * 2])->drw[DRW_BK]->color = pal[i];
     }
 }
 
@@ -431,9 +384,10 @@ void zFormSettings::applyJoyPresets(int num) {
     }
 }
 
-void zFormSettings::applyColorSlider(int num) {
-    zColor color(speccy->colors[(num - 109) / 4]);
-    idView<zViewSlider>(R.id.dispSlrR)->setProgress(z_round(color.b * 255.0f));
+void zFormSettings::applyColorSlider() {
+    //zColor color(speccy->colors[(num - 109) / 4]);
+    auto& color(selColor->drw[DRW_BK]->color);
+    idView<zViewSlider>(R.id.dispSlrR)->setProgress(z_round(color.r * 255.0f));
     idView<zViewSlider>(R.id.dispSlrG)->setProgress(z_round(color.g * 255.0f));
-    idView<zViewSlider>(R.id.dispSlrB)->setProgress(z_round(color.r * 255.0f));
+    idView<zViewSlider>(R.id.dispSlrB)->setProgress(z_round(color.b * 255.0f));
 }

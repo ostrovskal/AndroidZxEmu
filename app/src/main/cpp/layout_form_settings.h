@@ -242,11 +242,9 @@
 	auto settings164((zLinearLayout*)settings43->attach(new zLinearLayout(styles_zlinearlayout3, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
 	settings164->attach(new zViewSelect(styles_diskspindisk, R.id.diskSpinDisk), 
-			0, 1, VIEW_MATCH, VIEW_WRAP);
+			0, 25, VIEW_MATCH, VIEW_WRAP);
 	settings164->attach(new zViewText(styles_default, R.id.diskTextFile, R.string.file_txt), 
-			0, 3, VIEW_MATCH, VIEW_WRAP);
-	settings164->attach(new zViewCheck(styles_browschk, R.id.diskChkReadOnly, R.string.Read_only), 
-			0, 2, VIEW_MATCH, VIEW_WRAP);
+			0, 75, VIEW_MATCH, VIEW_WRAP);
 	auto settings174((zLinearLayout*)settings43->attach(new zLinearLayout(styles_default, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
 	settings174->attach(new zViewText(styles_zviewtext1, 0, R.string.Name), 

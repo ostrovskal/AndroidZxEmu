@@ -12,13 +12,12 @@ public:
     virtual i32 updateVisible(bool set) override;
 protected:
     void onInit(zView* v, int a1);
-    void onSave(zView* v, int a1, bool def);
     void onCommand(zView* v, int a1);
     void makeDiskCatalog(int num);
     void applyPalette();
     void applyJoyStd(int num);
     void applyJoyPresets(int num);
-    void applyColorSlider(int num);
+    void applyColorSlider();
     // текущий цвет
     zView* selColor{nullptr};
     int argColor{0};

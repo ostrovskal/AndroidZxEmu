@@ -7,6 +7,7 @@
 
 zFormAssembler::zFormAssembler(zStyle *_sts, i32 _id, zStyle *_sts_capt, zStyle *_sts_foot, u32 _capt, bool _m) :
         zViewForm(_sts, _id, _sts_capt, _sts_foot, _capt, _m) {
+    memset(cmdBuf, 0, sizeof(cmdBuf));
 }
 
 void zFormAssembler::onInit(bool _theme) {
@@ -86,7 +87,7 @@ static int is_eof(char** text) {
     return (*txt == '\r' || *txt == '\n' || *txt == 0 || *txt == ';');
 }
 
-static bool is_word(char* place) {
+static bool is_word(const char* place) {
     auto ch(*place);
     if(stop_sym[ch >> 3] & (1 << (ch & 7))) return false;
     return ch >= 'A';
@@ -155,7 +156,7 @@ int zFormAssembler::exprConvert(char** place) {
                 else if(o == ')') { bracket--; if(ops) return ERROR_INVALID_EXPRESSION; }
                 // проверить на парную скобку
                 if(bracket < 0) break;
-                txt++; ASM(o);
+                txt++; ASM(o)
             } else {
                 if(ops) {
                     // может унарная операция?
@@ -166,7 +167,7 @@ int zFormAssembler::exprConvert(char** place) {
                     txt++; ops = true; continue;
                 }
                 if(o >= 'a') txt++;
-                txt++; ops = true; oo = 0; ASM(o);
+                txt++; ops = true; oo = 0; ASM(o)
             }
         } else {
             int n(0);
@@ -190,23 +191,22 @@ int zFormAssembler::exprConvert(char** place) {
                     }
                     if(i < 0 && labels) {
                         // label
-                        auto lb(add_label(lexPos, len, false));
-                        if(!lb && pass >= 2) return ERROR_LABEL_NOT_FOUND;
-                        n = lb ? lb->value : 0;
+                        auto _lb(add_label(lexPos, len, false));
+                        if(!_lb && pass >= 2) return ERROR_LABEL_NOT_FOUND;
+                        n = _lb ? _lb->value : 0;
                     }
                 }
             } else {
                 auto tend(lexPos);
                 n = *(int*)z_ston(lexPos, RADIX_DEC, &tend);
-                if((tend - lexPos) != len) return 0;// ERROR_WRONG_NUMBER;
+                if((int)(tend - lexPos) != len) return 0;// ERROR_WRONG_NUMBER;
             }
             if(n < 0 || n > 65535) return ERROR_NUMBER_OUT_OF_RANGE;
-            if(oo) n *= oo; ASM('N'); ASM(n & 255); ASM(n >> 8); ops = false;
+            if(oo) n *= oo; ASM('N') ASM(n & 255) ASM(n >> 8) ops = false;
         }
     }
     if(ops) return ERROR_INVALID_EXPRESSION;
-    ASM(0);
-    *place = txt;
+    ASM(0) *place = txt;
     return ERROR_OK;
 }
 
@@ -220,11 +220,9 @@ int zFormAssembler::parseSubExpress(char* place) {
     return ERROR_OK;
 }
 
-int zFormAssembler::quickParser(const char* text) {
+int zFormAssembler::quickParser(cstr _text) {
     pass = 3; labels = nullptr;
-    if(parseExpress((char**)&text, false) >= 0)
-        return number;
-    return ERROR_NUMBER_OUT_OF_RANGE;
+    return (parseExpress((char**)&_text, false) >= 0 ? number : ERROR_NUMBER_OUT_OF_RANGE);
 }
 
 int zFormAssembler::parseExpress(char** place, bool _disp) {
@@ -240,7 +238,7 @@ int zFormAssembler::parseExpress(char** place, bool _disp) {
             // выход, если скобка без пары
             if(!bpos) break;
             // парсить внутреннее выражение в скобках
-            auto ret(parseSubExpress(bpos + 1));
+            ret = parseSubExpress(bpos + 1);
             if(ret < 0) return ret;
             // заменить его на результат
             *bpos = 'N'; *(uint16_t*)(bpos + 1) = *(uint16_t*)(bpos + 2);
@@ -259,12 +257,12 @@ int zFormAssembler::parseExpress(char** place, bool _disp) {
     return C_NN;
 }
 
-int zFormAssembler::skipComma(char** text) {
-    lexPos = *text;
+int zFormAssembler::skipComma(char** _text) {
+    lexPos = *_text;
     if(lexPos[0] != ',') return 1;
     lexPos++;
     skip_spc(&lexPos);
-    *text = lexPos;
+    *_text = lexPos;
     return 0;
 }
 
@@ -316,9 +314,8 @@ bool zFormAssembler::parseString(char** place, int& ret) {
     return true;
 }
 
-int zFormAssembler::nextLexem(char** text) {
-    skip_spc(text);
-    char ch; auto txt(*text); lexPos = txt;
+int zFormAssembler::nextLexem(char** _text) {
+    skip_spc(_text); char ch; auto txt(*_text); lexPos = txt;
     auto current(lexPos - 1);
     while ((ch = *++current)) {
         if(ch == '#' || ch == '%') {
@@ -330,14 +327,13 @@ int zFormAssembler::nextLexem(char** text) {
     }
     auto len((int)(current - lexPos));
     skip_spc(&current);
-    *text = current;
+    *_text = current;
     return len;
 }
 
-int zFormAssembler::parseOperand(char** text) {
+int zFormAssembler::parseOperand(char** _text) {
     // number/(number)/(HL/DE/BC)/(IX+-number/IY+-number)/REG/FLAG/LABEL/CONSTANT/VARIABLE
-    skip_spc(text);
-    auto txt(*text);
+    skip_spc(_text); auto txt(*_text);
     auto isBrakket(txt[0] == '(');
     if(isBrakket) { txt++; skip_spc(&txt); }
     lexPos = txt; is_lb = 0;
@@ -382,7 +378,7 @@ int zFormAssembler::parseOperand(char** text) {
             }
         }
     }
-    *text = txt;
+    *_text = txt;
     return ret;
 }
 
@@ -416,9 +412,8 @@ int zFormAssembler::parserOperator(int len) {
             break;
         case C_ORG:
             ret = parseOperand(&text);
-            if(ret != C_NN) ret = ERROR_INVALID_OPERAND;
-            else if(is_lb && number == 0) ret = ERROR_INVALID_OPERAND;
-            else ret = CMD_ORG, * (uint16_t*)buf = (uint16_t)number;
+            if(ret != C_NN || (is_lb && number == 0)) ret = ERROR_INVALID_OPERAND;
+            else ret = CMD_ORG, * (u16*)buf = (u16)number;
             break;
         case C_END:
             ret = CMD_END;
@@ -461,7 +456,7 @@ int zFormAssembler::parserOperator(int len) {
     return ret;
 }
 
-int zFormAssembler::parser(int _pass, int address, const char *txt, zArray<Z_LABEL>* _labels) {
+int zFormAssembler::parser(int _pass, int address, const char *txt, zArray<Z_LABEL*>* _labels) {
     // 1. ищем инструкцию
     int ret(ERROR_INVALID_COMMAND);
     labels = _labels; pass = _pass; lb = nullptr;
@@ -511,12 +506,12 @@ int zFormAssembler::parserMnemonic() {
             if(dst != C_NULL) return ERROR_INVALID_COMMAND;
             break;
         case PAR_COUNT_ONE:
-            dstNum = number;
+            dstNum = (i16)number;
             break;
         case PAR_COUNT_TWO:
         case PAR_COUNT_TWO_OR_THREE:
             if(skipComma(&text)) return ERROR_COMMA_NOT_FOUND;
-            dstNum = number; cmd_op2 = text;
+            dstNum = (i16)number; cmd_op2 = text;
             src = parseOperand(&text);
             if(src < 0) return src;
             if(stk->pcount == PAR_COUNT_TWO_OR_THREE) {
@@ -608,7 +603,7 @@ int zFormAssembler::parserMnemonic() {
             }
             break;
         case C_RLC: case C_RRC: case C_RL: case C_RR: case C_SLA: case C_SRA: case C_SLI: case C_SRL:
-            dstNum = (uint16_t)(icmd - C_RLC);
+            dstNum = (i16)(icmd - C_RLC);
             if(dst == C_NULL) { dst = src; src = C_NULL; }
             // CMD BIT,(PHL/PIX/PIY/SRC8)[,SRC8]
         case C_BIT: case C_RES: case C_SET:
@@ -670,8 +665,8 @@ int zFormAssembler::parserMnemonic() {
             lexPos = cmd_op1;
             if(checkReg16(dst, false)) {
                 *buf++ = (uint8_t)(cod | (dstOps << 4)); break;
-            } else return ERROR_INVALID_OPERAND;
-            break;
+            }
+            return ERROR_INVALID_OPERAND;
         case C_OUT:
             lexPos = cmd_op2; tret = ERROR_INVALID_OPERAND;
             if(!srcPref && (checkReg8(src) || src == C_NN)) {
@@ -895,12 +890,10 @@ bool zFormAssembler::checkReg8(int reg) {
 Z_LABEL* zFormAssembler::add_label(char* place, int len, bool ret_always) {
     zString name(place, len);
     // ищем такую же
-    for(int i = 0; i < labels->size(); i++) {
-        auto lb(&labels->at(i));
-        if(lb->name == name)
-            return ((lb->type != L_UNDEF || ret_always) ? lb : nullptr);
+    for(auto& l : *labels) {
+        if(l->name == name)
+            return ((l->type != L_UNDEF || ret_always) ? l : nullptr);
     }
-    Z_LABEL lb;
-    lb.name  = name; lb.type  = L_UNDEF; lb.value = 0; *labels  += lb;
-    return (ret_always ? &labels->at(labels->size() - 1) : nullptr);
+    *labels  += new Z_LABEL(name, L_UNDEF, 0);
+    return (ret_always ? labels->at(labels->size() - 1) : nullptr);
 }

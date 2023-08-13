@@ -82,8 +82,8 @@ protected:
     TIMING timings[970]{}, *timing{nullptr};
     // таблица атрибутов
     u8 colTab[512]{};
-    // указатель на цвета
-    u32* colors{nullptr};
+    // цвета
+    u32 colors[16]{};
     // признак начального экрана
     bool fscr{true};
     // размер буфера экрана
@@ -509,7 +509,7 @@ public:
     // установка/чтение режима защиты записи
     static int      is_readonly(int num, int write = -1);
     // прочитать содержимое сектора
-    static int             read_sector(int num, int sec);
+    static int      read_sector(int num, int sec);
     // перехватчик
     void            trap(u16 pc);
 protected:

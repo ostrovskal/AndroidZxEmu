@@ -2,7 +2,7 @@
 // Автоматически генерируемый файл ресурсов.
 // Не редактируйте его.
 // Автор: Шаталов С.В.
-// Sat Aug 12 22:29:50 2023
+// Sun Aug 13 16:33:21 2023
 
 #pragma once
 
@@ -132,11 +132,11 @@ struct _R {
 			dispTextNumLines	= 0x000010D7, 	dispTextCurLine	= 0x000010D8, 
 			dispTextNulls	= 0x000010D9, 	dispSlrR	= 0x000010DA, 	dispSlrG	= 0x000010DB, 
 			dispSlrB	= 0x000010DC, 	casetList	= 0x000010DD, 	diskSpinDisk	= 0x000010DE, 
-			diskTextFile	= 0x000010DF, 	diskChkReadOnly	= 0x000010E0, 
-			diskList	= 0x000010E1, 	helpText	= 0x000010E2, 	formTzx	= 0x000010E3, 
-			tzxMsg	= 0x000010E4, 	tzxSel	= 0x000010E5, 	formWait	= 0x000010E6, 
-			waitPrg	= 0x000010E7, 	llMain	= 0x000010E8, 	speccy	= 0x000010E9, 
-			speccyFps	= 0x000010EA, 	speccyStatus	= 0x000010EB, 		};
+			diskTextFile	= 0x000010DF, 	diskList	= 0x000010E0, 	helpText	= 0x000010E1, 
+			formTzx	= 0x000010E2, 	tzxMsg	= 0x000010E3, 	tzxSel	= 0x000010E4, 
+			formWait	= 0x000010E5, 	waitPrg	= 0x000010E6, 	llMain	= 0x000010E7, 
+			speccy	= 0x000010E8, 	speccyFps	= 0x000010E9, 	speccyStatus	= 0x000010EA, 
+		};
 	}; 
 	_id id;
 	struct _string {
@@ -200,10 +200,10 @@ struct _R {
 			splitters	= 0x000000AF, 	comment	= 0x000000B0, 	operators	= 0x000000B1, 
 			commands	= 0x000000B2, 	registers	= 0x000000B3, 	flags	= 0x000000B4, 
 			labels	= 0x000000B5, 	bkgrnd_lines	= 0x000000B6, 	number_lines	= 0x000000B7, 
-			current_lines	= 0x000000B8, 	file_txt	= 0x000000B9, 	Read_only	= 0x000000BA, 
-			Name	= 0x000000BB, 	Type	= 0x000000BC, 	Address	= 0x000000BD, 
-			Size	= 0x000000BE, 	_Sectors	= 0x000000BF, 	Sector	= 0x000000C0, 
-			Track	= 0x000000C1, 		};
+			current_lines	= 0x000000B8, 	file_txt	= 0x000000B9, 	Name	= 0x000000BA, 
+			Type	= 0x000000BB, 	Address	= 0x000000BC, 	Size	= 0x000000BD, 
+			_Sectors	= 0x000000BE, 	Sector	= 0x000000BF, 	Track	= 0x000000C0, 
+		};
 	}; 
 	_string string;
 	struct _style {
@@ -325,7 +325,6 @@ static zResource resources[] = {
 		{ _R::_string::Address, "Address" },
 		{ _R::_string::Type, "Type" },
 		{ _R::_string::Name, "Name" },
-		{ _R::_string::Read_only, "Read only" },
 		{ _R::_string::file_txt, "file.txt" },
 		{ _R::_string::current_lines, "current lines" },
 		{ _R::_string::number_lines, "number lines" },
@@ -485,8 +484,8 @@ static zResource resources[] = {
 		{ _R::_string::menuProperties, "Properties..." },
 		{ _R::_string::menuSettings, "Settings..." },
 		{ _R::_string::menuOpenSave, "Browse..." },
-		{ _R::_string::palette_speccy, "Custom|sshEmu|Z80Stealth|White/Black|Strange|ElectroScale|JPP|RealSpec" },
-		{ _R::_string::palette_asm, "Custom|Darkest|Lighting" },
+		{ _R::_string::palette_speccy, "sshEmu|Z80Stealth|White/Black|Strange|ElectroScale|JPP|RealSpec" },
+		{ _R::_string::palette_asm, "Darkest|Lighting" },
 		{ _R::_string::key_names, "1|2|3|4|5|6|7|8|9|0|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|ENTER\biconZxOk|CAPS\biconZxShiftPress|Z|X|C|V|B|N|M|SYMBOL\biconZxSymPress|SPACE|EXT|DEL\biconZxDelete|UP\biconZxArrowUp|DOWN\biconZxArrowDown|LEFT\biconZxArrowLeft|RIGHT\biconZxArrowRight|KLEFT\biconZxKArrowLeft|KUP\biconZxKArrowUp|KRIGHT\biconZxKArrowRight|KDOWN\biconZxKArrowDown|KFIRE\biconZxKFire|N/A" },
 		{ _R::_string::key_names2, "1|2|3|4|5|6|7|8|9|0|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|ENTER|CAPS|Z|X|C|V|B|N|M|SYMBOL|SPACE|EXT|DEL|UP|DOWN|LEFT|RIGHT|KLEFT|KUP|KRIGHT|KDOWN|KFIRE|N/A" },
 		{ _R::_string::joy_names, "KEMPSTON|SINCLAIR I|SINCLAIR II|CURSOR|CUSTOM" },
@@ -557,7 +556,7 @@ static zResource resources_ru[] = {
 		{ _R::_string::settings_joystick, "ДЖОЙСТИК" },
 		{ _R::_string::settings_tape_reset, "Сброс ленты" },
 		{ _R::_string::settings_gs_reset, "Сброс GS" },
-		{ _R::_string::settings_dark_theme, "Тёмная тема" },
+		{ _R::_string::settings_dark_theme, "Темная тема" },
 		{ _R::_string::settings_border, "ГРАНИЦА" },
 		{ _R::_string::settings_system, "СИСТЕМА" },
 		{ _R::_string::form_settings, "Настройки" },

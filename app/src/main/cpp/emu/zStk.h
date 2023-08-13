@@ -216,6 +216,7 @@ enum LABEL_TYPE {
 };
 
 struct Z_LABEL {
+	Z_LABEL(const zString& nm, int tp, int vl) : type(tp), value(vl), name(nm) { }
 	zString name;
 	int type, value;
 };

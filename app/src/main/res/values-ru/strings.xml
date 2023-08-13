@@ -4,7 +4,7 @@
     <string name="form_settings">Настройки</string>
     <string name="settings_system">СИСТЕМА</string>
     <string name="settings_border">ГРАНИЦА</string>
-    <string name="settings_dark_theme">Тёмная тема</string>
+    <string name="settings_dark_theme">Темная тема</string>
     <string name="settings_gs_reset">Сброс GS</string>
     <string name="settings_tape_reset">Сброс ленты</string>
     <string name="settings_joystick">ДЖОЙСТИК</string>
