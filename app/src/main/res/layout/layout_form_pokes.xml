@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:z="http://schemas.android.com/apk/res-auto"
     android:id="@+id/formPokes"
     android:layout_width="280dp" android:layout_height="300dp"
-    z:styles="@style/form" android:text="Pokes" z:styleCaption="@style/formCaption"
+    z:styles="@style/form" android:text="@string/formPokes" z:styleCaption="@style/formCaption"
     z:gravity="center" z:formMode="ok" z:modal="true" z:typeView="zFormPokes" z:nameView="pokes">
     <LinearLayout
-        android:layout_width="match_parent" android:layout_height="match_parent"
-        z:pad="3dp" android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Programm"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        z:pad="3dp" android:orientation="vertical"
+        tools:ignore="UselessParent">
         <Spinner
             android:id="@+id/pokesSpin"
             android:layout_width="match_parent"
@@ -22,6 +21,6 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            z:styles="@style/setRibbon"/>
+            z:styles="@style/pokRibbon"/>
     </LinearLayout>
 </RelativeLayout>

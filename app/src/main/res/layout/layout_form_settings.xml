@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:z="http://schemas.android.com/apk/res-auto"
     android:id="@+id/formSettings"
     android:layout_width="280dp" android:layout_height="300dp"
@@ -9,7 +10,9 @@
     <TabHost
         z:styles="@style/tabHost"
         z:styleCaption="@style/tabWidget"
-        z:tabGravity="top">
+        z:tabGravity="top"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" >
         <TabWidget
             z:iconka="@integer/iconZxComp"
             android:layout_width="wrap_content"
@@ -17,13 +20,15 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                tools:ignore="DisableBaselineAlignment">
                 <LinearLayout
                     android:orientation="vertical"
                     z:gravity="center_vertical"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    tools:ignore="InefficientWeight">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -41,7 +46,7 @@
                         android:id="@+id/mainBorder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        z:styles="@style/zxSlider" z:range="0,6" z:progress="3" />
+                        z:styles="@style/zxSlider" z:range="0,4" z:progress="3" />
                     <CheckBox
                         android:id="@+id/mainDarkTheme"
                         android:layout_width="match_parent"
@@ -80,7 +85,7 @@
                         android:id="@+id/mainJoystick"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        z:styles="@style/zxSlider" z:range="0,5" z:progress="3" />
+                        z:styles="@style/zxSlider" z:range="0,6" z:progress="4" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -89,7 +94,7 @@
                         android:id="@+id/mainKeyboard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        z:styles="@style/zxSlider" z:range="0,5" z:progress="3" />
+                        z:styles="@style/zxSlider" z:range="0,5" z:progress="1" />
                     <CheckBox
                         android:id="@+id/mainSwapMouse"
                         android:layout_width="match_parent"
@@ -132,15 +137,15 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Chip"/>
+                        android:text="@string/settings_chip"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Channels"/>
+                        android:text="@string/settings_channels"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Frequency"/>
+                        android:text="@string/settings_frequency"/>
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -180,7 +185,7 @@
                             android:id="@+id/soundChkBeeper"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            z:styles="@style/zxCheck" android:text="Beeper" />
+                            z:styles="@style/zxCheck" android:text="@string/settings_beeper" />
                         <SeekBar
                             android:id="@+id/soundSlrBeeper"
                             android:layout_width="match_parent"
@@ -191,7 +196,7 @@
                             android:id="@+id/soundChkCovox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            z:styles="@style/zxCheck" android:text="Covox" />
+                            z:styles="@style/zxCheck" android:text="@string/settings_covox" />
                         <SeekBar
                             android:id="@+id/soundSlrCovox"
                             android:layout_width="match_parent"
@@ -207,7 +212,7 @@
                             android:id="@+id/soundChkAY"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            z:styles="@style/zxCheck" android:text="AY"/>
+                            z:styles="@style/zxCheck" android:text="@string/settings_ay"/>
                         <SeekBar
                             android:id="@+id/soundSlrAY"
                             android:layout_width="match_parent"
@@ -218,7 +223,7 @@
                             android:id="@+id/soundChkGS"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            z:styles="@style/zxCheck" android:text="General sound" />
+                            z:styles="@style/zxCheck" android:text="@string/settings_gs" />
                         <SeekBar
                             android:id="@+id/soundSlrGS"
                             android:layout_width="match_parent"
@@ -244,11 +249,11 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Layout"/>
+                        android:text="@string/settings_layout"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Presets"/>
+                        android:text="@string/settings_presets"/>
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -273,19 +278,19 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Left"/>
+                        android:text="@string/settings_left"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Up"/>
+                        android:text="@string/settings_up"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Right"/>
+                        android:text="@string/settings_right"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Down"/>
+                        android:text="@string/settings_down"/>
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -323,19 +328,19 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Y"/>
+                        android:text="@string/settings_y"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="X"/>
+                        android:text="@string/settings_x"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="A"/>
+                        android:text="@string/settings_a"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="B"/>
+                        android:text="@string/settings_b"/>
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -384,7 +389,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Palettes:"/>
+                        android:text="@string/settings_palettes"/>
                     <Spinner
                         android:id="@+id/dispSpinPalettes"
                         android:layout_width="match_parent"
@@ -395,7 +400,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         z:styles="@style/zxCheck"
-                        android:text="Assembler colors" />
+                        android:text="@string/settings_asm_colors" />
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/llSpeccyCols1"
@@ -408,56 +413,57 @@
                         android:layout_height="match_parent"
                         android:background="#000"
                         z:styles="@style/dispColorText"
-                        android:text="black"/>
+                        android:text="@string/settings_black"/>
                     <TextView
                         android:id="@+id/dispTextB"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#0000ff"
                         z:styles="@style/dispColorText"
-                        android:text="blue"/>
+                        android:text="@string/settings_blue"
+                        tools:ignore="TooManyViews" />
                     <TextView
                         android:id="@+id/dispTextR"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ff0000"
                         z:styles="@style/dispColorText"
-                        android:text="red"/>
+                        android:text="@string/settings_red"/>
                     <TextView
                         android:id="@+id/dispTextM"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ff00ff"
                         z:styles="@style/dispColorText"
-                        android:text="purple"/>
+                        android:text="@string/settings_purple"/>
                     <TextView
                         android:id="@+id/dispTextG"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#00ff00"
                         z:styles="@style/dispColorText"
-                        android:text="green"/>
+                        android:text="@string/settings_green"/>
                     <TextView
                         android:id="@+id/dispTextC"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#00ffff"
                         z:styles="@style/dispColorText"
-                        android:text="cyan"/>
+                        android:text="@string/settings_cyan"/>
                     <TextView
                         android:id="@+id/dispTextY"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ffff00"
                         z:styles="@style/dispColorText"
-                        android:text="yellow"/>
+                        android:text="@string/settings_yellow"/>
                     <TextView
                         android:id="@+id/dispTextW"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#fff"
                         z:styles="@style/dispColorText"
-                        android:text="white"/>
+                        android:text="@string/settings_white"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/llSpeccyCols2"
@@ -470,56 +476,56 @@
                         android:layout_height="match_parent"
                         android:background="#000"
                         z:styles="@style/dispColorText"
-                        android:text="bright black"/>
+                        android:text="@string/settings_brblack"/>
                     <TextView
                         android:id="@+id/dispTextBrB"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#0000ff"
                         z:styles="@style/dispColorText"
-                        android:text="bright blue"/>
+                        android:text="@string/settings_brblue"/>
                     <TextView
                         android:id="@+id/dispTextBrR"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ff0000"
                         z:styles="@style/dispColorText"
-                        android:text="bright red"/>
+                        android:text="@string/settings_brred"/>
                     <TextView
                         android:id="@+id/dispTextBrM"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ff00ff"
                         z:styles="@style/dispColorText"
-                        android:text="bright purple"/>
+                        android:text="@string/settings_brpurple"/>
                     <TextView
                         android:id="@+id/dispTextBrG"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#00ff00"
                         z:styles="@style/dispColorText"
-                        android:text="bright green"/>
+                        android:text="@string/settings_brgreen"/>
                     <TextView
                         android:id="@+id/dispTextBrC"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#00ffff"
                         z:styles="@style/dispColorText"
-                        android:text="bright cyan"/>
+                        android:text="@string/settings_brcyan"/>
                     <TextView
                         android:id="@+id/dispTextBrY"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ffff00"
                         z:styles="@style/dispColorText"
-                        android:text="bright yellow"/>
+                        android:text="@string/settings_bryellow"/>
                     <TextView
                         android:id="@+id/dispTextBrW"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#fff"
                         z:styles="@style/dispColorText"
-                        android:text="bright white"/>
+                        android:text="@string/settings_brwhite"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/llAsmCols1"
@@ -533,56 +539,56 @@
                         android:layout_height="match_parent"
                         android:background="#000"
                         z:styles="@style/dispColorText"
-                        android:text="backgrnd"/>
+                        android:text="@string/settings_backgrnd"/>
                     <TextView
                         android:id="@+id/dispTextSels"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ff0000"
                         z:styles="@style/dispColorText"
-                        android:text="selection"/>
+                        android:text="@string/settings_selection"/>
                     <TextView
                         android:id="@+id/dispTextText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#0000ff"
                         z:styles="@style/dispColorText"
-                        android:text="text"/>
+                        android:text="@string/settings_text"/>
                     <TextView
                         android:id="@+id/dispTextNumber"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ff00ff"
                         z:styles="@style/dispColorText"
-                        android:text="number"/>
+                        android:text="@string/settings_number"/>
                     <TextView
                         android:id="@+id/dispTextStrs"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#00ff00"
                         z:styles="@style/dispColorText"
-                        android:text="string"/>
+                        android:text="@string/settings_string"/>
                     <TextView
                         android:id="@+id/dispTextSplits"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#00ffff"
                         z:styles="@style/dispColorText"
-                        android:text="splitters"/>
+                        android:text="@string/settings_splitters"/>
                     <TextView
                         android:id="@+id/dispTextComment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ffff00"
                         z:styles="@style/dispColorText"
-                        android:text="comment"/>
+                        android:text="@string/settings_comment"/>
                     <TextView
                         android:id="@+id/dispTextOps"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#fff"
                         z:styles="@style/dispColorText"
-                        android:text="operators"/>
+                        android:text="@string/settings_operators"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/llAsmCols2"
@@ -596,49 +602,49 @@
                         android:layout_height="match_parent"
                         android:background="#000"
                         z:styles="@style/dispColorText"
-                        android:text="commands"/>
+                        android:text="@string/settings_commands"/>
                     <TextView
                         android:id="@+id/dispTextReg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#0000ff"
                         z:styles="@style/dispColorText"
-                        android:text="registers"/>
+                        android:text="@string/settings_registers"/>
                     <TextView
                         android:id="@+id/dispTextFlags"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ff0000"
                         z:styles="@style/dispColorText"
-                        android:text="flags"/>
+                        android:text="@string/settings_flags"/>
                     <TextView
                         android:id="@+id/dispTextLabels"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ff00ff"
                         z:styles="@style/dispColorText"
-                        android:text="labels"/>
+                        android:text="@string/settings_labels"/>
                     <TextView
                         android:id="@+id/dispTextBkgLines"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#00ff00"
                         z:styles="@style/dispColorText"
-                        android:text="bkgrnd lines"/>
+                        android:text="@string/settings_bkgrnd_lines"/>
                     <TextView
                         android:id="@+id/dispTextNumLines"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#00ffff"
                         z:styles="@style/dispColorText"
-                        android:text="number lines"/>
+                        android:text="@string/settings_number_lines"/>
                     <TextView
                         android:id="@+id/dispTextCurLine"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ffff00"
                         z:styles="@style/dispColorText"
-                        android:text="current lines"/>
+                        android:text="@string/settings_current_lines"/>
                     <TextView
                         android:id="@+id/dispTextNulls"
                         android:layout_width="match_parent"
@@ -700,8 +706,7 @@
                         android:id="@+id/diskTextFile"
                         android:layout_weight="75"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="file.txt"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -711,37 +716,37 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         z:styles="@style/diskHeadText"
-                        android:text="Name" />
+                        android:text="@string/settings_name" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         z:styles="@style/diskHeadText"
-                        android:text="Type" />
+                        android:text="@string/settings_type" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         z:styles="@style/diskHeadText"
-                        android:text="Address" />
+                        android:text="@string/settings_address" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         z:styles="@style/diskHeadText"
-                        android:text="Size" />
+                        android:text="@string/settings_size" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         z:styles="@style/diskHeadText"
-                        android:text="#Sectors" />
+                        android:text="@string/settings_nsectors" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         z:styles="@style/diskHeadText"
-                        android:text="Sector" />
+                        android:text="@string/settings_fsector" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         z:styles="@style/diskHeadText"
-                        android:text="Track" />
+                        android:text="@string/settings_track" />
                 </LinearLayout>
                 <ListView
                     android:id="@+id/diskList"

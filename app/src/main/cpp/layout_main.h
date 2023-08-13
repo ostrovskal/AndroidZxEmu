@@ -6,4 +6,4 @@
 	frame01->attach(new zViewText(styles_speccyfps, R.id.speccyFps, 0), 
 			ZS_GRAVITY_END | ZS_GRAVITY_BOTTOM, 0, VIEW_MATCH, VIEW_WRAP);
 	frame01->attach(new zViewImage(styles_speccystatus, R.id.speccyStatus, R.integer.iconZxDisk), 
-			ZS_GRAVITY_END | ZS_GRAVITY_TOP, 0, VIEW_WRAP, VIEW_WRAP);
+			ZS_GRAVITY_END | ZS_GRAVITY_TOP, 0, 48_dp, 48_dp);

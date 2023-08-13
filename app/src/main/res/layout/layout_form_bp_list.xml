@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:z="http://schemas.android.com/apk/res-auto"
     android:layout_width="280dp" android:layout_height="300dp"
-    z:styles="@style/form" android:text="Управление ловушками"
+    z:styles="@style/form" android:text="@string/formBpList"
     z:styleCaption="@style/formCaption"
     z:gravity="center" z:formMode="none" z:modal="true"
     z:typeView="zFormBpList" z:nameView="bplist" z:styleFooter="@style/formFooter">

@@ -75,8 +75,8 @@ void zDevUla::TIMING::set(int _t, ZONE _zone, u32* _dst, int _so, int _ao) {
 }
 
 zDevUla::zDevUla() {
-    frameBuffer  = new u32[352 * 864];
-    memset(frameBuffer, 0, 352 * 864 * 4);
+    frameBuffer  = new u32[352 * 576];
+    memset(frameBuffer, 0, 352 * 576 * 4);
     memset(timings, 0, sizeof(timings));
     memset(atrTab, 0, sizeof(atrTab));
     memset(scrTab, 0, sizeof(scrTab));
@@ -129,46 +129,42 @@ bool zDevUla::write(u16 port, u8 val, u32 ticks) {
 static u32 defCols[] = { 0, 0 };
 
 static u32 gigaBlend(u32** src, u32 c1) {
-    auto s(*src); auto c0(*s); s++;
+    auto s(*src); auto c0(*s);
     auto b0((int)c0 & 0xFF), g0((int)(c0 >> 8) & 0xff), r0((int)(c0 >> 16) & 0xff);
     auto b1((int)c1 & 0xFF), g1((int)(c1 >> 8) & 0xff), r1((int)(c1 >> 16) & 0xff);
+//    r0 = z_round((float)r0 * 0.5f + (float)r1 * 0.5f);
+//    g0 = z_round((float)g0 * 0.5f + (float)g1 * 0.5f);
+//    b0 = z_round((float)b0 * 0.5f + (float)b1 * 0.5f);
     r0 = (int)(((float)r0 * 0.66f + (float)r1 * 0.66f) * 0.75f);
     g0 = (int)(((float)g0 * 0.66f + (float)g1 * 0.66f) * 0.75f);
     b0 = (int)(((float)b0 * 0.66f + (float)b1 * 0.66f) * 0.75f);
-    *src = s; return (b0 | (g0 << 8) | (r0 << 16));
+    *src = ++s; return (b0 | (g0 << 8) | (r0 << 16) | 0xff000000);
 }
 
 void zDevUla::updateBorder(int offs, int count) {
-    auto dst(timing->dst + offs);
+    auto dst(timing->dst + offs), dst1(dst);
     auto c(colors[colorBorder]);
     if(isGigaApply) {
-        int g1(giga * szScr), g2((1 - giga) * szScr);
-        dst += g1; auto dst1(timing->dst + offs + g2);
+        dst1 += szScr;
         while(count-- > 0) {
             *dst++ = gigaBlend(&dst1, c);
             *dst++ = gigaBlend(&dst1, c);
         }
     } else {
-        while(count-- > 0) *dst++ = c, * dst++ = c;
+        while(count-- > 0) *dst++ = c, *dst++ = c;
     }
 }
 
 void zDevUla::updatePaper(int offs, int count) {
     auto scr(VIDEO + timing->so + offs);
-    auto dst(timing->dst + (offs << 3));
-    if(isGigaApply) {
-        int g1(giga * szScr), g2((1 - giga) * szScr);
-        dst += g1; auto dst1(timing->dst + (offs << 3) + g2);
-        while(count-- > 0) {
-            auto idx(colorTab[*(scr + timing->ao)]);
-            auto pix(*scr++); auto col1(colors[idx & 15]), col2(colors[idx >> 4]);
-            for(int b = 7 ; b >= 0; b--) *dst++ = gigaBlend(&dst1, ((pix >> b) & 1) ? col1 : col2);
-        }
-    } else {
-        while(count-- > 0) {
-            auto idx(colorTab[*(scr + timing->ao)]);
-            auto pix(*scr++); defCols[1] = colors[idx & 15]; defCols[0] = colors[idx >> 4];
-            for(int b = 7 ; b >= 0; b--) *dst++ = defCols[(pix >> b) & 1];
+    auto dst(timing->dst + (offs << 3)), dst1(dst);
+    if(isGigaApply) dst1 += szScr;
+    while(count-- > 0) {
+        auto idx(colorTab[*(scr + timing->ao)]);
+        auto pix(*scr++); defCols[1] = colors[idx & 15]; defCols[0] = colors[idx >> 4];
+        for(int b = 7 ; b >= 0; b--) {
+            auto c(defCols[(pix >> b) & 1]);
+            *dst++ = isGigaApply ? gigaBlend(&dst1, c) : c;
         }
     }
 }
@@ -211,14 +207,14 @@ void zDevUla::update(int param) {
     if(param == ZX_UPDATE_FRAME) {
         if(speccy->dev<zCpuMain>()->frame < 32) {
             giga = 1 - giga; tm = 0; timing = timings;
-            isGigaApply = (speccy->gigaScreen && giga);
+            isGigaApply = (speccy->gigaScreen);// && giga);
             colorTab = &colTab[(blink++ & 16) << 4];
         }
         if(fscr) {
             fscr = false;
             firstScreen();
         }
-        memcpy(frameBuffer + 202752, frameBuffer, 405504);
+        memcpy(frameBuffer + 101376, frameBuffer, 405504);
     } else {
         if(param == ZX_UPDATE_RESET) {
             speccy->_fe = 0b11100111;

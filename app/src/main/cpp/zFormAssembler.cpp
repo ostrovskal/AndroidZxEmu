@@ -198,7 +198,7 @@ int zFormAssembler::exprConvert(char** place) {
                 }
             } else {
                 auto tend(lexPos);
-                n = *(int*)z_ston(lexPos, RADIX_DEC, &tend);
+                n = z_ston(lexPos, RADIX_DEC, &tend);
                 if((int)(tend - lexPos) != len) return 0;// ERROR_WRONG_NUMBER;
             }
             if(n < 0 || n > 65535) return ERROR_NUMBER_OUT_OF_RANGE;

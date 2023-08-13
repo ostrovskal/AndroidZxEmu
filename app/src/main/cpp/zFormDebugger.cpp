@@ -240,7 +240,6 @@ void zFormDebugger::onCommand(int id, bool dbl) {
             action = SD_TOOLS_LST;
             break;
         case R.id.editAsm:
-            DLOG("assem1");
             auto data(_asm->getText());
             auto assem(theApp->getForm<zFormAssembler>(FORM_ASM));
             if(speccy->debugMode == MODE_PC) {
@@ -253,6 +252,7 @@ void zFormDebugger::onCommand(int id, bool dbl) {
                 else {
                     // если ошибка
                     zViewManager::showToast("Error Assembler");
+                    _asm->setSelected(speccy->jni & 0xffff, speccy->jni >> 16);
                 }
             } else if(speccy->debugMode == MODE_DT) {
                 auto n(assem->quickParser(data));

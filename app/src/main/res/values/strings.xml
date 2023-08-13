@@ -24,4 +24,67 @@
     <string name="key_names" translatable="false">1|2|3|4|5|6|7|8|9|0|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|ENTER\biconZxOk|CAPS\biconZxShiftPress|Z|X|C|V|B|N|M|SYMBOL\biconZxSymPress|SPACE|EXT|DEL\biconZxDelete|UP\biconZxArrowUp|DOWN\biconZxArrowDown|LEFT\biconZxArrowLeft|RIGHT\biconZxArrowRight|KLEFT\biconZxKArrowLeft|KUP\biconZxKArrowUp|KRIGHT\biconZxKArrowRight|KDOWN\biconZxKArrowDown|KFIRE\biconZxKFire|N/A</string>
     <string name="palette_asm" translatable="false">Darkest|Lighting</string>
     <string name="palette_speccy" translatable="false">sshEmu|Z80Stealth|White/Black|Strange|ElectroScale|JPP|RealSpec</string>
+    <string name="formBrowser">Browser files</string>
+    <string name="formPokes">Pokes</string>
+    <string name="formSelFile">Choice file</string>
+    <string name="formBpList">Break points</string>
+    <string name="zip" translatable="false">zip</string>
+    <string name="settings_chip">Chip</string>
+    <string name="settings_channels">Channels</string>
+    <string name="settings_frequency">Frequency</string>
+    <string name="settings_beeper">Beeper</string>
+    <string name="settings_covox">Covox</string>
+    <string name="settings_ay" translatable="false">AY</string>
+    <string name="settings_gs" translatable="false">General sound</string>
+    <string name="settings_left">Left</string>
+    <string name="settings_right">Right</string>
+    <string name="settings_down">Down</string>
+    <string name="settings_up">Up</string>
+    <string name="settings_y" translatable="false">Y</string>
+    <string name="settings_x" translatable="false">X</string>
+    <string name="settings_a" translatable="false">A</string>
+    <string name="settings_b" translatable="false">B</string>
+    <string name="settings_palettes">Palettes:</string>
+    <string name="settings_asm_colors">Assembler colors</string>
+    <string name="settings_black">black</string>
+    <string name="settings_blue">blue</string>
+    <string name="settings_red">red</string>
+    <string name="settings_purple">purple</string>
+    <string name="settings_green">green</string>
+    <string name="settings_cyan">cyan</string>
+    <string name="settings_yellow">yellow</string>
+    <string name="settings_white">white</string>
+    <string name="settings_brblack">br. black</string>
+    <string name="settings_brblue">br. blue</string>
+    <string name="settings_brred">br. red</string>
+    <string name="settings_brpurple">br. purple</string>
+    <string name="settings_brgreen">br. green</string>
+    <string name="settings_brcyan">br. cyan</string>
+    <string name="settings_bryellow">br. yellow</string>
+    <string name="settings_brwhite">br. white</string>
+    <string name="settings_backgrnd">backgrnd</string>
+    <string name="settings_selection">selection</string>
+    <string name="settings_text">text</string>
+    <string name="settings_number">number</string>
+    <string name="settings_string">string</string>
+    <string name="settings_splitters">splitters</string>
+    <string name="settings_comment">comment</string>
+    <string name="settings_operators">operators</string>
+    <string name="settings_commands">commands</string>
+    <string name="settings_flags">flags</string>
+    <string name="settings_labels">labels</string>
+    <string name="settings_bkgrnd_lines">bkgrnd lines</string>
+    <string name="settings_number_lines">number lines</string>
+    <string name="settings_current_lines">current lines</string>
+    <string name="settings_name">Name</string>
+    <string name="settings_type">Type</string>
+    <string name="settings_address">Address</string>
+    <string name="settings_size">Size</string>
+    <string name="settings_nsectors">#Sectors</string>
+    <string name="settings_fsector">Sector</string>
+    <string name="settings_track">Track</string>
+    <string name="settings_registers">registers</string>
+    <string name="settings_presets">Presets</string>
+    <string name="settings_layout">Layout</string>
+    <string name="choice_select_file">Select file:</string>
 </resources>

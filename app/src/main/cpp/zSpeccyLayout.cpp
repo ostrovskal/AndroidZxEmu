@@ -71,7 +71,7 @@ void zSpeccyLayout::setCaption() {
 void zSpeccyLayout::updateTexture() {
     if(speccy->fps) fps->setText(z_fmt8("%0.2f", speccy->nfps));
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.w, size.h, 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, speccy->dev<zDevUla>()->frameBuffer + 202752);
+                 GL_RGBA, GL_UNSIGNED_BYTE, speccy->dev<zDevUla>()->frameBuffer + 101376);
 }
 
 void zSpeccyLayout::notifyEvent(HANDLER_MESSAGE* msg) {

@@ -1,5 +1,5 @@
 // Автоматическая генерация кода для макета
-	auto bplist((zFormBpList*)new zFormBpList(styles_zviewform1, 0, styles_z_formcaption, styles_z_formfooter, R.string.Upravlenie_lovushkami, true));
+	auto bplist((zFormBpList*)new zFormBpList(styles_zviewform1, 0, styles_z_formcaption, styles_z_formfooter, R.string.formBpList, true));
 	bplist->onInit(false);
 	auto bplist01((zLinearLayout*)bplist->attach(new zLinearLayout(styles_zlinearlayout1, 0, false), 
 			VIEW_MATCH, VIEW_MATCH)); 

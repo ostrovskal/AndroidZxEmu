@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:z="http://schemas.android.com/apk/res-auto"
     android:id="@+id/llMain" z:nameView="mainLL"
     android:orientation="vertical"
@@ -12,7 +13,8 @@
         z:typeView="zSpeccyLayout" z:nameView="frame"
         z:size="352,288" z:fkColor="#fff" z:fkTiles="0"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="InefficientWeight">
         <TextView
             android:id="@+id/speccyFps"
             android:gravity="end"
@@ -24,37 +26,9 @@
         <ImageView
             android:id="@+id/speccyStatus"
             android:layout_gravity="end|top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             z:iconka="@integer/iconZxDisk" z:behavior="none"
             z:styles="@style/menuImage"/>
-<!--
-        <LinearLayout
-            android:id="@+id/llTape"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:layout_gravity="start|bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-            <Button
-                android:id="@+id/tapeTurbo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                z:iconka="@integer/iconZxAccelOff"
-                z:styles="@style/zxTools" />
-            <Button
-                android:id="@+id/tapePlay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                z:iconka="@integer/iconZxPlay"
-                z:styles="@style/zxTools" />
-            <ProgressBar
-                android:id="@+id/tapeProgress"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                z:range="0,100" z:progress="70" z:orientation="vertical"
-                z:styles="@style/linearProgress"/>
-        </LinearLayout>
--->
     </SurfaceView>
 </LinearLayout>

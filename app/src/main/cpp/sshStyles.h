@@ -85,10 +85,17 @@ static zStyle styles_setribbon[] = {
 	{ Z_BACKGROUND_TILES, z.R.integer.nullDrop },
 	{ Z_SELECTOR_TILES, z.R.integer.nullRect },
 	{ Z_DURATION, 30 },
-	{ Z_DECORATE, ZS_ALWAYS_SEL | ZS_SCROLLBAR },
+	{ Z_DECORATE, ZS_ALWAYS_SEL | ZS_SCROLLBAR | ZS_OVERSCROLL },
 	{ Z_SCROLLBAR_FADE, false },
 	{ Z_SCROLLBAR_TILES, z.R.integer.rect },
 	{ Z_PADDING | ZT_END, 0x05050505 }
+};
+
+static zStyle styles_pokribbon[] = {
+	{ Z_STYLES, R.style.setRibbon },
+	{ Z_SELECTOR, 0xFF000000 },
+	{ Z_DIVIDER_SIZE, 0x03000302 },
+	{ Z_DECORATE | ZT_END, ZS_SCROLLBAR }
 };
 
 static zStyle styles_diskheadtext[] = {
@@ -140,11 +147,6 @@ static zStyle styles_pokbutton[] = {
 	{ Z_STYLES, z.R.style.button },
 	{ Z_FOREGROUND_SCALE, 21626 },
 	{ Z_ICON | ZT_THEME | ZT_END, Z_THEME_ICONS }
-};
-
-static zStyle styles_pokribbon[] = {
-	{ Z_STYLES, R.style.setRibbon },
-	{ Z_DECORATE | ZT_END, ZS_SCROLLBAR | ZS_OVERSCROLL }
 };
 
 static zStyle styles_deblisttext[] = {
@@ -297,6 +299,10 @@ static zStyle styles_ll8[] = {
 static zStyle styles_llgs[] = {
 	{ Z_VISIBLED, false },
 	{ Z_GRAVITY | ZT_END, ZS_GRAVITY_VCENTER }
+};
+
+static zStyle styles_pokeslist[] = {
+	{ Z_STYLES | ZT_END, R.style.pokRibbon }
 };
 
 static zStyle styles_zviewtext2[] = {

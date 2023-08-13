@@ -1,5 +1,5 @@
 // Автоматическая генерация кода для макета
-	auto browser((zFormBrowser*)new zFormBrowser(styles_zviewform1, R.id.formBrowser, styles_z_formcaption, styles_z_formfooter, R.string.Upravlenie_faylami, true));
+	auto browser((zFormBrowser*)new zFormBrowser(styles_zviewform1, R.id.formBrowser, styles_z_formcaption, styles_z_formfooter, R.string.formBrowser, true));
 	browser->onInit(false);
 	auto browser01((zLinearLayout*)browser->attach(new zLinearLayout(styles_default, 0, true), 
 			VIEW_MATCH, VIEW_MATCH)); 

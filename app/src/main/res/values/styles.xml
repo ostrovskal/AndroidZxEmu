@@ -78,10 +78,17 @@
         <item name="bkTiles">@integer/nullDrop</item>
         <item name="selTiles">@integer/nullRect</item>
         <item name="duration">30</item>
-        <item name="decorate">alwaysSel|scrollbar</item>
+        <item name="decorate">alwaysSel|scrollbar|overscroll</item>
         <item name="fadeScrollBars">false</item>
         <item name="tilesScrollBars">@integer/rect</item>
         <item name="pad">5dp</item>
+    </style>
+    <style name="pokRibbon">
+        <item name="styles">@style/setRibbon</item>
+        <item name="selector">#000</item>
+        <item name="divSize">2dp</item>
+        <item name="divPadHorz">3dp</item>
+        <item name="decorate">scrollbar</item>
     </style>
     <style name="diskHeadText">
         <item name="textSize">15sp</item>
@@ -130,10 +137,6 @@
         <item name="styles">@style/button</item>
         <item name="fkScale">0.33</item>
         <item name="icon">?attr/themeIcons</item>
-    </style>
-    <style name="pokRibbon">
-        <item name="styles">@style/setRibbon</item>
-        <item name="decorate">scrollbar|overscroll</item>
     </style>
     <style name="debListText">
         <item name="font">@drawable/font_mono</item>

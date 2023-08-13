@@ -69,7 +69,7 @@ static u32 palettes_speccy[] = {
         0xFF000000, 0xFF0000FF, 0xFFFF0000, 0xFFFF00FF, 0xFF00FF00, 0xFF00FFFF, 0xFFFFFF00, 0xFFFFFFFF,
         // [RealSpec]
         0xFF000000, 0xFF0000C8, 0xFFC80000, 0xFFC800C8, 0xFF00C800, 0xFF00C8C8, 0xFFC8C800, 0xFFC8C8C8,
-        0xFFFF0000, 0xFF0000FF, 0xFFFF0000, 0xFFFF00FF, 0xFF00FF00, 0xFF00FFFF, 0xFFFFFF00, 0xFFFFFFFF };
+        0xFF000000, 0xFF0000FF, 0xFFFF0000, 0xFFFF00FF, 0xFF00FF00, 0xFF00FFFF, 0xFFFFFF00, 0xFFFFFFFF };
 
 static u32 palettes_asm[] = {
         // [DARK]
@@ -95,7 +95,7 @@ static int ids[] = { // main
                      R.id.joySpinLeft, ZSI_KEY_JOY_L, R.id.joySpinUp, ZSI_KEY_JOY_U, R.id.joySpinRight, ZSI_KEY_JOY_R, R.id.joySpinDown, ZSI_KEY_JOY_D,
                      R.id.joySpinY, ZSI_KEY_JOY_Y, R.id.joySpinX, ZSI_KEY_JOY_X, R.id.joySpinA, ZSI_KEY_JOY_A, R.id.joySpinB, ZSI_KEY_JOY_B,
                      // display
-                     R.id.dispSpinPalettes, ZSI_PALETTES, R.id.dispChkAsm, 0,
+                     R.id.dispChkAsm, 0, R.id.dispSpinPalettes, ZSI_PALETTES,
                      // 35
                      R.id.dispTextBl, 109, R.id.dispTextB, 113, R.id.dispTextR, 117, R.id.dispTextM, 121,
                      R.id.dispTextG, 125, R.id.dispTextC, 129, R.id.dispTextY, 133, R.id.dispTextW, 137,
@@ -188,10 +188,12 @@ void zFormSettings::onCommand(zView* v, int a1) {
         case R.id.joySpinPresets: applyJoyPresets(a1); break;
         // display
         case R.id.dispChkAsm:
-            onInit(v, a1);
+            onInit(v, 0);
+            onInit(idView(a1 ? R.id.dispTextBkg : R.id.dispTextBl), 109 + a1 * 64);
+            break;
         case R.id.dispSpinPalettes:
             applyPalette();
-            break;
+            v = selColor; offs = argColor;
         case R.id.dispTextB: case R.id.dispTextR: case R.id.dispTextM: case R.id.dispTextG:
         case R.id.dispTextC: case R.id.dispTextY: case R.id.dispTextW: case R.id.dispTextBrBl:
         case R.id.dispTextBrB: case R.id.dispTextBrR: case R.id.dispTextBrM: case R.id.dispTextBrG:
@@ -261,15 +263,14 @@ void zFormSettings::onInit(zView* v, int a1) {
             speccy->joyMakePresets(id);
             break;
         // display
-        case R.id.dispTextB: case R.id.dispTextR: case R.id.dispTextM: case R.id.dispTextG:
-        case R.id.dispTextC: case R.id.dispTextY: case R.id.dispTextW: case R.id.dispTextBrBl:
-        case R.id.dispTextBrB: case R.id.dispTextBrR: case R.id.dispTextBrM: case R.id.dispTextBrG:
-        case R.id.dispTextBrC: case R.id.dispTextBrY: case R.id.dispTextBrW: case R.id.dispTextBkg:
-        case R.id.dispTextSels: case R.id.dispTextText: case R.id.dispTextNumber: case R.id.dispTextStrs:
-        case R.id.dispTextSplits: case R.id.dispTextComment: case R.id.dispTextOps: case R.id.dispTextCmds:
-        case R.id.dispTextReg: case R.id.dispTextFlags: case R.id.dispTextLabels: case R.id.dispTextBkgLines:
-        case R.id.dispTextNumLines: case R.id.dispTextCurLine: case R.id.dispTextNulls:
-        case R.id.dispTextBl:
+        case R.id.dispTextBl: case R.id.dispTextB: case R.id.dispTextR: case R.id.dispTextM:
+        case R.id.dispTextG: case R.id.dispTextC: case R.id.dispTextY: case R.id.dispTextW:
+        case R.id.dispTextBrBl: case R.id.dispTextBrB: case R.id.dispTextBrR: case R.id.dispTextBrM:
+        case R.id.dispTextBrG: case R.id.dispTextBrC: case R.id.dispTextBrY: case R.id.dispTextBrW:
+        case R.id.dispTextBkg: case R.id.dispTextSels: case R.id.dispTextText: case R.id.dispTextNumber:
+        case R.id.dispTextStrs: case R.id.dispTextSplits: case R.id.dispTextComment: case R.id.dispTextOps:
+        case R.id.dispTextCmds: case R.id.dispTextReg: case R.id.dispTextFlags: case R.id.dispTextLabels:
+        case R.id.dispTextBkgLines: case R.id.dispTextNumLines: case R.id.dispTextCurLine: case R.id.dispTextNulls:
             if(selColor) {
                 selColor->drw[DRW_BK]->tile = z.R.integer.rect;
                 selColor->drw[DRW_BK]->measure(0, 0, PIVOT_ALL, true);
@@ -281,16 +282,15 @@ void zFormSettings::onInit(zView* v, int a1) {
             applyColorSlider();
             break;
         case R.id.dispChkAsm:
+            a1 = v->isChecked();
             idView<zLinearLayout>(a1 ? R.id.llSpeccyCols1 : R.id.llAsmCols1)->updateVisible(false);
             idView<zLinearLayout>(a1 ? R.id.llSpeccyCols2 : R.id.llAsmCols2)->updateVisible(false);
             idView<zLinearLayout>(a1 ? R.id.llAsmCols1 : R.id.llSpeccyCols1)->updateVisible(true);
             idView<zLinearLayout>(a1 ? R.id.llAsmCols2 : R.id.llSpeccyCols2)->updateVisible(true);
         case R.id.dispSpinPalettes: {
-            auto spin(idView<zViewSelect>(R.id.dispSpinPalettes));
-            auto adapt(spin->getAdapter());
+            auto adapt(idView<zViewSelect>(R.id.dispSpinPalettes)->getAdapter());
             adapt->clear(false);
             adapt->addAll(theme->findArray(idView<zViewCheck>(R.id.dispChkAsm)->isChecked() ? R.string.palette_asm : R.string.palette_speccy));
-//            spin->setItemSelected(0);
             applyPalette();
             break;
         }
@@ -321,7 +321,7 @@ void zFormSettings::onInit(zView* v, int a1) {
 }
 
 void zFormSettings::applyPalette() {
-    bool chkAsm(idView(R.id.dispChkAsm)->isChecked() * 16);
+    int chkAsm(idView(R.id.dispChkAsm)->isChecked() * 16);
     int num(idView<zViewSelect>(R.id.dispSpinPalettes)->getItemSelected());
     num *= 16; auto pal(chkAsm ? &palettes_asm[num] : &palettes_speccy[num]);
     memcpy(&speccy->colors[chkAsm], pal, 64);

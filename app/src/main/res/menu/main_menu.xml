@@ -139,16 +139,6 @@
                 android:title="@string/menuRestore"
                 android:showAsAction="ifRoom" />
             <item
-                android:id="@integer/MENU_OPS_ASSEMBLER"
-                android:icon="@integer/iconZxConfig"
-                android:title="@string/menuAsm"
-                android:showAsAction="ifRoom" />
-            <item
-                android:id="@integer/MENU_OPS_EDITOR_TZX"
-                android:icon="@integer/iconZxTZX"
-                android:title="@string/menuTzx"
-                android:showAsAction="ifRoom" />
-            <item
                 android:id="@integer/MENU_OPS_MAGIC"
                 android:icon="@integer/iconZxMagic"
                 android:title="@string/menuMagic"
