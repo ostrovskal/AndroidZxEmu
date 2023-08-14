@@ -25,6 +25,7 @@
     <string name="palette_asm" translatable="false">Custom|Lighting|Darkest</string>
     <string name="palette_speccy" translatable="false">Custom|sshEmu|Z80Stealth|White/Black|Strange|ElectroScale|JPP|RealSpec</string>
     <string name="formBrowser">Browser files</string>
+    <string name="download">Download succeeded\n</string>
     <string name="formPokes">Pokes</string>
     <string name="formSelFile">Choice file</string>
     <string name="formBpList">Break points</string>

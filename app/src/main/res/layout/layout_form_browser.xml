@@ -43,7 +43,7 @@
                     android:id="@+id/browsEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    z:styles="@style/bpEdit" z:inputMode="text" />
+                    z:styles="@style/bpEdit" android:autofillHints="text" />
                 <ListView
                     android:id="@+id/browsList"
                     android:orientation="vertical"

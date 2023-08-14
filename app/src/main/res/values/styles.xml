@@ -42,7 +42,7 @@
         <item name="fkGravity">center</item>
         <item name="pad">0dp</item>
         <item name="ipad">1dp</item>
-        <item name="inputMode">zx</item>
+        <item name="autofillHints">zx</item>
         <item name="textLines">1</item>
         <item name="textSize">15sp</item>
         <item name="textColor">#fff</item>
@@ -117,7 +117,7 @@
         <item name="pad">1dp</item>
         <item name="ipadHorz">3dp</item>
         <item name="ipadVert">1dp</item>
-        <item name="inputMode">zx</item>
+        <item name="autofillHints">zx</item>
         <item name="textLines">1</item>
         <item name="textColor">#fff</item>
         <item name="textSize">16sp</item>

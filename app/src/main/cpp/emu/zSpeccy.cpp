@@ -453,7 +453,7 @@ int zSpeccy::diskOperation(int ops, int index, zString8& path) {
     switch(ops & 7) {
         case ZX_DISK_OPS_GET_READONLY:  path = zDevVG93::path(num, nullptr, nullptr); ret = zDevVG93::is_readonly(num); break;
         case ZX_DISK_OPS_EJECT:         zDevVG93::eject(num); ret = 1; break;
-        case ZX_DISK_OPS_INSERT:        ret = load(path, num); break;
+        case ZX_DISK_OPS_INSERT:        ret = load(path, num); if(ret) settings->mruOpen(0, path, false); break;
         case ZX_DISK_OPS_SAVE:          ret = save(path, index); break;
         case ZX_DISK_OPS_SET_READONLY:  ret = zDevVG93::is_readonly(num, index >> 7); break;
         case ZX_DISK_OPS_RSECTOR:       ret = zDevVG93::read_sector(num, (index >> 3) + 1); break;

@@ -196,7 +196,7 @@ void zFormBrowser::onCommand(int id) {
                         theApp->getForm(FORM_WAIT)->updateStatus(ZS_VISIBLED, true);
                         if(checkAuth()) {
                             if(dbx->download(path, settings->makePath("", FOLDER_FILES))) {
-                                zViewManager::showToast("Download succeeded\n" + path.substrAfterLast("/"));
+                                zViewManager::showToast(theme->findString(R.string.download) + path.substrAfterLast("/"));
                             }
                         }
                         SAFE_DELETE(th);

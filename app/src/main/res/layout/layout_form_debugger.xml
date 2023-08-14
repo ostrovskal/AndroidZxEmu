@@ -120,7 +120,7 @@
                     android:id="@+id/editAsm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    z:styles="@style/debEdit" z:inputMode="text" />
+                    z:styles="@style/debEdit" android:autofillHints="text" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
