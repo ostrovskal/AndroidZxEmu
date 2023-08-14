@@ -91,7 +91,7 @@ void zSpeccyLayout::notifyEvent(HANDLER_MESSAGE* msg) {
         case MSG_FORM_MSG:
             fm = new zViewFormMessage(styles_z_msgform, 0, styles_z_formcaption, styles_z_formfooter,
                                       msg->arg1, msg->sarg);
-            manager->attachForm(fm, 240_dp, 150_dp)->updateVisible(true);
+            manager->attachForm(fm, 340_dp, 220_dp)->updateVisible(true);
             break;
     }
     zViewGroup::notifyEvent(msg);
