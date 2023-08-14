@@ -43,7 +43,10 @@ void zFormPokes::onInit(bool _theme) {
 }
 
 i32 zFormPokes::updateVisible(bool set) {
-    speccy->joyMakePresets(R.id.pokesSpin);
+    if(set) {
+        speccy->joyMakePresets(R.id.pokesSpin);
+        setListPokes(spn->getItemSelected());
+    }
     return zViewForm::updateVisible(set);
 }
 

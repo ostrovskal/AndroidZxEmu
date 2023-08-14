@@ -72,13 +72,12 @@ static u32 palettes_speccy[] = {
         0xFF000000, 0xFF0000FF, 0xFFFF0000, 0xFFFF00FF, 0xFF00FF00, 0xFF00FFFF, 0xFFFFFF00, 0xFFFFFFFF };
 
 static u32 palettes_asm[] = {
-        // [DARK]
-        0xFF000000, 0xFF505050, 0xFFA0A0A0, 0xFF00FFFF, 0xFFFF00FF, 0xFFFFFF00, 0xFF00FF00, 0xFFFFFFFF,
-        0xFFFFA070, 0xFF0000FF, 0xFFFF8010, 0xFFFFFFFF, 0xFF303030, 0xFFF0F0F0, 0xFF404040, 0xFF000000,
         // [WHITE]
-        0xFFEFEFEF, 0xFFC0C0C0, 0xFF000000, 0xFF007F7F, 0xFF7F007F, 0xFF7F7F00, 0xFF007F00, 0xFF7F7F7F,
-        0xFF7F5060, 0xFF00007F, 0xFF7F6010, 0xFF7F1010, 0xFF303030, 0xFF707070, 0xFF404040, 0xFF000000
-};
+        0xFF000000, 0xFF505050, 0xFFA0A0A0, 0xFFFFFF00, 0xFFFF00FF, 0xFF00FFFF, 0xFF00FF00, 0xFFFFFFFF,
+        0xFF70A0FF, 0xFFFF0000, 0xFF1080FF, 0xFFFFFFFF, 0xFF303030, 0xFFF0F0F0, 0xFF404040, 0xFF000000,
+        // [DARK]
+        0xFFEFEFEF, 0xFFC0C0C0, 0xFF000000, 0xFF7F7F00, 0xFF7F007F, 0xFF007F7F, 0xFF007F00, 0xFF7F7F7F,
+        0xFF60507F, 0xFF7F0000, 0xFF10607F, 0xFF10107F, 0xFF303030, 0xFF707070, 0xFF404040, 0xFF000000 };
 
 static int ids[] = { // main
                      R.id.mainBorder, ZSI_SIZE_BORDER, R.id.mainJoystick, ZSI_SIZE_JOY, R.id.mainKeyboard, ZSI_SIZE_KEYB, R.id.mainSystem, ZSI_CPU_SPEED,
@@ -300,8 +299,7 @@ void zFormSettings::onInit(zView* v, int a1) {
             break;
         // disk
         case R.id.diskSpinDisk: {
-            zString8 tmp;
-            ((zViewSelect*)v)->setItemSelected(a1);
+            zString8 tmp; ((zViewSelect*)v)->setItemSelected(a1);
             speccy->diskOperation(ZX_DISK_OPS_GET_READONLY, a1, tmp);
             idView<zViewText>(R.id.diskTextFile)->setText(z_trimName(tmp, true));
             // установить секторы
@@ -321,12 +319,14 @@ void zFormSettings::onInit(zView* v, int a1) {
 }
 
 void zFormSettings::applyPalette() {
-    int chkAsm(idView(R.id.dispChkAsm)->isChecked() * 16);
     int num(idView<zViewSelect>(R.id.dispSpinPalettes)->getItemSelected());
-    num *= 16; auto pal(chkAsm ? &palettes_asm[num] : &palettes_speccy[num]);
-    memcpy(&speccy->colors[chkAsm], pal, 64);
-    for(int i = 0 ; i < 16; i++) {
-        idView(ids[(35 + i + chkAsm) * 2])->drw[DRW_BK]->color = pal[i];
+    if(num) {
+        int chkAsm(idView(R.id.dispChkAsm)->isChecked() * 16);
+        --num; num *= 16; auto pal(chkAsm ? &palettes_asm[num] : &palettes_speccy[num]);
+        memcpy(&speccy->colors[chkAsm], pal, 64);
+        for(int i = 0; i < 16; i++) {
+            idView(ids[(35 + i + chkAsm) * 2])->drw[DRW_BK]->color = pal[i];
+        }
     }
 }
 
@@ -359,14 +359,11 @@ void zFormSettings::makeDiskCatalog(int num) {
     }
 }
 
-static int idsJSpin[] = { R.id.joySpinLeft, R.id.joySpinUp, R.id.joySpinRight, R.id.joySpinDown,
-                          R.id.joySpinY, R.id.joySpinX, R.id.joySpinA, R.id.joySpinB };
-
 void zFormSettings::applyJoyStd(int num) {
     auto keys(theme->findArray(R.string.key_names2)); auto is(num != 4);
     auto arr(zString8(stdJoyKeys[num]).split(","));
     for(int i = 0 ; i < 8; i++) {
-        auto sel(idView<zViewSelect>(idsJSpin[i]));
+        auto sel(idView<zViewSelect>(ids[50 + i * 2]));
         auto key(is && i < 5 ? keys.indexOf(arr[i]) : speccy->joyKeys[i]);
         speccy->joyKeys[i] = key; sel->setItemSelected(key);
         sel->disable(is && i < 5);
@@ -377,7 +374,7 @@ void zFormSettings::applyJoyPresets(int num) {
     auto j(speccy->findJoyPokes(num)); num = j->joy.type;
     idView<zViewSelect>(R.id.joySpinLyt)->setItemSelected(num);
     for(int i = 0 ; i < 8; i++) {
-        auto sel(idView<zViewSelect>(idsJSpin[i]));
+        auto sel(idView<zViewSelect>(ids[50 + i * 2]));
         auto idx(j->joy.keys[i]); speccy->joyKeys[i] = idx;
         sel->setItemSelected(idx);
         sel->disable(num != 4 && i < 5);

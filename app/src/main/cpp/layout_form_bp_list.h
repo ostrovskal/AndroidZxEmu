@@ -7,9 +7,13 @@
 			VIEW_MATCH, VIEW_MATCH)); 
 	auto bplist03((zLinearLayout*)bplist02->attach(new zLinearLayout(styles_default, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
-	bplist03->attach(new zViewText(styles_default, 0, R.string.Range), 
+	bplist03->attach(new zViewText(styles_default, 0, R.string.bp_address1), 
 			VIEW_MATCH, VIEW_WRAP);
-	bplist03->attach(new zViewText(styles_default, 0, R.string.Value), 
+	bplist03->attach(new zViewText(styles_default, 0, R.string.bp_address2), 
+			VIEW_MATCH, VIEW_WRAP);
+	bplist03->attach(new zViewText(styles_default, 0, R.string.bp_value), 
+			VIEW_MATCH, VIEW_WRAP);
+	bplist03->attach(new zViewText(styles_default, 0, R.string.bp_mask), 
 			VIEW_MATCH, VIEW_WRAP);
 	auto bplist13((zLinearLayout*)bplist02->attach(new zLinearLayout(styles_default, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
@@ -21,7 +25,7 @@
 			VIEW_MATCH, VIEW_WRAP);
 	bplist13->attach(new zViewEdit(styles_bpeditrange1, R.id.bpEditValue2, 0), 
 			VIEW_MATCH, VIEW_WRAP);
-	bplist02->attach(new zViewText(styles_default, 0, R.string.Condition), 
+	bplist02->attach(new zViewText(styles_default, 0, R.string.bp_condition), 
 			VIEW_WRAP, VIEW_WRAP);
 	auto bplist23((zLinearLayout*)bplist02->attach(new zLinearLayout(styles_default, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
@@ -31,17 +35,17 @@
 			VIEW_MATCH, VIEW_WRAP);
 	auto bplist33((zLinearLayout*)bplist02->attach(new zLinearLayout(styles_default, 0, false), 
 			VIEW_MATCH, VIEW_WRAP)); 
-	bplist33->attach(new zViewText(styles_zviewtext1, 0, R.string.Address1), 
+	bplist33->attach(new zViewText(styles_zviewtext1, 0, R.string.bp_address1), 
 			VIEW_MATCH, VIEW_WRAP);
-	bplist33->attach(new zViewText(styles_zviewtext1, 0, R.string.Address2), 
+	bplist33->attach(new zViewText(styles_zviewtext1, 0, R.string.bp_address2), 
 			VIEW_MATCH, VIEW_WRAP);
-	bplist33->attach(new zViewText(styles_zviewtext1, 0, R.string.Value), 
+	bplist33->attach(new zViewText(styles_zviewtext1, 0, R.string.bp_value), 
 			VIEW_MATCH, VIEW_WRAP);
-	bplist33->attach(new zViewText(styles_zviewtext1, 0, R.string.Mask), 
+	bplist33->attach(new zViewText(styles_zviewtext1, 0, R.string.bp_mask), 
 			VIEW_MATCH, VIEW_WRAP);
-	bplist33->attach(new zViewText(styles_zviewtext1, 0, R.string.Condition), 
+	bplist33->attach(new zViewText(styles_zviewtext1, 0, R.string.bp_condition), 
 			VIEW_MATCH, VIEW_WRAP);
-	bplist33->attach(new zViewText(styles_zviewtext1, 0, R.string.Access), 
+	bplist33->attach(new zViewText(styles_zviewtext1, 0, R.string.bp_access), 
 			VIEW_MATCH, VIEW_WRAP);
 	bplist02->attach(new zViewRibbon(styles_bplist, R.id.bpList, true), 
 			VIEW_MATCH, VIEW_MATCH);

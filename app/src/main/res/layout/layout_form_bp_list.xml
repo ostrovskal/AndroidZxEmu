@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:z="http://schemas.android.com/apk/res-auto"
     android:layout_width="280dp" android:layout_height="300dp"
     z:styles="@style/form" android:text="@string/formBpList"
@@ -20,11 +21,19 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Range"/>
+                    android:text="@string/bp_address1"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Value" />
+                    android:text="@string/bp_address2"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bp_value" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bp_mask" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -34,7 +43,7 @@
                     android:id="@+id/bpEditRange1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    z:styles="@style/bpEdit"/>
+                    z:styles="@style/bpEdit" />
                 <EditText
                     android:id="@+id/bpEditRange2"
                     android:layout_width="match_parent"
@@ -54,7 +63,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Condition" />
+                android:text="@string/bp_condition" />
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -80,32 +89,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     z:styles="@style/diskHeadText"
-                    android:text="Address1"/>
+                    android:text="@string/bp_address1"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     z:styles="@style/diskHeadText"
-                    android:text="Address2"/>
+                    android:text="@string/bp_address2"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     z:styles="@style/diskHeadText"
-                    android:text="Value"/>
+                    android:text="@string/bp_value"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     z:styles="@style/diskHeadText"
-                    android:text="Mask"/>
+                    android:text="@string/bp_mask"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     z:styles="@style/diskHeadText"
-                    android:text="Condition"/>
+                    android:text="@string/bp_condition"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     z:styles="@style/diskHeadText"
-                    android:text="Access"/>
+                    android:text="@string/bp_access"/>
             </LinearLayout>
             <ListView
                 android:id="@+id/bpList"
