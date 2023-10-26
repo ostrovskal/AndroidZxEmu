@@ -28,6 +28,7 @@ void zFormBrowser::onInit(bool _theme) {
         edt = idView<zViewEdit>(R.id.browsEdit);
         lst = idView<zViewRibbon>(R.id.browsList);
         flt = idView<zViewSelect>(R.id.browsSpin);
+        szip= idView<zViewCheck>(R.id.browsChk);
         flt->setOnChangeSelected([this](zView*, int s) { setFilter(s); });
         edt->setOnChangeText([this](zView*, int) { updateControls(); });
         lst->setAdapter(new zAdapterList({}, new zFabricListItem(styles_browslisttext)));
@@ -64,7 +65,7 @@ void zFormBrowser::setFilter(int _f, bool force) {
             _flt = "zip|sna|z80|tap|tzx|csw|wav|ezx|zzz|td0|trd|scl|fdi|udi|$b|$c";
         } else {
             if(old == FLT_NET) current.empty();
-            root = settings->makePath("", FOLDER_ROOT);
+            root = settings->makePath("", FOLDER_ROOT) + "files/";
             // определить список расширений
             if(filter == FLT_SNAP) {
                 _flt = "sna|z80";
@@ -150,7 +151,11 @@ void zFormBrowser::updateList() {
     th = new std::thread([this]() {
         theApp->getForm(FORM_WAIT)->updateStatus(ZS_VISIBLED, true);
         zArray<zFile::zFileInfo> fi;
-        if(checkAuth()) fi =dbx->getFiles(root + current);
+        if(checkAuth()) {
+            fi = dbx->getFiles(root + current);
+        } else {
+            zViewManager::showToast(theme->findString(R.string.netNotFound));
+        }
         SAFE_DELETE(th); theApp->getForm(FORM_WAIT)->updateStatus(ZS_VISIBLED, false);
         makeList(fi);
     });
@@ -158,23 +163,25 @@ void zFormBrowser::updateList() {
 }
 
 void zFormBrowser::updateControls() {
-    static int icons[] = { R.integer.iconZxOpen, R.integer.iconZxOpen, R.integer.iconZxWeb, R.integer.iconZxInsert,
+    static int openIcons[] = { R.integer.iconZxOpen, R.integer.iconZxOpen, R.integer.iconZxWeb, R.integer.iconZxInsert,
                            R.integer.iconZxInsert, R.integer.iconZxInsert, R.integer.iconZxInsert };
     auto txt(edt->getText()), _pth(root + current + txt);
     auto isDir(std::filesystem::is_directory(_pth.str())), isFile(txt.indexOf(".") != -1);
     auto isExist(std::filesystem::exists(_pth.str())), isNet(filter == FLT_NET);
     edt->updateStatus(ZS_DISABLED, isNet);
     // 1. открыть
-    but[BUT_OPEN]->setIcon(icons[filter]);
+    but[BUT_OPEN]->setIcon(openIcons[filter]);
     but[BUT_OPEN]->updateStatus(ZS_DISABLED, txt.isEmpty() || isDir || !isExist && !isNet);
     // 2. создать папку
-    but[BUT_FOLDER]->updateStatus(ZS_DISABLED, current.isEmpty() || txt.isEmpty() || isFile || isExist || isNet);
+    but[BUT_FOLDER]->updateStatus(ZS_DISABLED, txt.isEmpty() || isFile || isExist || isNet);
     // 3.
     but[BUT_EJECT]->updateStatus(ZS_DISABLED, filter <= FLT_NET || diskPath == "Empty");
     // 4. удалить
-    but[BUT_DEL]->updateStatus(ZS_DISABLED, current.isEmpty() || txt.isEmpty() || !isExist || isNet);
+    but[BUT_DEL]->updateStatus(ZS_DISABLED, txt.isEmpty() || !isExist || isNet);
     // 5. сохранить
-    but[BUT_SAVE]->updateStatus(ZS_DISABLED, current.isEmpty() || isNet || isExist || z_extension(txt) == -1);
+    auto isSave(isNet || isExist || z_extension(txt) == -1);
+    but[BUT_SAVE]->updateStatus(ZS_DISABLED, isSave);
+    szip->updateStatus(ZS_DISABLED, isSave);
     // 6. вызвать DOS
     but[BUT_TRDOS]->updateStatus(ZS_DISABLED, filter <= FLT_NET);
     requestLayout();

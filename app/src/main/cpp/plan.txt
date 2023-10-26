@@ -424,3 +424,16 @@
     3. применить локаль
 7. в редакторе изменить:
     inputMode -> autoFillHints
+
+14 августа 2023 - 12:00
+осталось:
+1. PlayerBase::stop() from IPlayer ??
+2. autofillHints->inputType
+3. список ленты
+4. проверить в ndk samples - video
+5. в билдере - создавать xml для drawable
+6. мышь
+7. zip в браузере
+8. падает на changeTheme в bpList
+9. проверить монтирование дисков
+

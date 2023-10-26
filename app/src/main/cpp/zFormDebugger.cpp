@@ -130,7 +130,7 @@ void zFormDebugger::stateTools(int action, int id) {
             auto v((u8)speccy->value(vlBut[i]));
             idView<zViewButton>(idBut[i])->setText(txtBut[i * 2 + v], true);
         }
-        idView<zViewButton>(R.id.butPlay)->setIcon(speccy->execLaunch ? R.integer.iconZxPause : R.integer.iconZxPlay);
+        idView<zViewButton>(R.id.butPlay)->setIcon(speccy->execLaunch ? R.integer.iconZxPlay : R.integer.iconZxPause);
         // блокировка
         auto play(!speccy->execLaunch && (speccy->debugMode == MODE_PC));
         for(int i = 4; i < 7; i++) idView<zViewButton>(idBut[i])->updateStatus(ZS_DISABLED, !play);

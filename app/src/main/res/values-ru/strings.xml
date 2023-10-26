@@ -81,4 +81,5 @@
     <string name="bp_ops">ПРОПУСК|ВЫПОЛНЕНИЕ|ЧТЕНИЕ ПАМЯТИ|ЗАПИСЬ ПАМЯТИ|ЧТЕНИЕ ПОРТА|ЗАПИСЬ ПОРТА</string>
     <string name="browser_flt">Снимок|Лента|Сеть|Диск A:|Диск B:|Диск C:|Диск D:</string>
     <string name="download">Загрузка завершена\n</string>
+    <string name="netNotFound">Сеть недоступна</string>
 </resources>

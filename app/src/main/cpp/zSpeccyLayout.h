@@ -39,6 +39,7 @@ protected:
     zViewButton*        tapeTurbo{nullptr};
     zViewButton*        tapePlay{nullptr};
     zViewProgress*      tapeProgress{nullptr};
+    zLinearLayout*      tapeLyt{nullptr};
 };
 
 inline zSpeccyLayout*   frame(nullptr);

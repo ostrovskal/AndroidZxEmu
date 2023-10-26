@@ -61,18 +61,19 @@ void zFormBpList::onInit(bool _theme) {
 }
 
 void zFormBpList::stateTools(bool list) {
+    auto ops(getView<zViewSelect>(VW_OPS));
     if(list) {
         auto item(idView<zViewRibbon>(R.id.bpList)->getItemSelected());
         auto bp(speccy->getCpu(speccy->debugCpu)->bps[item]);
         auto abp(makeBpValues(&bp));
         getView<zViewSelect>(VW_COND)->setItemSelected(bp.flg);
-        getView<zViewSelect>(VW_OPS)->setItemSelected(bp.ops);
+        ops->setItemSelected(bp.ops);
         getView<zViewEdit>(VW_VAL)->setText(abp[2]);
         getView<zViewEdit>(VW_MSK)->setText(abp[3]);
         getView<zViewEdit>(VW_ADDR1)->setText(abp[0]);
         getView<zViewEdit>(VW_ADDR2)->setText(abp[1]);
     }
-    auto access(idView<zViewSelect>(R.id.bpSpinOps)->getItemSelected());
+    auto access(ops->getItemSelected());
     auto disable1(access < ZX_BP_RMEM), disable2(access == ZX_BP_NONE);
     views[VW_COND]->disable(disable1);
     views[VW_VAL]->disable(disable1);

@@ -18,7 +18,7 @@ static void* threadFunc(void*) {
             frame->processHandler();
             speccy->execute();
             // обновление информации на экране
-            if(!(++delay & 63)) frame->stateTools(ZFT_UPD_TAPE);
+            if(speccy->showTape && !(++delay & 63)) frame->stateTools(ZFT_UPD_TAPE);
             if(checkSTATE(ZX_BP | ZX_T_UI)) {
                 // активировать отладчик
                 if(checkSTATE(ZX_BP)) frame->activateDebugger();

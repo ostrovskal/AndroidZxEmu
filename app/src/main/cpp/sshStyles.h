@@ -95,6 +95,7 @@ static zStyle styles_pokribbon[] = {
 	{ Z_STYLES, R.style.setRibbon },
 	{ Z_SELECTOR, 0xFF000000 },
 	{ Z_DIVIDER_SIZE, 0x03000302 },
+	{ Z_DIVIDER_TYPE, ZS_DIVIDER_MIDDLE | ZS_DIVIDER_END | ZS_DIVIDER_BEGIN },
 	{ Z_DECORATE | ZT_END, ZS_SCROLLBAR }
 };
 

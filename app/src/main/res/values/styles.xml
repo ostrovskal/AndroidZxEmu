@@ -88,6 +88,7 @@
         <item name="selector">#000</item>
         <item name="divSize">2dp</item>
         <item name="divPadHorz">3dp</item>
+        <item name="divType">middle|end|begin</item>
         <item name="decorate">scrollbar</item>
     </style>
     <style name="diskHeadText">

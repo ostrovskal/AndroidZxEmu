@@ -21,8 +21,8 @@ bool zSpeccyLayout::init() {
     menu = theApp->getActionBar()->getMenu();
     auto root(theApp->getSystemView(true));
     // меню ленты
-    auto tapeLyt((zLinearLayout*)attach(new zLinearLayout(styles_default, R.id.llTape, manager->isLandscape()),
-                                            ZS_GRAVITY_START | ZS_GRAVITY_TOP, 0, VIEW_WRAP, VIEW_WRAP, 0));
+    tapeLyt   = (zLinearLayout*)attach(new zLinearLayout(styles_default, R.id.llTape, manager->isLandscape()),
+                                            ZS_GRAVITY_START | ZS_GRAVITY_TOP, 0, VIEW_WRAP, VIEW_WRAP, 0);
     tapePlay  = new zViewButton(styles_debbut, R.id.tapePlay, 0, R.integer.iconZxPlay);
     tapeTurbo = new zViewButton(styles_debbut, R.id.tapeTurbo, 0, R.integer.iconZxAccelOff);
     tapeProgress = new zViewProgress(styles_z_linearprogress, R.id.tapeProgress, 0, szi(0, 100), 70, manager->isLandscape());
@@ -168,15 +168,14 @@ void zSpeccyLayout::stateTools(int action, int id) {
         // normal/speed Tape
         tapeTurbo->setIcon(speccy->speedTape ? R.integer.iconZxAccelOn : R.integer.iconZxAccelOff);
         // ops Tape
-        tapePlay->setIcon(speccy->playTape ? R.integer.iconZxPause : R.integer.iconZxPlay);
+        tapePlay->setIcon(speccy->recTape ? R.integer.iconZxBp : (speccy->playTape ? R.integer.iconZxPlay : R.integer.iconZxPause));
         // progress Tape
         tapeProgress->setRange(szi(0, speccy->tapeAllIndex));
         tapeProgress->setProgress(speccy->tapeIndex);
     }
     if(action & ZFT_UPD_CONTROLLER) {
         szi sz(z_dp(128 + 20 * speccy->sizeJoy), z_dp(128 + 20 * speccy->sizeJoy));
-        ac->setSize(sz);
-        cc->setSize(sz);
+        ac->setSize(sz); cc->setSize(sz);
     }
 }
 
@@ -319,4 +318,5 @@ void zSpeccyLayout::setParamControllers() {
         auto ic(tex->getTile(k.substrAfter("\b")));
         c->setDecorateKey(i & 3, ic == -1 ? tx : "", ic);
     }
+    manager->cache->recycle(tex);
 }

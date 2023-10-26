@@ -18,6 +18,7 @@ void sshApp::processEvents(i32 event) {
         case APP_CMD_INIT_WINDOW:
         case APP_CMD_TERM_WINDOW:
             appActivate(event == APP_CMD_INIT_WINDOW, android->window);
+            if(event == APP_CMD_TERM_WINDOW) exitProgramm();
             break;
         case APP_CMD_SAVE_STATE:
             stateAllViews(Z_SAVE, (u8**)&android->savedState, (u32*)&android->savedStateSize);

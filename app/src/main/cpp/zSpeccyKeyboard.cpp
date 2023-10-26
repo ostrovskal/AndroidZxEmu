@@ -189,19 +189,14 @@ void zSpeccyKeyboard::updateMode() {
     // проверить режим клавиатуры
     u8 nmode(MODE_K); auto cpu(speccy->getCpu(1));
     auto val0(cpu->_rm8(23617)), val1(cpu->_rm8(23658)), val2(cpu->_rm8(23611));
-    if(speccy->is48k()) {
-        switch(val0) {
-            case 0:
-                if(val2 & 8) { nmode = (val1 & 8) ? MODE_C : MODE_L; } else if(val1 & 16) nmode = MODE_K;
-                if((nmode == MODE_L || nmode == MODE_C) && speccy->cshift) nmode = MODE_CL;
-                else { if(speccy->cshift) nmode = MODE_CK; else if(speccy->sshift) nmode = MODE_SK; }
-                break;
-            case 1: nmode = (speccy->cshift ? MODE_CE : (speccy->sshift ? MODE_SE : MODE_E)); break;
-            case 2: nmode = speccy->cshift ? MODE_CG : MODE_G; break;
-        }
-    } else {
-        nmode = ((val2 & 8) ? ((val1 & 8) ? MODE_C : MODE_L) : MODE_L);
-        if((nmode == MODE_C || nmode == MODE_L) && speccy->cshift) nmode = MODE_CL;
+    switch(val0) {
+        case 0:
+            if(val2 & 8) { nmode = (val1 & 8) ? MODE_C : MODE_L; } else if(val1 & 16) nmode = MODE_K;
+            if((nmode == MODE_L || nmode == MODE_C) && speccy->cshift) nmode = MODE_CL;
+            else { if(speccy->cshift) nmode = MODE_CK; else if(speccy->sshift) nmode = MODE_SK; }
+            break;
+        case 1: nmode = (speccy->cshift ? MODE_CE : (speccy->sshift ? MODE_SE : MODE_E)); break;
+        case 2: nmode = speccy->cshift ? MODE_CG : MODE_G; break;
     }
     if(speccy->kmode != nmode) {
         speccy->kmode = nmode;
