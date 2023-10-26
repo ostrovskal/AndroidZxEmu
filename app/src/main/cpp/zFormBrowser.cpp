@@ -7,6 +7,20 @@
 #include <filesystem>
 #include <thread>
 
+class zAdapterBrowser : public zAdapterList {
+public:
+    explicit zAdapterBrowser() : zAdapterList({}, new zFabricListItem(styles_browslisttext)) { }
+    zView* getView(int position, zView* convert, zViewGroup* parent) override {
+        auto nv(convert);
+        if(!nv) nv = fabricBase->make(parent);
+        nv->id = position; nv->updateStatus(ZS_TAP, false);
+        auto t(getItem(position));
+        if(t.indexOf("(") != -1) t = t.substrBeforeLast("(", t).substrBeforeLast(".") + "(" + t.substrAfterLast("(");
+        ((zViewText*)nv)->setText(t);
+        return nv;
+    }
+};
+
 i32 zFormBrowser::updateVisible(bool set) {
     if(set) setFilter(filter, true);
     return zViewForm::updateVisible(set);
@@ -27,11 +41,12 @@ void zFormBrowser::onInit(bool _theme) {
         }
         edt = idView<zViewEdit>(R.id.browsEdit);
         lst = idView<zViewRibbon>(R.id.browsList);
-        flt = idView<zViewSelect>(R.id.browsSpin);
+        flt = idView<zViewSelect>(R.id.browsSpin); flt->setItemSelected(speccy->browseFlt);
         szip= idView<zViewCheck>(R.id.browsChk);
+        idView<zViewCheck>(R.id.browsTape)->setOnClick([](zView* v, int l) { speccy->tapeStartStop = v->isChecked(); })->checked(speccy->tapeStartStop);
         flt->setOnChangeSelected([this](zView*, int s) { setFilter(s); });
         edt->setOnChangeText([this](zView*, int) { updateControls(); });
-        lst->setAdapter(new zAdapterList({}, new zFabricListItem(styles_browslisttext)));
+        lst->setAdapter(new zAdapterBrowser());
         lst->setOnClick([this](zView*, int s) {
             auto txt(lst->getAdapter()->getItem(s));
             auto dbl(touch->isDblClicked());
@@ -68,7 +83,7 @@ void zFormBrowser::setFilter(int _f, bool force) {
             root = settings->makePath("", FOLDER_ROOT) + "files/";
             // определить список расширений
             if(filter == FLT_SNAP) {
-                _flt = "sna|z80";
+                _flt = "sna|z80|ezx";
             } else if(filter == FLT_TAP) {
                 _flt = "tap|tzx|csw|wav";
             } else {
@@ -85,6 +100,8 @@ void zFormBrowser::setFilter(int _f, bool force) {
     updateList();
     // обновить контролы
     updateControls();
+    // запомнить фильтр
+    speccy->browseFlt = filter;
 }
 
 void zFormBrowser::makeList(const zArray<zFile::zFileInfo>& arr) {
@@ -220,7 +237,7 @@ void zFormBrowser::onCommand(int id) {
             updateList();
             break;
         case R.id.browsSave:
-            frame->send(ZX_MESSAGE_SAVE, 0, 0, path);
+            frame->send(ZX_MESSAGE_SAVE, szip->isChecked() << 7, 0, path);
             close(z.R.id.ok);
            break;
         case R.id.browsDel:

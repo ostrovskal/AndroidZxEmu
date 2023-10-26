@@ -11,6 +11,7 @@
         z:styles="@style/tabHost"
         z:styleCaption="@style/tabWidget"
         z:tabGravity="top"
+        android:id="@+id/mainTabs"
         android:layout_height="match_parent"
         android:layout_width="match_parent" >
         <TabWidget
@@ -65,12 +66,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_tape_reset"
                         z:styles="@style/zxCheck" />
-                    <CheckBox
-                        android:id="@+id/mainAutoTape"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_auto_tape"
-                        z:styles="@style/zxCheck" />
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="vertical"
@@ -95,12 +90,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         z:styles="@style/zxSlider" z:range="0,5" z:progress="1" />
-                    <CheckBox
-                        android:id="@+id/mainSwapMouse"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_swap_mouse_buttons"
-                        z:styles="@style/zxCheck" />
                     <CheckBox
                         android:id="@+id/mainGigaScreen"
                         android:layout_width="match_parent"

@@ -46,6 +46,8 @@ protected:
     android_app*        android{nullptr};
     // массив форм
     zView*              forms[10]{};
+    // копированние стандартных из вкладов
+    void copyFromAssets(zString8 src, czs& dst);
 };
 
 inline sshApp* theApp(nullptr);

@@ -35,3 +35,5 @@
 			VIEW_WRAP, VIEW_WRAP);
 	browser23->attach(new zViewButton(styles_browsopen, R.id.browsTrDos, 0, R.integer.iconZxTrDos), 
 			VIEW_WRAP, VIEW_WRAP);
+	browser23->attach(new zViewCheck(styles_browschk, R.id.browsTape, R.string.settings_auto_tape), 
+			VIEW_MATCH, VIEW_WRAP);

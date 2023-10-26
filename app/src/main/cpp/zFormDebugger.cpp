@@ -122,7 +122,7 @@ void zFormDebugger::stateTools(int action, int id) {
     }
     if(action & SD_TOOLS_BUT) {
         // надписи
-        static cstr txtBut[] = { "DEC", "HEX", "8", "16", "GS", "CPU", "DA", "SP", "CM" };
+        static cstr txtBut[] = { "DEC", "HEX", "8", "16", "GS", "CPU", "ASM", "STK", "MEM" };
         static int  idBut[]  = { R.id.butRadix, R.id.butSize, R.id.butCpu, R.id.butList,
                                  R.id.butStep, R.id.butStepIn, R.id.butStepOut };
         static int  vlBut[]  = { ZSI_SHOW_HEX, ZSI_SHOW_REG16, ZSI_DEBUG_CPU, ZSI_DEBUG_MODE };

@@ -62,5 +62,5 @@ android {
 
 dependencies {
     implementation (name: 'zstandard-release', ext: 'aar')
-    implementation (name: 'zostrov-debug', ext: 'aar')
+    implementation (name: 'zostrov-release', ext: 'aar')
 }

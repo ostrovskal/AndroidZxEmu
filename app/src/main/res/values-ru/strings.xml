@@ -13,7 +13,7 @@
     <string name="settings_giga_screen">Эффект Giga</string>
     <string name="settings_trap_tr_dos">Перехват TR-DOS</string>
     <string name="settings_show_fps">Показывать FPS</string>
-    <string name="settings_auto_tape">Авто лента</string>
+    <string name="settings_auto_tape">Лента</string>
     <string name="msg_error">Ошибка</string>
     <string name="msg_warning">Предупреждение</string>
     <string name="formBrowser">Управление файлами</string>
@@ -78,7 +78,6 @@
     <string name="bp_address1">Адрес 1</string>
     <string name="bp_address2">Адрес 2</string>
     <string name="bp_access">Доступ</string>
-    <string name="bp_ops">ПРОПУСК|ВЫПОЛНЕНИЕ|ЧТЕНИЕ ПАМЯТИ|ЗАПИСЬ ПАМЯТИ|ЧТЕНИЕ ПОРТА|ЗАПИСЬ ПОРТА</string>
     <string name="browser_flt">Снимок|Лента|Сеть|Диск A:|Диск B:|Диск C:|Диск D:</string>
     <string name="download">Загрузка завершена\n</string>
     <string name="netNotFound">Сеть недоступна</string>

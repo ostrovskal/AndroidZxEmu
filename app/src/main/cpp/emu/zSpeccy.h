@@ -158,6 +158,7 @@ struct SPECCY {
             bool fps;
             // Признак отображения TAPE
             bool showTape;
+            //
         };
         bool bools[30];
     };
@@ -192,8 +193,8 @@ struct SPECCY {
             u8 debugMode;
             // режим панели
             u8 panelMode;
-            // палитра
-            u8 pallete;
+            // фильтр браузера
+            u8 browseFlt;
         };
         u8 uints8[15];
     };
@@ -242,7 +243,7 @@ public:
     // установка имени текущей программы
     void programName(cstr name, bool trim);
     // обновление отладчика в режиме паузы
-    void updateDebugger();
+    static void updateDebugger();
     // операции с диском
     int diskOperation(int ops, int num, zString8& path);
     // чтение из порта

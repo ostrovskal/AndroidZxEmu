@@ -31,9 +31,8 @@ u8* z_openFile(zFile* fl, int index, int* size, zString8& name) {
 
 bool z_saveFile(zString8 path, void* ptr, int size, bool zipped) {
     zFile fl;
-    if(zipped) path = path.substrBeforeLast(".") + ".zip";
-    if(fl.open(path, false)) {
-        fl.write(ptr, size, path.substrAfterLast("/", path).substrBeforeLast("."));
+    if(fl.open(zipped ? path.substrBeforeLast(".") + ".zip" : path, false)) {
+        fl.write(ptr, size, path.substrAfterLast("/", path));
         fl.close();
         return true;
     }

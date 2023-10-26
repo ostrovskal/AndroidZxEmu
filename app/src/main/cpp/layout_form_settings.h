@@ -1,7 +1,7 @@
 // Автоматическая генерация кода для макета
 	auto settings((zFormSettings*)new zFormSettings(styles_z_form, R.id.formSettings, styles_z_formcaption, styles_z_formfooter, R.string.form_settings, true));
 	settings->onInit(false);
-	auto settings01((zTabLayout*)settings->attach(new zTabLayout(styles_z_tabhost, 0, styles_z_tabwidget, ZS_GRAVITY_TOP), 
+	auto settings01((zTabLayout*)settings->attach(new zTabLayout(styles_z_tabhost, R.id.mainTabs, styles_z_tabwidget, ZS_GRAVITY_TOP), 
 			VIEW_MATCH, VIEW_MATCH)); 
 	auto settings02((zTabWidget*)settings01->attach(new zTabWidget(styles_default, 0, 0, R.integer.iconZxComp), 
 			VIEW_WRAP, VIEW_WRAP)); 
@@ -23,8 +23,6 @@
 			VIEW_MATCH, VIEW_WRAP);
 	settings04->attach(new zViewCheck(styles_browschk, R.id.mainTapeReset, R.string.settings_tape_reset), 
 			VIEW_MATCH, VIEW_WRAP);
-	settings04->attach(new zViewCheck(styles_browschk, R.id.mainAutoTape, R.string.settings_auto_tape), 
-			VIEW_MATCH, VIEW_WRAP);
 	auto settings14((zLinearLayout*)settings03->attach(new zLinearLayout(styles_zlinearlayout5, 0, true), 
 			VIEW_WRAP, VIEW_MATCH)); 
 	settings14->attach(new zViewText(styles_zviewtext2, 0, R.string.settings_joystick), 
@@ -34,8 +32,6 @@
 	settings14->attach(new zViewText(styles_zviewtext2, 0, R.string.settings_keyboard), 
 			VIEW_MATCH, VIEW_WRAP);
 	settings14->attach(new zViewSlider(styles_mainsystem, R.id.mainKeyboard, 0, szi(0, 5), 1, false), 
-			VIEW_MATCH, VIEW_WRAP);
-	settings14->attach(new zViewCheck(styles_browschk, R.id.mainSwapMouse, R.string.settings_swap_mouse_buttons), 
 			VIEW_MATCH, VIEW_WRAP);
 	settings14->attach(new zViewCheck(styles_browschk, R.id.mainGigaScreen, R.string.settings_giga_screen), 
 			VIEW_MATCH, VIEW_WRAP);

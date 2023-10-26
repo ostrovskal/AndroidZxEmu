@@ -81,8 +81,8 @@ static u32 palettes_asm[] = {
 
 static int ids[] = { // main
                      R.id.mainBorder, ZSI_SIZE_BORDER, R.id.mainJoystick, ZSI_SIZE_JOY, R.id.mainKeyboard, ZSI_SIZE_KEYB, R.id.mainSystem, ZSI_CPU_SPEED,
-                     R.id.mainDarkTheme, ZSI_DARK_THEME, R.id.mainGsReset, ZSI_GS_RESET, R.id.mainTapeReset, ZSI_RESET_TAPE, R.id.mainAutoTape, ZSI_AUTO_TAPE,
-                     R.id.mainSwapMouse, ZSI_SWAP_MOUSE, R.id.mainGigaScreen, ZSI_GIGA, R.id.mainTrapTRDOS, ZSI_TRAP_DOS, R.id.mainShowFPS, ZSI_FPS,
+                     R.id.mainDarkTheme, ZSI_DARK_THEME, R.id.mainGsReset, ZSI_GS_RESET, R.id.mainTapeReset, ZSI_RESET_TAPE, /*R.id.mainAutoTape, ZSI_AUTO_TAPE,*/
+                     /*R.id.mainSwapMouse, ZSI_SWAP_MOUSE, */R.id.mainGigaScreen, ZSI_GIGA, R.id.mainTrapTRDOS, ZSI_TRAP_DOS, R.id.mainShowFPS, ZSI_FPS,
                      // sound
                      R.id.soundSpinChip, ZSI_AY_CHIP, R.id.soundSpinChannels, ZSI_AY_CHANNEL, R.id.soundSpinFreq, ZSI_SND_FREQ,
                      R.id.soundChkBeeper, ZSI_BP_LAUNCH, R.id.soundSlrBeeper, ZSI_BEEP_VOL,
@@ -124,29 +124,34 @@ i32 zFormSettings::updateVisible(bool set) {
 void zFormSettings::onInit(bool _theme) {
     zViewForm::onInit(_theme);
     if(isOpen) {
-        for(int i = 0 ; i < sizeof(ids) / 4; i += 2) {
+        for(int i = 0; i < sizeof(ids) / 4; i += 2) {
             auto vw(idView(ids[i]));
-            if(dynamic_cast<zViewRibbon*>(vw)) {
-                vw->setOnClick([this](zView* v, int sel) { onCommand(v, sel); });
-            } else if(dynamic_cast<zViewSelect*>(vw)) {
-                ((zViewSelect*)vw)->setOnChangeSelected([this](zView* v, int sel) { onCommand(v, sel); });
-            } else if(dynamic_cast<zViewSlider*>(vw)) {
-                ((zViewSlider*)vw)->setOnChangeSelected([this](zViewSlider* v, int pos) { onCommand(v, pos); return 0; });
+            if(dynamic_cast<zViewRibbon *>(vw)) {
+                vw->setOnClick([this](zView *v, int sel) { onCommand(v, sel); });
+            } else if(dynamic_cast<zViewSelect *>(vw)) {
+                ((zViewSelect *) vw)->setOnChangeSelected([this](zView *v, int sel) { onCommand(v, sel); });
+            } else if(dynamic_cast<zViewSlider *>(vw)) {
+                ((zViewSlider *) vw)->setOnChangeSelected([this](zViewSlider *v, int pos) {
+                    onCommand(v, pos);
+                    return 0;
+                });
             } else {
-                vw->setOnClick([this](zView* v, int l) { onCommand(v, v->isChecked()); });
+                vw->setOnClick([this](zView *v, int l) { onCommand(v, v->isChecked()); });
             }
         }
-        setOnClose([this](zViewForm*, int code) {
+        setOnClose([this](zViewForm *, int code) {
+            speccy->settingsTab = idView<zTabLayout>(R.id.mainTabs)->getActivePage();
             if(code == z.R.id.no) {
-                memcpy((u8*)speccy, savedValues, sizeof(savedValues));
+                memcpy((u8 *) speccy, savedValues, sizeof(savedValues));
             } else if(code == z.R.id.def) {
                 idView<zViewSelect>(R.id.dispSpinPalettes)->setItemSelected(0);
-                for(int i = 0 ; i < sizeof(ids) / 4; i += 2) {
-                    auto offs(ids[i + 1]); u32 def;
+                for(int i = 0; i < sizeof(ids) / 4; i += 2) {
+                    auto offs(ids[i + 1]);
+                    u32 def;
                     if(offs) {
                         if(settings->getDefault(offs - 64, &def)) {
-                            auto ptr((u8*)speccy + offs);
-                            if(offs < 109) *(u8*)ptr = (u8)def; else *(u32*)ptr = def;
+                            auto ptr((u8 *) speccy + offs);
+                            if(offs < 109) *(u8 *) ptr = (u8) def; else *(u32 *) ptr = def;
                         }
                     }
                     onInit(idView(ids[i]), offs);
@@ -158,13 +163,15 @@ void zFormSettings::onInit(bool _theme) {
             }
             return code != z.R.id.def;
         });
+        // активная вкладка
+        idView<zTabLayout>(R.id.mainTabs)->setActivePage(speccy->settingsTab);
     }
 }
 
 void zFormSettings::onCommand(zView* v, int a1) {
     auto id(v->id); int action(0), cmd(-1);
     auto offs(z_remap(id, ids));
-    if(offs > 0 && offs < 109) *(u8*)((u8*)speccy + offs) = (u8)a1;
+    if(offs > 0 && offs < 107) *(u8*)((u8*)speccy + offs) = (u8)a1;
     switch(id) {
         case R.id.mainShowFPS: onInit(v, offs); break;
         case R.id.mainBorder: case R.id.mainSystem: cmd = ZX_MESSAGE_PROPS; break;
@@ -231,8 +238,8 @@ void zFormSettings::onInit(zView* v, int a1) {
             ((zViewSlider*)v)->setProgress(speccy->value(a1));
             break;
         case R.id.mainShowFPS: case R.id.mainDarkTheme:
-        case R.id.mainGsReset: case R.id.mainTapeReset: case R.id.mainAutoTape:
-        case R.id.mainSwapMouse: case R.id.mainGigaScreen: case R.id.mainTrapTRDOS:
+        case R.id.mainGsReset: case R.id.mainTapeReset:
+        case R.id.mainGigaScreen: case R.id.mainTrapTRDOS:
             ((zViewCheck*)v)->checked(val);
             if(id == R.id.mainDarkTheme)
                 theApp->setTheme(val ? styles_mythemedark : styles_mythemelight, resources_ptr_arrays, ::styles);
@@ -363,7 +370,7 @@ void zFormSettings::applyJoyStd(int num) {
     auto keys(theme->findArray(R.string.key_names2)); auto is(num != 4);
     auto arr(zString8(stdJoyKeys[num]).split(","));
     for(int i = 0 ; i < 8; i++) {
-        auto sel(idView<zViewSelect>(ids[50 + i * 2]));
+        auto sel(idView<zViewSelect>(ids[46 + i * 2]));
         auto key(is && i < 5 ? keys.indexOf(arr[i]) : speccy->joyKeys[i]);
         speccy->joyKeys[i] = key; sel->setItemSelected(key);
         sel->disable(is && i < 5);
@@ -374,7 +381,7 @@ void zFormSettings::applyJoyPresets(int num) {
     auto j(speccy->findJoyPokes(num)); num = j->joy.type;
     idView<zViewSelect>(R.id.joySpinLyt)->setItemSelected(num);
     for(int i = 0 ; i < 8; i++) {
-        auto sel(idView<zViewSelect>(ids[50 + i * 2]));
+        auto sel(idView<zViewSelect>(ids[46 + i * 2]));
         auto idx(j->joy.keys[i]); speccy->joyKeys[i] = idx;
         sel->setItemSelected(idx);
         sel->disable(num != 4 && i < 5);

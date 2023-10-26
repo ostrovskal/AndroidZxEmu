@@ -95,6 +95,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     z:styles="@style/browsBut" z:iconka="@integer/iconZxTrDos"/>
+                <CheckBox
+                    android:id="@+id/browsTape"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_auto_tape"
+                    z:styles="@style/zxCheck" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -40,9 +40,9 @@ bool zSpeccyLayout::init() {
     fps = idView<zViewText>(R.id.speccyFps);
     // джойстики
     ac = (zViewController*)root->attach(new zViewController(styles_z_acontroller, z.R.id.acontroller, z.R.integer.acontrol, z.R.string.acontrollerMap),
-                                        ZS_GRAVITY_END | ZS_GRAVITY_BOTTOM, 0, 100_dp, 128_dp);
+                                        ZS_GRAVITY_END | ZS_GRAVITY_BOTTOM, 0, 128_dp, 128_dp);
     cc = (zViewController*)root->attach(new zViewController(styles_z_ccontroller, z.R.id.ccontroller, z.R.integer.ccontrol, z.R.string.ccontrollerMap),
-                                        ZS_GRAVITY_START | ZS_GRAVITY_BOTTOM, 0, 100_dp, 128_dp);
+                                        ZS_GRAVITY_START | ZS_GRAVITY_BOTTOM, 0, 128_dp, 128_dp);
     cc->setOnChangeButton([this](zView*, int b) {
         theApp->keyb->keyEvent(b | (int)(ac->getButtons() << 4), false); });
     ac->setOnChangeButton([this](zView*, int b) { theApp->keyb->keyEvent((b << 4) | (int)cc->getButtons(), false); });
@@ -158,20 +158,26 @@ void zSpeccyLayout::stateTools(int action, int id) {
         main->requestLayout();
     }
     if(action & ZFT_UPD_MENU_ITEM) {
-        // tape
-        frame->idView(R.id.llTape)->updateVisible(speccy->showTape);
         // execute
         auto dbg(main->atView<zFormDebugger>(1));
         if(dbg) dbg->stateTools(SD_TOOLS_BUT | SD_TOOLS_LST);
     }
     if(action & ZFT_UPD_TAPE) {
-        // normal/speed Tape
-        tapeTurbo->setIcon(speccy->speedTape ? R.integer.iconZxAccelOn : R.integer.iconZxAccelOff);
-        // ops Tape
-        tapePlay->setIcon(speccy->recTape ? R.integer.iconZxBp : (speccy->playTape ? R.integer.iconZxPlay : R.integer.iconZxPause));
-        // progress Tape
-        tapeProgress->setRange(szi(0, speccy->tapeAllIndex));
-        tapeProgress->setProgress(speccy->tapeIndex);
+        auto vis(tapeLyt->isVisibled()), sts(false), shw(false);
+        if(speccy->showTape) {
+            shw = speccy->tapeIndex && speccy->tapeAllIndex && speccy->tapeIndex < speccy->tapeAllIndex;
+            if(shw) {
+                // normal/speed Tape
+                tapeTurbo->setIcon(speccy->speedTape ? R.integer.iconZxAccelOn : R.integer.iconZxAccelOff);
+                // ops Tape
+                tapePlay->setIcon(speccy->recTape ? R.integer.iconZxBp : (speccy->playTape ? R.integer.iconZxPlay : R.integer.iconZxPause));
+                // progress Tape
+                tapeProgress->setRange(szi(0, speccy->tapeAllIndex));
+                tapeProgress->setProgress(speccy->tapeIndex);
+                sts = true;
+            }
+        }
+        if(sts != vis) tapeLyt->updateVisible(shw);
     }
     if(action & ZFT_UPD_CONTROLLER) {
         szi sz(z_dp(128 + 20 * speccy->sizeJoy), z_dp(128 + 20 * speccy->sizeJoy));
@@ -186,11 +192,11 @@ void zSpeccyLayout::onCommand(int id, zMenuItem* mi) {
     switch(id) {
         case R.integer.MENU_QLOAD:
             send(ZX_MESSAGE_LOAD, 0, ZX_ARG_IO_QUICK,
-                 settings->makePath(z_fmt8("qsave_%s.ezx", speccy->progName.str()), FOLDER_CACHE));
+                 settings->makePath(z_fmt8("savers/qsave_%s.ezx", speccy->progName.str()), FOLDER_FILES));
             break;
         case R.integer.MENU_QSAVE:
             send(ZX_MESSAGE_SAVE, 0, ZX_ARG_IO_QUICK,
-                 settings->makePath(z_fmt8("qsave_%s.ezx", speccy->progName.str()), FOLDER_CACHE));
+                 settings->makePath(z_fmt8("savers/qsave_%s.ezx", speccy->progName.str()), FOLDER_FILES));
             break;
         case R.integer.MENU_EXIT:
             theApp->exitProgramm();
@@ -274,17 +280,15 @@ void zSpeccyLayout::processHandler() {
             case ZX_MESSAGE_SAVE:
                 tmp = (arg2 & ZX_ARG_IO_QUICK ? msg->sarg.substrAfterLast("/") : msg->sarg);
                 if(speccy->save(msg->sarg, msg->arg1)) {
-                    if(arg2 & ZX_ARG_IO_QUICK) {
-                        // быстрая запись - вывести форму с сообщением
-                        post(MSG_SHOW_TZX_INFO, 0, TZX_QINFO, 0, "Quick Save\n" + tmp);
-                    }
+                    // запись - вывести форму с сообщением
+                    post(MSG_SHOW_TZX_INFO, 0, TZX_QINFO, 0, ((arg2 & ZX_ARG_IO_QUICK) ? "Quick Save\n" : "Save\n") + tmp);
                 } else {
                     post(MSG_FORM_MSG, 0, R.string.msg_error, 0, z_fmt8("Не удалось сохранить -\n%s!", tmp.str()));
                 }
                 break;
             case ZX_MESSAGE_LOAD:
                 tmp = (arg2 & ZX_ARG_IO_QUICK ? msg->sarg.substrAfterLast("/") : msg->sarg);
-                if((error = speccy->load(msg->sarg, 1))) {
+                if((error = speccy->load(msg->sarg, speccy->tapeStartStop))) {
                     if(arg2 & ZX_ARG_IO_QUICK) {
                         // быстрая загрузка - вывести форму с сообщением
                         post(MSG_SHOW_TZX_INFO, 0, TZX_QINFO, 0, "Quick Load\n" + tmp);
@@ -306,9 +310,6 @@ void zSpeccyLayout::send(int what, int a1, int a2, cstr s) {
 
 void zSpeccyLayout::setParamControllers() {
     auto keys(theme->findArray(R.string.key_names));
-    auto root(manager->getSystemView(true));
-    auto cc(root->idView<zViewController>(z.R.id.ccontroller));
-    auto ac(root->idView<zViewController>(z.R.id.acontroller));
     auto tex(manager->cache->get("zx_icons", nullptr));
     // установить надписи/значки на кнопках джойстика
     for(int i = 0 ; i < 8; i++) {

@@ -59,19 +59,19 @@ void android_main(android_app* android) {
 
 static cstr options_def[] = {
         "[BOOLEAN]",
-        "gsReset=true", "speed_tape=false", "sound=true", "filter=true",
+        "gsReset=false", "speed_tape=false", "sound=true", "filter=true",
         "execute=true", "debugging=false", "turbo=false", "snd_bp=true", "snd_ay=true",
         "hex=false", "show_debugger=false", "debugger_address=true", "debugger_code=true",
         "debugger_content=true", "play_tape=false", "rec_tape=false",
         "debug_reg16=false", "tapeAutoStartStop=true", "reset_tape=false", "dark_mode=false",
         "swap_mouse=false", "giga_screen=false", "debugCpu=true", "snd_cv=false",
-        "snd_gs=false", "trap_dos=true", "fps=true", "showTape=true",
+        "snd_gs=false", "trap_dos=true", "fps=false", "showTape=false",
         "boolTmp1=false", "boolTmp2=false",
         "[BYTES]",
-        "border_size=3", "joy_size=3","keyb_size=3",
+        "border_size=3", "joy_size=3","keyb_size=2",
         "snd_chip_ay=0", "snd_channel_ay=1", "snd_freq=1", "snd_vol_bp=6",
         "snd_vol_ay=8", "snd_vol_cv=31", "snd_vol_gs=31", "cpu_speed=6", "settings_tab=0",
-        "debug_mode=0", "panel_mode=0", "palette=0",
+        "debug_mode=0", "panel_mode=0", "browse_flt=0",
         "[HEX]",
         "color_nb=ff000000", "color_ns=ff2030c0", "color_nr=ffC04010", "color_nm=ffc040c0",
         "color_ng=ff40b010", "color_nc=ff50c0b0", "color_ny=ffe0c010", "color_nw=ffc0c0c0",
@@ -111,6 +111,8 @@ void sshApp::run() {
     }
 }
 
+#include <filesystem>
+
 void sshApp::setContent() {
 //    debug = true;
 #include "layout_main.h"
@@ -143,9 +145,7 @@ void sshApp::setContent() {
     forms[FORM_WAIT]    = new zViewFormWait(0, 0, 0);
     // привязка и инициализация
     if(!frame->init()) { ILOG("Ошибка при запуске эмулятора!"); }
-    frame->setOnClick([this](zView*, int b) {
-        if(b) getActionBar()->show(true);
-    });
+    frame->setOnClick([this](zView*, int b) { if(b) getActionBar()->show(true); });
     frame->attach(assembler, VIEW_MATCH, VIEW_MATCH);
     frame->attach(tzx, VIEW_MATCH, VIEW_MATCH);
     main->attach(debugger, VIEW_MATCH, VIEW_MATCH);
@@ -157,4 +157,31 @@ void sshApp::setContent() {
     attachForm(selfile, 350_dp, 300_dp);
     attachForm(getForm(FORM_WAIT), 300_dp, 300_dp);
     frame->stateTools(ZFT_ALL);
+    // установить тему
+    setTheme(speccy->darkTheme ? styles_mythemedark : styles_mythemelight, resources_ptr_arrays, ::styles);
+    // создать папки savers/games/system/demo/gs
+    static cstr folders[] = { "savers", "gs", "games", "demo", "system" };
+    for(auto s : folders) {
+        auto dst(::settings->makePath(s, FOLDER_FILES).slash());
+        if(!std::filesystem::exists(dst.str())) {
+            std::filesystem::create_directory(dst.str());
+            copyFromAssets(zString8("programm/") + s, dst);
+        }
+    }
+}
+
+void sshApp::copyFromAssets(zString8 src, czs& dst) {
+    auto dir(AAssetManager_openDir(manager->getAsset(), src));
+    if(dir) {
+        cstr name(nullptr); int len; zFile file; src.slash();
+        while((name = AAssetDir_getNextFileName(dir))) {
+            auto ptr(manager->assetFile(src + name, &len));
+            if(ptr) {
+                if(file.open(dst + name, false, false)) {
+                    file.write(ptr, len);
+                    file.close();
+                }
+            }
+        }
+    }
 }

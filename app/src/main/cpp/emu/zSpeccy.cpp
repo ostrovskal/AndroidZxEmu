@@ -18,7 +18,7 @@ static void* threadFunc(void*) {
             frame->processHandler();
             speccy->execute();
             // обновление информации на экране
-            if(speccy->showTape && !(++delay & 63)) frame->stateTools(ZFT_UPD_TAPE);
+            if(!(++delay & 63)) frame->stateTools(ZFT_UPD_TAPE);
             if(checkSTATE(ZX_BP | ZX_T_UI)) {
                 // активировать отладчик
                 if(checkSTATE(ZX_BP)) frame->activateDebugger();
@@ -55,14 +55,24 @@ zArray<zString8> zSpeccy::getAllNamesJoyPokes() const {
 
 }
 
+static zString8 obfuskate(zString8 s) {
+    s.remove(" ");
+    s = s.substrBefore("(", s);
+    s.lower();
+    return s;
+}
+
 void zSpeccy::joyMakePresets(int id) const {
     // образцы
     auto presets(getAllNamesJoyPokes());
     auto spin(manager->idView<zViewSelect>(id));
     if(spin) {
-        auto adapt(spin->getAdapter());
+        auto adapt(spin->getAdapter()); auto idx(-1);
         adapt->clear(false); adapt->addAll(presets);
-        auto idx(presets.indexOf(progName));
+        auto prg(obfuskate(progName));
+        for(int i = 0 ; i < presets.size(); i++) {
+            if(obfuskate(presets[i]) == prg) { idx = i; break; }
+        }
         if(idx != -1) spin->setItemSelected(idx);
     }
 }
@@ -326,7 +336,7 @@ bool zSpeccy::_load(zFile* fl, int index, int option) {
             // проверить на автозагрузку
             if(ret && option) {
                 // запускаем автозагрузку
-                ret = load(is48k() ? "data/tap48.zzz" : "data/tap128.zzz", 0);
+                ret = load(is48k() ? "assets/data/tap48.zzz" : "assets/data/tap128.zzz", 0);
             }
             break;
         case ZX_FMT_SNA: case ZX_FMT_Z80: case ZX_FMT_ZZZ: {
@@ -354,8 +364,9 @@ bool zSpeccy::_load(zFile* fl, int index, int option) {
 }
 
 bool zSpeccy::load(czs& path, int option) {
-    zFile fl; zFileAsset afl; zFile* file(path.substrAfterLast(".") == "zzz" ? &afl : &fl);
-    if(!file->open(path, true)) return false;
+    auto isAssets(path.substrBefore("/") == "assets");
+    zFile fl; zFileAsset afl; zFile* file(isAssets ? &afl : &fl);
+    if(!file->open(isAssets ? path.substrAfter("/") : path, true)) return false;
     if(file->countFiles() > 1) {
         auto selFile(theApp->getForm<zFormSelFile>(FORM_CHOICE));
         selFile->setParams(file, option);
@@ -403,7 +414,7 @@ bool zSpeccy::save(czs& path, int option) {
             if(disk) zDevVG93::path(option & 3, path, path);
             else if(tape) tape->path(path, path);
             else if(type < ZX_FMT_ZZZ) programName(path, true);
-        }
+        } else ret = nullptr;
     }
     return ret != nullptr;
 }
@@ -457,7 +468,7 @@ int zSpeccy::diskOperation(int ops, int index, zString8& path) {
         case ZX_DISK_OPS_SAVE:          ret = save(path, index); break;
         case ZX_DISK_OPS_SET_READONLY:  ret = zDevVG93::is_readonly(num, index >> 7); break;
         case ZX_DISK_OPS_RSECTOR:       ret = zDevVG93::read_sector(num, (index >> 3) + 1); break;
-        case ZX_DISK_OPS_TRDOS:         load(is48k() ? "data/tr48.zzz" : "data/tr128.zzz", 0); break;
+        case ZX_DISK_OPS_TRDOS:         load(is48k() ? "assets/data/tr48.zzz" : "assets/data/tr128.zzz", 0); break;
     }
     return ret;
 }
