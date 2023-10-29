@@ -130,10 +130,9 @@ zLinearLayout* zRibbonTape::makeBlock(zLinearLayout* lyt, int position) {
     // макет содержимого
     content = lyt->idView<zLinearLayout>(R.id.tzxSclItems);
     content->removeAllViews(false);
-    // заголовок/скроллер
+    // заголовок
     caption = lyt->idView<zViewText>(R.id.tzxCaption);
     caption->updateStatus(ZS_VISIBLED, false);
-    lyt->idView<zScrollLayout>(R.id.tzxScroll)->scroll.empty();
     // пауза
     auto vPause(lyt->idView<zViewText>(R.id.tzxPause));
     vPause->setText("");
@@ -141,6 +140,7 @@ zLinearLayout* zRibbonTape::makeBlock(zLinearLayout* lyt, int position) {
     lyt->idView<zViewText>(R.id.tzxIndex)->setText(tzxValue(++position))->drw[DRW_BK]->color = (cur ? z.R.color.blue : z.R.color.black);
     // тип tzx блока
     lyt->idView<zViewText>(R.id.tzxType)->setText(tzx_names[blk->type - 16])->setTextColorForeground(blk->use ? R.color.tzxTypeUse : R.color.tzxTypeUnuse);
+    bool resetScroll(true), showPause(false);
     switch(type) {
         case TZX_JUMP: case TZX_LOOP_START: case TZX_CALL:
             tzxView(type == TZX_JUMP ? R.string.tzxIndex : R.string.tzxCount, tzxValue((type == TZX_JUMP ? position : 0) + (i16)blk->count));
@@ -149,14 +149,12 @@ zLinearLayout* zRibbonTape::makeBlock(zLinearLayout* lyt, int position) {
             tzxView(R.string.tzxSize, tzxValue(blk->nwb / 8));
         case TZX_RECORD: case TZX_CSW: case TZX_PULSES: case TZX_TONE:
             if(type != TZX_PURE_DATA) tzxView(R.string.tzxPilot, tzxValue(blk->nwp));
-//            vPause->setText(tzxValue(0, pause));
-            break;
-        case TZX_SAVE: case TZX_NORMAL:
-            tzxNormal(blk, position > 1 ? tape->blockInfo(position - 2) : nullptr);
-//        case TZX_MESSAGE: case TZX_PAUSE:
             break;
         case TZX_LEVEL:
             tzxView(R.string.tzxLevel, (blk->level ? "high" : "low"));
+            break;
+        case TZX_MESSAGE: case TZX_PAUSE:
+            showPause = true;
             break;
         case TZX_GROUP_START: case TZX_TEXT:
             tzxView(tzxText(blk->data, blk->size), "");
@@ -165,11 +163,18 @@ zLinearLayout* zRibbonTape::makeBlock(zLinearLayout* lyt, int position) {
             tzxView(R.string.tzxSize, tzxValue(blk->size - 20));
             tzxView(tzxText(blk->data, 16), "");
             break;
+        case TZX_SAVE: case TZX_NORMAL:
+            tzxNormal(blk, position > 1 ? tape->blockInfo(position - 2) : nullptr);
+            showPause = true;
+            break;
         case TZX_ARCHIVE: case TZX_SELECT: case TZX_HARDWARE:
+            resetScroll = false;
             type == TZX_HARDWARE ? tzxHardware(blk) : tzxArchSel(blk, position);
             break;
     }
-    vPause->setText(pause < 0.0009f ? theme->findString(R.string.tzxStop) : tzxValue(0, pause * (999.0f * (float)(type == TZX_MESSAGE) + 1.0f)));
+    if(resetScroll) content->scroll.empty();
+    vPause->setText(pause < 0.0009f ?   (showPause ? theme->findString(R.string.tzxStop) : zString8("")) :
+                                        tzxValue(0, pause * (999.0f * (float)(type == TZX_MESSAGE) + 1.0f)));
     return lyt;
 }
 
@@ -230,10 +235,7 @@ void zRibbonTape::tzxNormal(zDevTape::BLK_TAPE* blk, zDevTape::BLK_TAPE* prev) {
     } else {
         if(prev) {
             auto flag1(flag); u32 param(0), size; flag = 255; data = prev->bits;
-            if(prev->type == TZX_NORMAL) {
-                flag = *data, size = *(u16*)(data + 12), param = *(u16*)(data + 14);
-                DLOG("s:%i s1:%i", size, blk->nwb / 16);
-            }
+            if(prev->type == TZX_NORMAL) flag = *data, size = *(u16*)(data + 12), param = *(u16*)(data + 14);
             zString8 name;
             if(flag1 == 255 && flag == 0) {
                 type = data[1];

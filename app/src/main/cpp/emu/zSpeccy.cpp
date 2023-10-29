@@ -255,8 +255,10 @@ void zSpeccy::update(int param, int arg) {
 
 void zSpeccy::updateDebugger() {
     // если мы в отладчике - обновить его
-    auto dbg(frame->atView<zFormDebugger>(1));
-    if(dbg) dbg->stateTools(SD_TOOLS_REG | SD_TOOLS_LST | SD_TOOLS_UPD_SREG);
+    if(showDebugger) {
+        auto dbg(frame->atView<zFormDebugger>(FORM_DEBUG));
+        dbg->stateTools(SD_TOOLS_REG | SD_TOOLS_LST | SD_TOOLS_UPD_SREG);
+    }
 }
 
 void zSpeccy::execute() {

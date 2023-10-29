@@ -150,15 +150,19 @@ void sshApp::setContent() {
         // двойной клик - qload/qsave
         if(zView::touch->isDblClicked()) {
             auto vert(!isLandscape());
-            frame->onCommand(z_round(zView::touch->cpt[vert]) > (screen[vert + 2] / 2) ? R.integer.MENU_QSAVE : R.integer.MENU_QLOAD, nullptr);
+            auto s(screen); if(!vert) s.set(screen.w / 4, screen.y, screen.w / 2, screen.h);
+            pti p(z_round(zView::touch->cpt.x), z_round(zView::touch->cpt.y));
+            if(s.contains(p)) {
+                frame->onCommand(p[vert] > (s[vert] + s[vert + 2] / 2) ? R.integer.MENU_QSAVE : R.integer.MENU_QLOAD, nullptr);
+            }
         } else if(b) getActionBar()->show(true);
     });
     frame->attach(assembler, VIEW_MATCH, VIEW_MATCH);
     frame->attach(tzx, VIEW_MATCH, VIEW_MATCH);
     main->attach(debugger, VIEW_MATCH, VIEW_MATCH);
     main->attach(keyb, VIEW_MATCH, VIEW_MATCH);
-    attachForm(bplist, 400_dp, 350_dp);
     attachForm(browser, 450_dp, 450_dp);
+    attachForm(bplist, 400_dp, 350_dp);
     attachForm(settings, 450_dp, 450_dp);
     attachForm(pokes, 350_dp, 300_dp);
     attachForm(selfile, 350_dp, 300_dp);

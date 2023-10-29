@@ -15,5 +15,5 @@ protected:
     template<typename T> T* getView(int idx) const { return dynamic_cast<T*>(views[idx]); }
     void stateTools(bool list);
     void updateBp();
-    zView* views[6]{};
+    zView* views[7]{};
 };

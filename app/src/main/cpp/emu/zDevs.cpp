@@ -701,6 +701,7 @@ void zDevMixer::update(int param) {
                 pr.rate = frequencies[speccy->sndFreq] * 1000;
                 pr.chan = 2; pr.bits = 16; pr.bufSize = sizeof(mixBuffer);
                 player = manager->sound.createPlayer(1234, TYPE_MEM, pr);
+                if(!player) ILOG("player not create!!!");
             }
         }
     }
@@ -727,11 +728,15 @@ void zDevMixer::mix() {
         }
         p = mixBuffer; auto o(audioBuffer);
         for(auto i = minSamples; i--; p++) {
-            *(o++) = (u16)((long)p->left);// - 0x8000L);
-            *(o++) = (u16)((long)p->right);// - 0x8000L);
+            *(o++) = (u16)((long)p->left);
+            *(o++) = (u16)((long)p->right);
         }
-        player->setData((u8*)audioBuffer, (int)(minSamples << 2));
-        player->play(true);
+        if(player) {
+            player->setData((u8*)audioBuffer, (int)(minSamples << 2));
+            player->play(true);
+        } else {
+            DLOG("plauer is null!");
+        }
     }
     auto diffSamples(maxSamples - minSamples);
     if(maxSamples > minSamples) {

@@ -707,7 +707,6 @@ bool zCpuMain::open(u8* ptr, size_t size, int type) {
     speccy->writePort(0xfe, _fe, 0);
     speccy->writePort(0x7ffd, _7ffd, 0);
     speccy->update(ZX_UPDATE_STATE, 0);
-    ILOG("Start PC: %i", PC);
     return true;
 }
 

@@ -244,7 +244,7 @@ public:
     // установка имени текущей программы
     void programName(cstr name, bool trim);
     // обновление отладчика в режиме паузы
-    static void updateDebugger();
+    void updateDebugger();
     // операции с диском
     int diskOperation(int ops, int num, zString8& path);
     // чтение из порта

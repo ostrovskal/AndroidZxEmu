@@ -40,39 +40,40 @@ public:
 };
 
 void zFormBpList::onInit(bool _theme) {
+    auto change = [this](zView*, int) { updateBp(); };
     zViewForm::onInit(_theme);
     if(isOpen) {
         static int ids[] = { R.id.bpSpinCond, R.id.bpSpinOps, R.id.bpEditRange1, R.id.bpEditRange2,
                              R.id.bpEditValue1, R.id.bpEditValue2, R.id.bpList };
-        for(int i = 0 ; i < 8; i++) views[i] = idView(ids[i]);
+        for(int i = 0 ; i < 7; i++) views[i] = idView(ids[i]);
         cond = theme->findArray(R.string.bp_cond);
         ops = theme->findArray(R.string.bp_ops);
         getView<zViewRibbon>(VW_LST)->setAdapter(new zAdapterBpList(this))->setOnChangeSelected([this](zView*, int s) { stateTools(true); });
         setOnClose([](zViewForm*, int) { return 1; });
-        getView<zViewSelect>(VW_COND)->setOnChangeSelected([this](zView*, int) { updateBp(); });
-        getView<zViewSelect>(VW_OPS)->setOnChangeSelected([this](zView*, int) { updateBp(); });
-        getView<zViewEdit>(VW_VAL)->setOnChangeText([this](zView*, int) { updateBp(); });
-        getView<zViewEdit>(VW_MSK)->setOnChangeText([this](zView*, int) { updateBp(); });
-        getView<zViewEdit>(VW_ADDR1)->setOnChangeText([this](zView*, int) { updateBp(); });
-        getView<zViewEdit>(VW_ADDR2)->setOnChangeText([this](zView*, int) { updateBp(); });
+        getView<zViewSelect>(VW_COND)->setOnChangeSelected(change);
+        getView<zViewSelect>(VW_OPS)->setOnChangeSelected(change);
+        getView<zViewEdit>(VW_VAL)->setOnChangeText(change);
+        getView<zViewEdit>(VW_MSK)->setOnChangeText(change);
+        getView<zViewEdit>(VW_ADDR1)->setOnChangeText(change);
+        getView<zViewEdit>(VW_ADDR2)->setOnChangeText(change);
         stateTools(false);
     }
 }
 
 void zFormBpList::stateTools(bool list) {
-    auto ops(getView<zViewSelect>(VW_OPS));
+    auto _ops(getView<zViewSelect>(VW_OPS));
     if(list) {
         auto item(idView<zViewRibbon>(R.id.bpList)->getItemSelected());
         auto bp(speccy->getCpu(speccy->debugCpu)->bps[item]);
         auto abp(makeBpValues(&bp));
         getView<zViewSelect>(VW_COND)->setItemSelected(bp.flg);
-        ops->setItemSelected(bp.ops);
+        _ops->setItemSelected(bp.ops);
         getView<zViewEdit>(VW_VAL)->setText(abp[2]);
         getView<zViewEdit>(VW_MSK)->setText(abp[3]);
         getView<zViewEdit>(VW_ADDR1)->setText(abp[0]);
         getView<zViewEdit>(VW_ADDR2)->setText(abp[1]);
     }
-    auto access(ops->getItemSelected());
+    auto access(_ops->getItemSelected());
     auto disable1(access < ZX_BP_RMEM), disable2(access == ZX_BP_NONE);
     views[VW_COND]->disable(disable1);
     views[VW_VAL]->disable(disable1);

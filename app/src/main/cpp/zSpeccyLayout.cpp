@@ -163,8 +163,7 @@ void zSpeccyLayout::stateTools(int action, int id) {
     if(action & ZFT_UPD_TAPE) {
         auto vis(tapeLyt->isVisibled()), sts(false), shw(false);
         if(speccy->showTape) {
-//            shw = speccy->tapeIndex > 0 && speccy->tapeAllIndex > 0 && ((float)speccy->tapeIndex / (float)speccy->tapeAllIndex < 0.9f);
-            shw = speccy->tapeIndex > 0 && speccy->tapeIndex < (speccy->tapeAllIndex - 1000);
+            shw = /*speccy->tapeIndex > 0 && */speccy->tapeIndex < (speccy->tapeAllIndex - 1000);
             if(shw) {
                 // normal/speed Tape
                 tapeTurbo->setIcon(speccy->speedTape ? R.integer.iconZxAccelOn : R.integer.iconZxAccelOff);
@@ -297,7 +296,7 @@ void zSpeccyLayout::processHandler() {
                 } else {
                     msg->sarg = z_fmt8(theme->findString(R.string.failedLoad), tmp.str());
                 }
-                if(tmp.indexOf("qsave_") == -1) settings->mruOpen(0, tmp, !error);
+                if(tmp.indexOf(".ezx") == -1) settings->mruOpen(0, tmp, !error);
                 if(msg->sarg.isNotEmpty() && msg->arg1 == 0) zViewManager::showToast(msg->sarg);
                 break;
         }
