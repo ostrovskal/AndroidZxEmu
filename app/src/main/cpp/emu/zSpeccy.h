@@ -92,13 +92,14 @@ struct SPECCY {
     i32 tapeAllIndex;										// 42
     // индекс блока ленты для передачи в UI
     u16 indexBlkUI;											// 46
-    // текущая позиция ленты
+    // текущий блок ленты
     u16 tapeCurrent;										// 48
+    // количество блоков ленты
+    u32 tapeCount;                                          // 50
     // для передачи промежуточных данных
-    u32 jni;												// 50
-    u32 kmode;                                              // 54
-    bool cshift, sshift;                                    // 58
-    u32 tabbed;                                             // 60
+    u32 jni;												// 54
+    u32 kmode;                                              // 58
+    bool cshift, sshift;                                    // 62
     // 1. Булевы значения
     union {
         struct {

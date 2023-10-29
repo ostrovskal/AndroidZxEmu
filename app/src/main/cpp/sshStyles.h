@@ -1,6 +1,63 @@
 
 #pragma once
 
+static zStyle styles_tapeitem[] = {
+	{ Z_FBO, true },
+	{ Z_BEHAVIOR, ZS_CLICKABLE | ZS_LCLICKABLE },
+	{ Z_FOREGROUND_GRAVITY, ZS_GRAVITY_CENTER },
+	{ Z_BACKGROUND_TILES, z.R.integer.selectItem },
+	{ Z_GRAVITY, ZS_GRAVITY_CENTER },
+	{ Z_PADDING | ZT_END, 0x02020202 }
+};
+
+static zStyle styles_tapebut[] = {
+	{ Z_FOREGROUND_GRAVITY, ZS_GRAVITY_CENTER },
+	{ Z_FOREGROUND_SCALE, 14417 },
+	{ Z_PADDING, 0x02020202 },
+	{ Z_GRAVITY, ZS_GRAVITY_CENTER },
+	{ Z_ICON_GRAVITY, ZS_GRAVITY_CENTER },
+	{ Z_TEXT_FOREGROUND_COLOR, z.R.color.white },
+	{ Z_ICON_SCALE, 16383 },
+	{ Z_TAP, ZS_PRESSED },
+	{ Z_FOREGROUND_TILES | ZT_END, z.R.integer.gradientSm }
+};
+
+static zStyle styles_tapetext[] = {
+	{ Z_BEHAVIOR, 0 },
+	{ Z_FOREGROUND_GRAVITY, ZS_GRAVITY_CENTER },
+	{ Z_GRAVITY, ZS_GRAVITY_CENTER },
+	{ Z_TEXT_SHADOW_OFFS, 0x00020002 },
+	{ Z_TEXT_SIZE, 17 },
+	{ Z_PADDING, 0x04000400 },
+	{ Z_IPADDING, 0x02020202 },
+	{ Z_TEXT_LINES, 12 },
+	{ Z_TEXT_FOREGROUND_COLOR | ZT_END, z.R.color.red }
+};
+
+static zStyle styles_tapeindex[] = {
+	{ Z_STYLES, R.style.tapeText },
+	{ Z_BACKGROUND, 0xFF000000 },
+	{ Z_TEXT_SIZE, 15 },
+	{ Z_TEXT_FOREGROUND_COLOR | ZT_END, z.R.color.white }
+};
+
+static zStyle styles_tapecaption[] = {
+	{ Z_STYLES, R.style.tapeText },
+	{ Z_BACKGROUND, z.R.color.red },
+	{ Z_TEXT_SIZE, 19 },
+	{ Z_TEXT_FOREGROUND_COLOR, z.R.color.yellow },
+	{ Z_TEXT_LINES, 1 },
+	{ Z_IPADDING | ZT_END, 0x03030303 }
+};
+
+static zStyle styles_tapetype[] = {
+	{ Z_STYLES, R.style.tapeText },
+	{ Z_BACKGROUND, 0xFF303000 },
+	{ Z_TEXT_SIZE, 18 },
+	{ Z_IPADDING, 0x00000000 },
+	{ Z_TEXT_FOREGROUND_COLOR | ZT_END, z.R.color.white }
+};
+
 static zStyle styles_zxactionbar[] = {
 	{ Z_STYLES, z.R.style.bar },
 	{ Z_BACKGROUND, R.drawable.zx_icons },
@@ -10,6 +67,7 @@ static zStyle styles_zxactionbar[] = {
 
 static zStyle styles_debbut[] = {
 	{ Z_STYLES, z.R.style.tools },
+	{ Z_FBO, false },
 	{ Z_SIZE, 0x05000500 },
 	{ Z_FOREGROUND_SCALE, 27524 },
 	{ Z_ICON_SCALE, 21626 },
@@ -99,6 +157,19 @@ static zStyle styles_pokribbon[] = {
 	{ Z_DECORATE | ZT_END, ZS_SCROLLBAR }
 };
 
+static zStyle styles_taperibbon[] = {
+	{ Z_FBO, true },
+	{ Z_BACKGROUND_TILES, z.R.integer.selectDrop },
+	{ Z_SELECTOR | ZT_THEME, Z_THEME_COLOR_SELECTOR },
+	{ Z_DURATION, 30 },
+	{ Z_DECORATE, ZS_SCROLLBAR | ZS_GLOW },
+	{ Z_SCROLLBAR_FADE, true },
+	{ Z_SCROLLBAR_TILES, z.R.integer.rectRoundSm },
+	{ Z_DIVIDER_SIZE, 0x03000302 },
+	{ Z_DIVIDER_TYPE, ZS_DIVIDER_MIDDLE | ZS_DIVIDER_END | ZS_DIVIDER_BEGIN },
+	{ Z_PADDING | ZT_END, 0x03030303 }
+};
+
 static zStyle styles_diskheadtext[] = {
 	{ Z_TEXT_SIZE, 15 },
 	{ Z_TEXT_STYLE, ZS_TEXT_BOLD },
@@ -179,6 +250,7 @@ static zStyle styles_textcapt[] = {
 
 static zStyle styles_browsbut[] = {
 	{ Z_STYLES, z.R.style.tools },
+	{ Z_FBO, false },
 	{ Z_ICON | ZT_THEME, Z_THEME_ICONS },
 	{ Z_PADDING | ZT_END, 0x02020202 }
 };
@@ -382,6 +454,10 @@ static zStyle styles_disptexty[] = {
 static zStyle styles_disptextw[] = {
 	{ Z_BACKGROUND, 0xFFFFFFFF },
 	{ Z_STYLES | ZT_END, R.style.dispColorText }
+};
+
+static zStyle styles_casetlist[] = {
+	{ Z_STYLES | ZT_END, R.style.tapeRibbon }
 };
 
 static zStyle styles_diskspindisk[] = {

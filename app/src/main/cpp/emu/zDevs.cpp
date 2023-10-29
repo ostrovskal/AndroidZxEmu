@@ -440,7 +440,7 @@ void zDevSound::update(int _clock) {
     clock           = (u32)_clock;
     passedSndTicks  = passedClkTicks = 0;
     tick            = base_tick = 0;
-    spos            = cpos = nullptr;
+    cpos = spos     = nullptr;//&buffer[0];
     sample          = frequencies[speccy->sndFreq];
 }
 
@@ -449,9 +449,8 @@ void zDevSound::begin(u32 tacts) {
 //        ILOG("Sound buffer overflow %i", nSamples);
         nSamples = 0;
     }
-    spos        = &buffer[nSamples];
-    cpos        = spos;
     base_tick   = tick;
+    cpos = spos = &buffer[nSamples];
 }
 
 void zDevSound::finish(u32 tacts) {
@@ -484,6 +483,9 @@ void zDevSound::flush(u32 endtick) {
         tick = endtick;
     } else {
         scale = 65535 - filters[(tick & 63) + 64];
+        if(cpos == nullptr || spos == nullptr) {
+            cpos = spos;
+        }
         cpos->left  += (left  * scale + l2) >> 16;
         cpos->right += (right * scale + r2) >> 16;
         cpos++;

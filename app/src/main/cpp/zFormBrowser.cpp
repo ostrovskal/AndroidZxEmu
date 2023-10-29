@@ -39,6 +39,7 @@ void zFormBrowser::onInit(bool _theme) {
             but[i] = idView<zViewButton>(ids[i]);
             but[i]->setOnClick([this](zView* v, int) { onCommand(v->id); });
         }
+        current = settings->getPath(0);
         edt = idView<zViewEdit>(R.id.browsEdit);
         lst = idView<zViewRibbon>(R.id.browsList);
         flt = idView<zViewSelect>(R.id.browsSpin); flt->setItemSelected(speccy->browseFlt);
@@ -71,15 +72,15 @@ void zFormBrowser::onInit(bool _theme) {
 void zFormBrowser::setFilter(int _f, bool force) {
     if(filter != _f || force) {
         diskPath.empty();
-        auto old(filter);
+        //auto old(filter);
         zString8 _flt; filter = _f;
         if(filter == FLT_NET) {
-            if(old != FLT_NET) current.empty();
+            //if(old != FLT_NET) current.empty();
             root = "/ZX/ZxGames/";
             // определить список расширений
             _flt = "zip|sna|z80|tap|tzx|csw|wav|ezx|zzz|td0|trd|scl|fdi|udi|$b|$c";
         } else {
-            if(old == FLT_NET) current.empty();
+            //if(old == FLT_NET) current.empty();
             root = settings->makePath("", FOLDER_ROOT) + "files/";
             // определить список расширений
             if(filter == FLT_SNAP) {
@@ -144,6 +145,7 @@ void zFormBrowser::makeList(const zArray<zFile::zFileInfo>& arr) {
     if(current.isNotEmpty()) files.insert(0, "...");
     lst->getAdapter()->clear(false);
     lst->getAdapter()->addAll(files);
+    settings->setPath(0, current);
 }
 
 bool zFormBrowser::checkAuth() {

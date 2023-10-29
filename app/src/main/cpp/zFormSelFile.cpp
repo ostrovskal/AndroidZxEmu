@@ -11,13 +11,18 @@ void zFormSelFile::onInit(bool _theme) {
         lst = idView<zViewRibbon>(R.id.selList);
         lst->setOnClick([this](zView*, int sel) {
             if(!touch->isDblClicked()) return;
-            zFile fl(pth, true);
-            auto ret(speccy->_load(&fl, sel, option));
-            if(ret) {
-                auto ext(lst->getAdapter()->getItem(sel).substrAfterLast("."));
-                ret = (ext[0] != '$');
+            zFile fl(pth, true); zFile::zFileInfo zfi{};
+            if(fl.info(zfi, sel)) {
+                // сформировать полный путь к кэшу
+                auto path(settings->makePath(zfi.path.substrAfterLast("/", zfi.path), FOLDER_CACHE));
+                // распаковать файл в папку кэша
+                auto ret(fl.copy(path, zfi.index));
+                if(ret) {
+                    frame->send(ZX_MESSAGE_LOAD, 0, 0, path);
+                    ret = path.substrAfterLast(".") != "$";
+                }
+                if(ret) close(z.R.id.ok);
             }
-            if(ret) close(z.R.id.ok);
         });
     }
 }

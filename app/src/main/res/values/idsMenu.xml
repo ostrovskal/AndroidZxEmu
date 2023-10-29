@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
+    <color name="tzxTypeUse">#6f6f6f</color>
+    <color name="tzxTypeUnuse">#fff</color>
+    <item name="tzxCaption" type="id"/>
+    <item name="tzxSclItems" type="id"/>
+    <item name="tzxDelete" type="id"/>
+    <item name="tzxScroll" type="id"/>
+    <item name="tzxIndex" type="id"/>
+    <item name="tzxType" type="id"/>
+    <item name="tzxPause" type="id"/>
     <item name="tapePlay" type="id"/>
     <item name="tapeTurbo" type="id"/>
     <item name="tapeProgress" type="id"/>

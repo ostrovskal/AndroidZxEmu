@@ -12,7 +12,7 @@ int z_extension(zString8 name) {
 u8* z_openFile(zFile* fl, int index, int* size, zString8& name) {
     u8* ptr(nullptr); zFile::zFileInfo zfi{};
     if(fl->info(zfi, index)) {
-        *size = (int)zfi.usize; name = zfi.path;
+        if(size) *size = (int)zfi.usize; name = zfi.path;
         auto ext(z_extension(name)); bool success(true);
         if(ext == ZX_FMT_CSW || ext == ZX_FMT_WAV) {
             if(fl->isZip()) {

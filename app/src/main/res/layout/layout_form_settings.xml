@@ -669,7 +669,8 @@
                 android:id="@+id/casetList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                z:styles="@style/setRibbon"/>
+                z:typeView="zRibbonTape" z:nameView="listTape"
+                z:styles="@style/tapeRibbon"/>
         </TabWidget>
         <TabWidget
             z:iconka="@integer/iconZxDisk"

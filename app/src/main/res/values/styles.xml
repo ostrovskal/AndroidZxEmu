@@ -1,5 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="tapeItem">
+        <item name="fbo">true</item>
+        <item name="behavior">clickable|longClickable</item>
+        <item name="fkGravity">center</item>
+        <item name="bkTiles">@integer/selectItem</item>
+        <item name="gravity">center</item>
+        <item name="pad">2dp</item>
+    </style>
+    <style name="tapeBut">
+        <item name="fkGravity">center</item>
+        <item name="fkScale">0.22</item>
+        <item name="pad">2dp</item>
+        <item name="gravity">center</item>
+        <item name="icGravity">center</item>
+        <item name="textColor">@color/white</item>
+        <item name="icScale">0.25</item>
+        <item name="tap">pressed</item>
+        <item name="fkTiles">@integer/gradientSm</item>
+    </style>
+    <style name="tapeText">
+        <item name="behavior">none</item>
+        <item name="fkGravity">center</item>
+        <item name="gravity">center</item>
+        <item name="textShadowOffset">2,2</item>
+        <item name="textSize">17sp</item>
+        <item name="padHorz">4dp</item>
+        <item name="ipad">2dp</item>
+        <item name="textLines">12</item>
+        <item name="textColor">@color/red</item>
+    </style>
+    <style name="tapeIndex">
+        <item name="styles">@style/tapeText</item>
+        <item name="background">#000</item>
+        <item name="textSize">15sp</item>
+        <item name="textColor">@color/white</item>
+    </style>
+    <style name="tapeCaption">
+        <item name="styles">@style/tapeText</item>
+        <item name="background">@color/red</item>
+        <item name="textSize">19sp</item>
+        <item name="textColor">@color/yellow</item>
+        <item name="textLines">1</item>
+        <item name="ipad">3dp</item>
+    </style>
+    <style name="tapeType">
+        <item name="styles">@style/tapeText</item>
+        <item name="background">#303000</item>
+        <item name="textSize">18sp</item>
+        <item name="ipad">0dp</item>
+        <item name="textColor">@color/white</item>
+    </style>
     <style name="zxActionBar">
         <item name="styles">@style/bar</item>
         <item name="background">@drawable/zx_icons</item>
@@ -8,6 +59,7 @@
     </style>
     <style name="debBut">
         <item name="styles">@style/tools</item>
+        <item name="fbo">false</item>
         <item name="sizeMinW">5dp</item>
         <item name="sizeMinH">5dp</item>
         <item name="fkScale">0.42</item>
@@ -91,6 +143,19 @@
         <item name="divType">middle|end|begin</item>
         <item name="decorate">scrollbar</item>
     </style>
+    <style name="tapeRibbon">
+        <item name="fbo">true</item>
+        <item name="bkTiles">@integer/selectDrop</item>
+        <item name="selector">?attr/themeColorSelector</item>
+        <item name="duration">30</item>
+        <item name="decorate">scrollbar|glow</item>
+        <item name="fadeScrollBars">true</item>
+        <item name="tilesScrollBars">@integer/rectRoundSm</item>
+        <item name="divSize">2dp</item>
+        <item name="divPadHorz">3dp</item>
+        <item name="divType">middle|end|begin</item>
+        <item name="pad">3dp</item>
+    </style>
     <style name="diskHeadText">
         <item name="textSize">15sp</item>
         <item name="textStyle">bold</item>
@@ -165,6 +230,7 @@
     </style>
     <style name="browsBut">
         <item name="styles">@style/tools</item>
+        <item name="fbo">false</item>
         <item name="icon">?attr/themeIcons</item>
         <item name="pad">2dp</item>
     </style>

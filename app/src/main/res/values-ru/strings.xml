@@ -81,4 +81,32 @@
     <string name="browser_flt">Снимок|Лента|Сеть|Диск A:|Диск B:|Диск C:|Диск D:</string>
     <string name="download">Загрузка завершена\n</string>
     <string name="netNotFound">Сеть недоступна</string>
+    <string name="failedSave">Не удалось сохранить - \n%s!</string>
+    <string name="failedLoad">Не удалось загрузить - \n%s!</string>
+    <string name="qLoad">Быстрая загрузка\n</string>
+    <string name="qSave">Быстрая запись\n</string>
+    <string name="tzxLevel">уровень:</string>
+    <string name="tzxIndex">индекс:</string>
+    <string name="tzxCount">кол-во:</string>
+    <string name="tzxBits">бит:</string>
+    <string name="tzxSize">размер:</string>
+    <string name="tzxStop">стоп</string>
+    <string name="tzxPilot">пилот:</string>
+    <string name="tzxName">имя:</string>
+    <string name="tzxLine">запуск:</string>
+    <string name="tzxAddress">адрес:</string>
+    <string name="tzxDelete">удалить</string>
+    <string-array name="tzxArchive">
+        <item>Заголовок:</item>
+        <item>Издатель:</item>
+        <item>Автор:</item>
+        <item>Год:</item>
+        <item>Язык:</item>
+        <item>Тип:</item>
+        <item>Цена:</item>
+        <item>Защита:</item>
+        <item>Источник:</item>
+        <item>Коммент:</item>
+        <item>Инфо:</item>
+    </string-array>
 </resources>

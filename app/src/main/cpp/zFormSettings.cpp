@@ -4,26 +4,7 @@
 
 #include "sshCommon.h"
 #include "zFormSettings.h"
-
-class zFabricTapeItem : public zFabricListItem {
-public:
-    zFabricTapeItem() : zFabricListItem(styles_z_list_item) { }
-    zView* make(zViewGroup* parent) override {
-        auto v(new zLinearLayout(styles_default, 0, false));
-        v->lps.set(0, 0, VIEW_MATCH, VIEW_WRAP);
-        v->onInit(false);
-        return v;
-    }
-};
-
-class zAdapterTape : public zAdapterList {
-public:
-    zAdapterTape() : zAdapterList({}, new zFabricTapeItem()) { }
-    zView* getView(int position, zView* convert, zViewGroup* parent) override {
-        auto nv((zLinearLayout*)createView(position, convert, parent, fabricBase, false));
-        return nv;
-    }
-};
+#include "zRibbonTape.h"
 
 class zFabricDiskItem : public zFabricListItem {
 public:
@@ -302,7 +283,8 @@ void zFormSettings::onInit(zView* v, int a1) {
         }
         // casette
         case R.id.casetList:
-            ((zViewRibbon*)v)->setAdapter(new zAdapterTape());
+            ((zViewRibbon*)v)->getAdapter()->notify();
+            ((zViewRibbon*)v)->setItemSelected(speccy->tapeCurrent);
             break;
         // disk
         case R.id.diskSpinDisk: {

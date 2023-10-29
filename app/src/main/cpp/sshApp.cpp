@@ -12,6 +12,7 @@
 #include "zFormBpList.h"
 #include "zSpeccyKeyboard.h"
 #include "zFormTZX.h"
+#include "zRibbonTape.h"
 
 void sshApp::processEvents(i32 event) {
     switch(event) {
@@ -65,7 +66,7 @@ static cstr options_def[] = {
         "debugger_content=true", "play_tape=false", "rec_tape=false",
         "debug_reg16=false", "tapeAutoStartStop=true", "reset_tape=false", "dark_mode=false",
         "swap_mouse=false", "giga_screen=false", "debugCpu=true", "snd_cv=false",
-        "snd_gs=false", "trap_dos=true", "fps=false", "showTape=false",
+        "snd_gs=false", "trap_dos=true", "fps=false", "showTape=true",
         "boolTmp1=false", "boolTmp2=false",
         "[BYTES]",
         "border_size=3", "joy_size=3","keyb_size=2",
@@ -145,7 +146,13 @@ void sshApp::setContent() {
     forms[FORM_WAIT]    = new zViewFormWait(0, 0, 0);
     // привязка и инициализация
     if(!frame->init()) { ILOG("Ошибка при запуске эмулятора!"); }
-    frame->setOnClick([this](zView*, int b) { if(b) getActionBar()->show(true); });
+    frame->setOnClick([this](zView*, int b) {
+        // двойной клик - qload/qsave
+        if(zView::touch->isDblClicked()) {
+            auto vert(!isLandscape());
+            frame->onCommand(z_round(zView::touch->cpt[vert]) > (screen[vert + 2] / 2) ? R.integer.MENU_QSAVE : R.integer.MENU_QLOAD, nullptr);
+        } else if(b) getActionBar()->show(true);
+    });
     frame->attach(assembler, VIEW_MATCH, VIEW_MATCH);
     frame->attach(tzx, VIEW_MATCH, VIEW_MATCH);
     main->attach(debugger, VIEW_MATCH, VIEW_MATCH);

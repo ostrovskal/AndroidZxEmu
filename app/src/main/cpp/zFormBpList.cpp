@@ -12,9 +12,9 @@ static zArray<zString8> makeBpValues(BREAK_POINT* bp) {
                                     z_fmtValue(bp->msk, ZFV_OPS8, speccy->showHex)).split("|");
 }
 
-class zFabricBpListItem : public zFabricListItem {
+class zFabricBpListItem : public zBaseFabric {
 public:
-    explicit zFabricBpListItem() : zFabricListItem(styles_z_list_item) { }
+    explicit zFabricBpListItem() : zBaseFabric(styles_z_list_item) { }
     zView* make(zViewGroup* parent) override {
         auto v(new zLinearLayout(styles_default, 0, false));
         for(int i = 0 ; i < 6; i++) v->attach(new zViewText(styles_diskheadtext, 0, 0),VIEW_MATCH, VIEW_MATCH);
@@ -31,8 +31,7 @@ public:
     zView* getView(int position, zView* convert, zViewGroup* parent) override {
         auto nv((zLinearLayout*)createView(position, convert, parent, fabricBase, false));
         auto bp(speccy->getCpu(speccy->debugCpu)->bps[position]);
-        auto abp(makeBpValues(&bp));
-        auto nil(bp.ops == ZX_BP_NONE);
+        auto abp(makeBpValues(&bp)); auto nil(bp.ops == ZX_BP_NONE);
         for(int i = 0 ; i < 5; i++) nv->atView<zViewText>(i)->setText(nil ? "-------" : i == 4 ? bps->cond[bp.flg] : abp[i]);
         nv->atView<zViewText>(5)->setText(bps->ops[bp.ops]);
         return nv;

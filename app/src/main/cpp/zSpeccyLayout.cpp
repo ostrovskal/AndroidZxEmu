@@ -89,9 +89,7 @@ void zSpeccyLayout::notifyEvent(HANDLER_MESSAGE* msg) {
             break;
         // отобразить форму сообщений
         case MSG_FORM_MSG:
-            fm = new zViewFormMessage(styles_z_msgform, 0, styles_z_formcaption, styles_z_formfooter,
-                                      msg->arg1, msg->sarg);
-            manager->attachForm(fm, 340_dp, 220_dp)->updateVisible(true);
+            zViewManager::showToast(msg->sarg);
             break;
     }
     zViewGroup::notifyEvent(msg);
@@ -165,7 +163,8 @@ void zSpeccyLayout::stateTools(int action, int id) {
     if(action & ZFT_UPD_TAPE) {
         auto vis(tapeLyt->isVisibled()), sts(false), shw(false);
         if(speccy->showTape) {
-            shw = speccy->tapeIndex && speccy->tapeAllIndex && speccy->tapeIndex < speccy->tapeAllIndex;
+//            shw = speccy->tapeIndex > 0 && speccy->tapeAllIndex > 0 && ((float)speccy->tapeIndex / (float)speccy->tapeAllIndex < 0.9f);
+            shw = speccy->tapeIndex > 0 && speccy->tapeIndex < (speccy->tapeAllIndex - 1000);
             if(shw) {
                 // normal/speed Tape
                 tapeTurbo->setIcon(speccy->speedTape ? R.integer.iconZxAccelOn : R.integer.iconZxAccelOff);
@@ -218,7 +217,7 @@ void zSpeccyLayout::onCommand(int id, zMenuItem* mi) {
             send(ZX_MESSAGE_RESET);
             break;
         case R.integer.MENU_OPS_RESTORE:
-            send(ZX_MESSAGE_LOAD, 0, ZX_ARG_IO_QUICK, settings->makePath("autosave.ezx", FOLDER_CACHE));
+            send(ZX_MESSAGE_LOAD, 1, ZX_ARG_IO_QUICK, settings->makePath("autosave.ezx", FOLDER_CACHE));
             break;
         case R.integer.MENU_OPS_MAGIC:
             send(ZX_MESSAGE_MAGIC);
@@ -269,7 +268,7 @@ void zSpeccyLayout::onCommand(int id, zMenuItem* mi) {
 void zSpeccyLayout::processHandler() {
     zString8 tmp; bool error;
     while(auto msg = handler.obtain()) {
-        auto arg2(msg->arg2);
+        auto arg2(msg->arg2); auto isQuick(arg2 & ZX_ARG_IO_QUICK);
         switch(msg->what) {
             case ZX_MESSAGE_MAGIC:  zxCmd(ZX_CMD_MAGIC); break;
             case ZX_MESSAGE_PROPS:  zxCmd(ZX_CMD_PROPS); break;
@@ -278,26 +277,28 @@ void zSpeccyLayout::processHandler() {
             case ZX_MESSAGE_MODEL:  zxCmd(ZX_CMD_MODEL, msg->arg1, arg2); break;
             case ZX_MESSAGE_DISK:   zxCmd(ZX_CMD_DISK_OPS, msg->arg1, arg2, msg->sarg); break;
             case ZX_MESSAGE_SAVE:
-                tmp = (arg2 & ZX_ARG_IO_QUICK ? msg->sarg.substrAfterLast("/") : msg->sarg);
+                tmp = (isQuick ? msg->sarg.substrAfterLast("/") : msg->sarg);
                 if(speccy->save(msg->sarg, msg->arg1)) {
                     // запись - вывести форму с сообщением
-                    post(MSG_SHOW_TZX_INFO, 0, TZX_QINFO, 0, ((arg2 & ZX_ARG_IO_QUICK) ? "Quick Save\n" : "Save\n") + tmp);
+                    tmp = (isQuick ? theme->findString(R.string.qSave) : "Save\n") + tmp;
                 } else {
-                    post(MSG_FORM_MSG, 0, R.string.msg_error, 0, z_fmt8("Не удалось сохранить -\n%s!", tmp.str()));
+                    tmp = z_fmt8(theme->findString(R.string.failedSave), tmp.str());
                 }
+                zViewManager::showToast(tmp);
                 break;
             case ZX_MESSAGE_LOAD:
-                tmp = (arg2 & ZX_ARG_IO_QUICK ? msg->sarg.substrAfterLast("/") : msg->sarg);
+                tmp = (isQuick ? msg->sarg.substrAfterLast("/") : msg->sarg);
                 if((error = speccy->load(msg->sarg, speccy->tapeStartStop))) {
-                    if(arg2 & ZX_ARG_IO_QUICK) {
+                    if(isQuick) {
                         // быстрая загрузка - вывести форму с сообщением
-                        post(MSG_SHOW_TZX_INFO, 0, TZX_QINFO, 0, "Quick Load\n" + tmp);
-                    }
+                        msg->sarg = theme->findString(R.string.qLoad) + tmp;
+                    } else msg->sarg.empty();
                     zxCmd(ZX_CMD_PROPS);
                 } else {
-                    post(MSG_FORM_MSG, 0, R.string.msg_error, 0, z_fmt8("Не удалось загрузить -\n%s!", tmp.str()));
+                    msg->sarg = z_fmt8(theme->findString(R.string.failedLoad), tmp.str());
                 }
-                settings->mruOpen(0, tmp, !error);
+                if(tmp.indexOf("qsave_") == -1) settings->mruOpen(0, tmp, !error);
+                if(msg->sarg.isNotEmpty() && msg->arg1 == 0) zViewManager::showToast(msg->sarg);
                 break;
         }
     }

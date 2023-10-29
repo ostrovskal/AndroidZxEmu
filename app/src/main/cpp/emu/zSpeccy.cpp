@@ -67,13 +67,13 @@ void zSpeccy::joyMakePresets(int id) const {
     auto presets(getAllNamesJoyPokes());
     auto spin(manager->idView<zViewSelect>(id));
     if(spin) {
-        auto adapt(spin->getAdapter()); auto idx(-1);
+        auto adapt(spin->getAdapter()); auto idx(0);
         adapt->clear(false); adapt->addAll(presets);
         auto prg(obfuskate(progName));
         for(int i = 0 ; i < presets.size(); i++) {
             if(obfuskate(presets[i]) == prg) { idx = i; break; }
         }
-        if(idx != -1) spin->setItemSelected(idx);
+        spin->setItemSelected(idx);
     }
 }
 
@@ -216,12 +216,9 @@ bool zSpeccy::init() {
     diskBoot = manager->assetFile("data/boot.zzz");
     // 1.2. покес
     parserJoyPokes(zString8((cstr)manager->assetFile("data/pokes.txt")).split("\n"));
-    // 2. загрузка состояния
-    if(!speccy->load(settings->makePath("autosave.ezx", FOLDER_CACHE), 0)) {
-        // сбросить модель
-        frame->send(ZX_MESSAGE_MODEL, MODEL_48, 1);
-    }
-    frame->send(ZX_MESSAGE_PROPS);
+    // 2. состояние
+    frame->send(ZX_MESSAGE_MODEL, MODEL_48, 1);
+    frame->onCommand(R.integer.MENU_OPS_RESTORE, nullptr);
     // 2.1. запускаем тред
     if(!pthread_attr_init(&lAttrs)) {
         if(!pthread_attr_setschedpolicy(&lAttrs, SCHED_NORMAL)) {
@@ -320,13 +317,11 @@ bool zSpeccy::_load(zFile* fl, int index, int option) {
     auto type(z_extension(name)); zDevVG93* disk(nullptr); zDevTape* tape(nullptr);
     switch(type) {
         case ZX_FMT_EZX: {
-            if(size > 64) {
-                // указатель перенести в другое место
-                auto ptmp(new u8[size]);
-                memcpy(ptmp, ptr, size);
-                ret = restoreState(ptmp);
-                delete[] ptmp; break;
-            }
+            // указатель перенести в другое место
+            auto ptmp(new u8[size]);
+            memcpy(ptmp, ptr, size);
+            ret = restoreState(ptmp);
+            delete[] ptmp; break;
         }
         case ZX_FMT_WAV: case ZX_FMT_CSW:
             fl->close();
@@ -340,8 +335,8 @@ bool zSpeccy::_load(zFile* fl, int index, int option) {
             }
             break;
         case ZX_FMT_SNA: case ZX_FMT_Z80: case ZX_FMT_ZZZ: {
-            auto rtape(speccy->resetTape); resetTape = false;
-            update(ZX_UPDATE_RESET, 0); resetTape = rtape;
+//            auto rtape(speccy->resetTape); resetTape = false;
+  //          update(ZX_UPDATE_RESET, 0); resetTape = rtape;
             ret = dev<zCpuMain>()->open(ptr, size, type);
             break;
         }

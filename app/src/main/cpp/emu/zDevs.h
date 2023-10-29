@@ -303,7 +303,7 @@ public:
     // индекс устройства
     static constexpr int index() { return DEV_TAPE; }
     // деструктор
-    virtual ~zDevTape() { clear(); }
+    virtual ~zDevTape() { clear(true); }
     // проверка на порт для чтения
     virtual bool    checkRead(u16 port) const override { return !(port & 1); }
     // проверка на порт для записи
@@ -329,7 +329,7 @@ public:
     // остановка записи
     void            stopRecord();
     // стирание ленты
-    void            clear();
+    void            clear(bool all);
     // формирование блока ленты
     BLK_TAPE&       addBlock(u8 type, u8* data, u32 size, u32 add_size);
     // следующий блок данных
@@ -337,16 +337,20 @@ public:
     // выполнение операции выбор блока
     void            execUI(int index);
     // получение информации о блоке
-    BLK_TAPE*       blockInfo(int index) { if(index == -1) index = current; return ((index >= 0 && index < blks.size()) ? &blks[index] : nullptr); }
+    BLK_TAPE*       blockInfo(int index);
     // установка текущего блока
     void            setCurrentBlock(int index);
     // перехват загрузки/сохранения
     void            trap(bool load);
+    // удалить блок
+    void            removeBlock(int index);
+    // все блоки
+    //const zArray<BLK_TAPE>& getBlocks() const { return blks; }
     // установка/получение пути
     zString8        path(cstr _path, cstr _name) { if(_path) pth = _path; if(_name) nam = _name; return nam; }
 protected:
     // установить волну с повтором
-    int setWaveRLE(u8** ptr, u8 wave, u16 rep);
+    static int setWaveRLE(u8** ptr, u8 wave, u16 rep);
     // внутреннее восстановление/сохранение состояния
     u8* statePrivate(u8* ptr, bool restore);
     // подсчитать количество импульсов на количество блоков
@@ -358,39 +362,37 @@ protected:
     // вернуть импульс
     u32 getImpulse();
     // массив блоков
-    zArray<BLK_TAPE> blks;
+    zArray<BLK_TAPE> blks{};
     // путь к файлу/имя
-    zString8 pth, nam;
+    zString8 pth{}, nam{};
     // индекс импульсов на блок/пилот
-    u32 iblock, ipilot;
-    // текущий блок
-    u16 current;
+    u32 iblock{0}, ipilot{0};
     // значение текущего бита(64/0)
-    u8 bit;
+    u8 bit{0};
     // такты для следующих импульсов
-    u64 edge;
+    u64 edge{0};
     // индекс блока для цикла/вызова
-    u16 loop, call;
+    u16 loop{0}, call{0};
     // количество/индекс волны
-    u32 waves, iwaves;
+    u32 waves{0}, iwaves{0};
     // указатель на таблицу волн
-    u8* tw;
+    u8* tw{nullptr};
     // текущая волна
-    u8 wave, ni;
+    u8 wave{0}, ni{0};
     // количество импульсов
-    u16 npulses;
+    u16 npulses{0};
     // массив импульсов
-    u16 pulses[256];
+    u16 pulses[256]{};
     // текущий PC при загрузке/записи и кол-во пропусков ленты
-    int npc, ctape;
+    int npc{0}, ctape{0};
     // позиция при записи
-    u32 rpos;
+    u32 rpos{0};
     // процессор
-    zCpuMain* cpu;
+    zCpuMain* cpu{nullptr};
 private:
     void writePulse(u32 count, int what, int plen, int volume = 8191);
-    bool openCSW(u8* ptr, size_t size);
-    bool openWAV(u8* ptr, size_t size);
+    bool openCSW(const u8* ptr, size_t size);
+    bool openWAV(const u8* ptr, size_t size);
     bool openTAP(u8* ptr, size_t size);
     bool openTZX(u8* ptr, size_t size);
     u8* saveCSW();
@@ -398,8 +400,8 @@ private:
     u8* saveTAP();
     u8* saveTZX();
     u16 indexIfSaveBlock();
-    zFile wfile;
-    u32 wcur;
+    zFile wfile{};
+    u32 wcur{0};
 };
 
 class zDevVG93: public zDev {
@@ -480,8 +482,8 @@ public:
         S_STEP, S_SEEKSTART, S_SEEK, S_VERIFY
     };
     enum FDD_CMD {
-        CB_SEEK_RATE = 0x03, CB_SEEK_VERIFY = 0x04, CB_SEEK_TRKUPD = 0x10, CB_SEEK_DIR = 0x20, CB_SYS_HLT = 0x08, CB_WRITE_DEL = 0x01,
-        CB_DELAY = 0x04, CB_MULTIPLE = 0x10, CB_RESET = 0x04, CB_SIDE_CMP = 0x02, CB_SIDE = 0x08, CB_SIDE_SHIFT = 3
+        /*CB_SEEK_RATE = 0x03,*/ CB_SEEK_VERIFY = 0x04, CB_SEEK_TRKUPD = 0x10, CB_SEEK_DIR = 0x20, CB_SYS_HLT = 0x08, CB_WRITE_DEL = 0x01,
+        CB_DELAY = 0x04, CB_MULTIPLE = 0x10, CB_RESET = 0x04/*, CB_SIDE_CMP = 0x02, CB_SIDE = 0x08, CB_SIDE_SHIFT = 3*/
     };
     zDevVG93();
     // индекс устройства

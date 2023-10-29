@@ -229,7 +229,7 @@
 			VIEW_MATCH, VIEW_MATCH);
 	auto settings42((zTabWidget*)settings01->attach(new zTabWidget(styles_default, 0, 0, R.integer.iconZxCasette), 
 			VIEW_WRAP, VIEW_WRAP)); 
-	settings42->attach(new zViewRibbon(styles_bplist, R.id.casetList, false), 
+	settings42->attach(new zRibbonTape(styles_casetlist, R.id.casetList, false), 
 			VIEW_MATCH, VIEW_MATCH);
 	auto settings52((zTabWidget*)settings01->attach(new zTabWidget(styles_default, 0, 0, R.integer.iconZxDisk), 
 			VIEW_WRAP, VIEW_WRAP)); 

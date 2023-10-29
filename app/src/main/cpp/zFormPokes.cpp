@@ -24,9 +24,14 @@ public:
     explicit zAdapterPokesList() : zAdapterList({""}, new zFabricPokesItem()) { }
     zView* getView(int position, zView* convert, zViewGroup* parent) override {
         auto nv((zLinearLayout*)createView(position, convert, parent, fabricBase, false));
-        nv->atView<zViewText>(0)->setText(getItem(position).substrBefore("|"));
-        nv->atView<zViewButton>(1)->setOnClick([](zView*, int) {
-            DLOG("poke click");
+        auto s(getItem(position)); nv->atView<zViewText>(0)->setText(s.substrBefore("|"));
+        s = s.substrAfter("|");
+        nv->atView<zViewButton>(1)->setOnClick([this, s](zView*, int) {
+            auto pks(s.split("|"));
+            for(auto& pk : pks) {
+                auto adr(z_ston(pk.substrBefore("="), RADIX_DEC)), val(z_ston(pk.substrAfter("="), RADIX_DEC));
+                speccy->getCpu(1)->_wm8(adr, val);
+            }
         });
         return nv;
     }

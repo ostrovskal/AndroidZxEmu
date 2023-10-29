@@ -15,6 +15,10 @@
     <string name="settings_auto_tape">Tape</string>
     <string name="msg_error">Error</string>
     <string name="msg_warning">Warning</string>
+    <string name="failedSave">Failed Saving - \n%s!</string>
+    <string name="failedLoad">Failed Loading - \n%s!</string>
+    <string name="qLoad">Quick Loading\n</string>
+    <string name="qSave">Quick Saving\n</string>
     <string name="browser_flt">Snapshot|Tape|Network|Disk A:|Disk B:|Disk C:|Disk D:</string>
     <string name="disks" translatable="false">A:|B:|C:|D:</string>
     <string name="bp_ops" translatable="false">EMPTY|EXEC|RMEM|WMEM|RPORT|WPORT</string>
@@ -95,4 +99,28 @@
     <string name="bp_address1">Address1</string>
     <string name="bp_address2">Address2</string>
     <string name="bp_access">Access</string>
+    <string name="tzxLevel">level:</string>
+    <string name="tzxIndex">index:</string>
+    <string name="tzxCount">count:</string>
+    <string name="tzxBits">bits:</string>
+    <string name="tzxSize">size:</string>
+    <string name="tzxStop">stop</string>
+    <string name="tzxPilot">pilot:</string>
+    <string name="tzxName">name:</string>
+    <string name="tzxLine">exec:</string>
+    <string name="tzxAddress">address:</string>
+    <string name="tzxDelete">delete</string>
+    <string-array name="tzxArchive">
+        <item>Title:</item>
+        <item>Publisher:</item>
+        <item>Author:</item>
+        <item>Year:</item>
+        <item>Language:</item>
+        <item>Type:</item>
+        <item>Price:</item>
+        <item>Protection:</item>
+        <item>Origin:</item>
+        <item>Comment:</item>
+        <item>Info:</item>
+    </string-array>
 </resources>

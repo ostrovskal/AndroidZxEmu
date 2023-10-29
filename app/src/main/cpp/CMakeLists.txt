@@ -27,6 +27,7 @@ add_library(zemu SHARED
 		zFormPokes.cpp
 		zFormSelFile.cpp
 		sshCommon.cpp
+		zRibbonTape.cpp
 )
 
 find_package(zstandard REQUIRED CONFIG)
