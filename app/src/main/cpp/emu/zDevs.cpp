@@ -483,9 +483,6 @@ void zDevSound::flush(u32 endtick) {
         tick = endtick;
     } else {
         scale = 65535 - filters[(tick & 63) + 64];
-        if(cpos == nullptr || spos == nullptr) {
-            cpos = spos;
-        }
         cpos->left  += (left  * scale + l2) >> 16;
         cpos->right += (right * scale + r2) >> 16;
         cpos++;
@@ -701,7 +698,7 @@ void zDevMixer::update(int param) {
                 pr.rate = frequencies[speccy->sndFreq] * 1000;
                 pr.chan = 2; pr.bits = 16; pr.bufSize = sizeof(mixBuffer);
                 player = manager->sound.createPlayer(1234, TYPE_MEM, pr);
-                if(!player) ILOG("player not create!!!");
+//                ILOG("player create!!! %x", player);
             }
         }
     }
@@ -734,8 +731,6 @@ void zDevMixer::mix() {
         if(player) {
             player->setData((u8*)audioBuffer, (int)(minSamples << 2));
             player->play(true);
-        } else {
-            DLOG("plauer is null!");
         }
     }
     auto diffSamples(maxSamples - minSamples);

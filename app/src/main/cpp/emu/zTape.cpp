@@ -15,7 +15,7 @@ zDevTape::zDevTape() {
 }
 
 void zDevTape::clear(bool all) {
-	for(auto& blk : blks) SAFE_A_DELETE(blk.data);
+	for(auto& blk : blks) SAFE_A_DELETE(blk->data);
 	blks.clear(); pth.empty();
 	npulses = 0;
 	iwaves = waves = ipilot = 0;
@@ -31,7 +31,7 @@ void zDevTape::clear(bool all) {
 void zDevTape::update(int param) {
 	if(param == ZX_UPDATE_RESET) {
 		speccy->tapeCurrent = 0;
-		for(auto& blk : blks) blk.use = 0;
+		for(auto blk : blks) blk->use = 0;
 		speccy->tapeIndex = 0;
 		if(speccy->resetTape) clear(true); else stopPlay();
 	}
@@ -66,7 +66,7 @@ bool zDevTape::write(u16, u8 val, u32 ticks) {
 	if(speccy->recTape) {
 		auto pc(cpu->pcb); auto cur(cpu->ts + ticks);
 		if(npc != -1 && abs(npc - pc) > 80) {
-			if(rpos > 16) addNormalBlock(tmpBuf, rpos / 16).type = TZX_SAVE;
+			if(rpos > 16) addNormalBlock(tmpBuf, rpos / 16)->type = TZX_SAVE;
 			npc = -1; speccy->recTape = false;
 		} else if(npc == -1) {
 			ctape = 0;
@@ -116,33 +116,32 @@ bool zDevTape::read(u16, u8* ret, u32 ticks) {
 	return false;
 }
 
-zDevTape::BLK_TAPE& zDevTape::addNormalBlock(u8* data, u32 size) {
-	auto& blk(addBlock(TZX_NORMAL, data, size, 18));
+zDevTape::BLK_TAPE* zDevTape::addNormalBlock(u8* data, u32 size) {
+	auto blk(addBlock(TZX_NORMAL, data, size, 18));
 	auto nwp((u16)((*data < 128) ? 8063 : 3223));
-	blk.nip = 2; blk.nib = 2;
-	blk.nwp = nwp * blk.nip; blk.pause = 1000;
-	blk.nwb = (u32)((size << 3) * blk.nib);
-	auto buf = blk.data;
+	blk->nip = blk->nib = 2;
+	blk->nwp = nwp * blk->nip; blk->pause = 1000;
+	blk->nwb = (u32)((size << 3) * blk->nib);
+	auto buf = blk->data;
 	*buf++ = 0; *buf++ = indexOfPulse(2168); *buf++ = indexOfPulse(0);
 	*buf++ = 0; *buf++ = indexOfPulse(667);  *buf++ = indexOfPulse(735);
-	blk.twb = buf;
+	blk->twb = buf;
 	*buf++ = 0; *buf++ = indexOfPulse(855);  *buf++ = indexOfPulse(855);
 	*buf++ = 0; *buf++ = indexOfPulse(1710); *buf++ = indexOfPulse(1710);
-	blk.pilots = buf; setWaveRLE(&buf, 0, (u16)(nwp - 1)); setWaveRLE(&buf, 1, 1);
-	blk.bits = buf;
+	blk->pilots = buf; setWaveRLE(&buf, 0, (u16)(nwp - 1)); setWaveRLE(&buf, 1, 1);
+	blk->bits = buf;
 	return blk;
 }
 
-zDevTape::BLK_TAPE& zDevTape::addBlock(u8 type, u8* data, u32 size, u32 add_size) {
-	BLK_TAPE blk;
-	memset(&blk, 0, sizeof(BLK_TAPE));
+zDevTape::BLK_TAPE* zDevTape::addBlock(u8 type, u8* data, u32 size, u32 add_size) {
+	auto blk(new BLK_TAPE());
 	size += add_size;
 	if(data && size) {
-		blk.data = new u8[size];
-		memcpy(blk.data + add_size, data, size - add_size);
+		blk->data = new u8[size];
+		memcpy(blk->data + add_size, data, size - add_size);
 	}
-	blk.type = type;
-	blk.size = size;
+	blk->type = type;
+	blk->size = size;
 	return blks += blk;
 }
 
@@ -150,12 +149,12 @@ bool zDevTape::nextBlock() {
 	if(iblock > 0) return true;
 	bool stop(false), exit(false);
 	while(speccy->tapeCurrent < speccy->tapeCount && !exit) {
-		auto& blk(blks[speccy->tapeCurrent]);
-		auto type(blk.type);
-		blk.use = 1;
+		auto blk(blks[speccy->tapeCurrent]);
+		auto type(blk->type);
+		blk->use = 1;
 		switch(type) {
 			case TZX_PAUSE:
-				if(blk.pause > 0) return true;
+				if(blk->pause > 0) return true;
 				stop = true;
 				speccy->tapeCurrent++;
 				break;
@@ -167,29 +166,29 @@ bool zDevTape::nextBlock() {
 				} else speccy->tapeCurrent++;
 				break;
 			case TZX_LEVEL:
-				bit = (u8)((!blk.level) << 6);
+				bit = (u8)((!blk->level) << 6);
 				break;
 			case TZX_JUMP:
-				speccy->tapeCurrent += (int)blk.count;
+				speccy->tapeCurrent += (int)blk->count;
 				break;
 			case TZX_LOOP_START:
-				blk.index = blk.count;
+				blk->index = blk->count;
 				loop = speccy->tapeCurrent++;
 				break;
 			case TZX_LOOP_END:
 				blk = blks[loop];
-				blk.index--;
-				speccy->tapeCurrent = (u16)(blk.index > 0 ? loop + 1 : speccy->tapeCurrent + 1);
+				blk->index--;
+				speccy->tapeCurrent = (u16)(blk->index > 0 ? loop + 1 : speccy->tapeCurrent + 1);
 				break;
 			case TZX_CALL:
-				blk.index = 0;
+				blk->index = 0;
 				call = speccy->tapeCurrent;
-				speccy->tapeCurrent += (int)*(u16*)blk.data;
+				speccy->tapeCurrent += (int)*(u16*)blk->data;
 				break;
 			case TZX_RETURN:
 				blk = blks[call];
-				blk.index++;
-				speccy->tapeCurrent = (u16)(call + (blk.index < blk.count ? (int)*(u16*)(blk.data + blk.index * 2) : 1));
+				blk->index++;
+				speccy->tapeCurrent = (u16)(call + (blk->index < blk->count ? (int)*(u16*)(blk->data + blk->index * 2) : 1));
 				break;
 			case TZX_MESSAGE: case TZX_SELECT:
 				modifySTATE(ZX_T_UI, 0)
@@ -208,8 +207,8 @@ bool zDevTape::nextBlock() {
 				// если пульсы - не сбрасывать
 				if(!isPulses(type)) iwaves = ipilot = 0;
 				waves = 0;
-				tw = blk.twp;
-				ni = blk.nip;
+				tw = blk->twp;
+				ni = blk->nip;
 				break;
 		}
 	}
@@ -224,7 +223,7 @@ u32 zDevTape::getImpulse() {
 	frame->setStatus(R.integer.iconZxCasette);
 	while(!impulse) {
 		if(!nextBlock()) return 0;
-		blk = &blks[speccy->tapeCurrent];
+		blk = blks[speccy->tapeCurrent];
 		auto ifile(speccy->tapeIndex);
 		// необработанные импульсы
 		if(isPulses(blk->type)) {
@@ -292,7 +291,7 @@ void  zDevTape::removeBlock(int index) {
 
 zDevTape::BLK_TAPE* zDevTape::blockInfo(int index) {
 	if(index == -1) index = speccy->tapeCurrent;
-	return ((index >= 0 && index < speccy->tapeCount) ? &blks[index] : nullptr);
+	return ((index >= 0 && index < speccy->tapeCount) ? blks[index] : nullptr);
 }
 
 void zDevTape::setCurrentBlock(int index) {
@@ -309,19 +308,23 @@ void zDevTape::setCurrentBlock(int index) {
 u8* zDevTape::statePrivate(u8* ptr, bool restore) {
 	if(restore) {
 		if(strncmp((char*)ptr, "SERG TAPE", 9) != 0) return nullptr;
-		ptr += 9;
-		bit = *ptr++; wave = *ptr++; ni = *ptr++; speccy->playTape = *ptr++;
+		ptr += 9; bit = *ptr++; wave = *ptr++; ni = *ptr++; speccy->playTape = *ptr++;
 		call = wordLE(&ptr); loop = wordLE(&ptr); npulses = wordLE(&ptr);
 		iwaves = dwordLE(&ptr); waves = dwordLE(&ptr); rpos = dwordLE(&ptr);
 		iblock = dwordLE(&ptr); ipilot = dwordLE(&ptr); edge = qwordLE(&ptr);
+		npc = dwordLE(&ptr); ctape = dwordLE(&ptr);
 		memcpy(pulses, ptr, sizeof(pulses)); ptr += sizeof(pulses);
 		pth = (cstr)ptr; ptr += pth.size() + 1;
 	} else {
 		z_memcpy(&ptr, "SERG TAPE", 9);
 		*ptr++ = bit; *ptr++ = wave; *ptr++ = ni; *ptr++ = (u8)speccy->playTape;
-		wordLE(&ptr, call); wordLE(&ptr, loop); wordLE(&ptr, npulses);
-		dwordLE(&ptr, iwaves); dwordLE(&ptr, waves); dwordLE(&ptr, rpos);
-		dwordLE(&ptr, iblock); dwordLE(&ptr, ipilot); qwordLE(&ptr, edge);
+		wordLE(&ptr, call); wordLE(&ptr, loop);
+		wordLE(&ptr, npulses);
+		dwordLE(&ptr, iwaves); dwordLE(&ptr, waves);
+		dwordLE(&ptr, rpos);
+		dwordLE(&ptr, iblock); dwordLE(&ptr, ipilot);
+		qwordLE(&ptr, edge);
+		dwordLE(&ptr, npc); dwordLE(&ptr, ctape);
 		z_memcpy(&ptr, pulses, sizeof(pulses));
 		z_memcpy(&ptr, pth.buffer(), pth.size() + 1);
 	}
@@ -356,7 +359,7 @@ void zDevTape::trap(bool load) {
 	} else {
 		// быстрая запись
 		if(speccy->speedTape) {
-			addNormalBlock(tmpBuf, (int)(cpu->speedSave() - tmpBuf)).type = TZX_SAVE;
+			addNormalBlock(tmpBuf, (int)(cpu->speedSave() - tmpBuf))->type = TZX_SAVE;
 		} else {
 			startRecord();
 		}
@@ -367,12 +370,12 @@ i32 zDevTape::resolveCountImpulses(int count) {
 	if(speccy->tapeCount < count) count = (u16)speccy->tapeCount;
 	u32 c(0);
 	for(int i = 0 ; i < count; i++) {
-		auto& blk(blks[i]);
-		switch(blk.type) {
+		auto blk(blks[i]);
+		switch(blk->type) {
 			case TZX_NORMAL: case TZX_TURBO: case TZX_UNION: case TZX_PURE_DATA:
-				c += blk.nwb;
+				c += blk->nwb;
 			case TZX_CSW: case TZX_PULSES: case TZX_TONE: case TZX_RECORD:
-				c += blk.nwp;
+				c += blk->nwp;
 				break;
 		}
 	}
@@ -385,26 +388,24 @@ void zDevTape::execUI(int index) {
 }
 
 u8* zDevTape::state(u8* buf, bool restore) {
-	auto ptr(buf);
-	BLK_TAPE* blk(nullptr);
+	auto ptr(buf); BLK_TAPE* blk;
 	if(restore) {
 		try {
 			clear(false);
 			if(!(ptr = statePrivate(buf, restore))) throw(0);
-			auto cblks(wordLE(&ptr)), _tw(wordLE(&ptr));
+			auto cblks(wordLE(&ptr)); auto _tw(dwordLE(&ptr));
 			auto ext(z_extension(pth));
 			for(int i = 0 ; i < cblks; i++) {
-				auto twb(wordLE(&ptr));
-				auto pilots(dwordLE(&ptr)), bits(dwordLE(&ptr)), size(dwordLE(&ptr));
+				auto twb(dwordLE(&ptr)), pilots(dwordLE(&ptr)), bits(dwordLE(&ptr)), size(dwordLE(&ptr));
 				auto nwp(dwordLE(&ptr)), nwb(dwordLE(&ptr));
 				auto type(*ptr++), nip(*ptr++), nib(*ptr++), use(*ptr++);
 				auto pause(wordLE(&ptr));
 				if(ext == ZX_FMT_CSW || ext == ZX_FMT_WAV) {
 					if(!speccy->load(pth, 0))  throw(0);
-					blk = &blks[speccy->tapeCount - 1];
+					blk = blks[speccy->tapeCount - 1];
 					size -= blk->size;
 				} else {
-					blk = &addBlock(type, ptr, size, 0);
+					blk = addBlock(type, ptr, size, 0);
 				}
 				blk->nip = nip; blk->nib = nib; blk->use = use; blk->pause = pause;
 				blk->nwp = nwp; blk->nwb = nwb; blk->twb = blk->data + twb;
@@ -412,17 +413,17 @@ u8* zDevTape::state(u8* buf, bool restore) {
 				ptr += size;
 			}
 			if(z_crc(buf, ptr - buf) != wordLE(&ptr))  throw(0);
-			if(speccy->tapeCurrent < cblks) tw = _tw + blks[speccy->tapeCurrent].data;
+			if(speccy->tapeCurrent < cblks) tw = _tw + blks[speccy->tapeCurrent]->data;
 			speccy->tapeAllIndex = resolveCountImpulses(cblks);
 		} catch(...) { clear(true); }
 	} else {
 		ptr = statePrivate(ptr, restore);
 		auto count(speccy->tapeCount);
-		wordLE(&ptr, (u16)count); wordLE(&ptr, (u16)(tw - (speccy->tapeCurrent < count ? blks[speccy->tapeCurrent].data : tw)));
+		wordLE(&ptr, (u16)count); dwordLE(&ptr, (int)(tw - (speccy->tapeCurrent < count ? blks[speccy->tapeCurrent]->data : tw)));
         auto ext(z_extension(pth));
 		for(int i = 0 ; i < count; i++) {
-			blk = &blks[i];
-			wordLE(&ptr, (u16)(blk->twb - blk->data));
+			blk = blks[i];
+			dwordLE(&ptr, (int)(blk->twb - blk->data));
 			dwordLE(&ptr, (int)(blk->pilots - blk->data)); dwordLE(&ptr, (int)(blk->bits - blk->data));
 			dwordLE(&ptr, blk->size); dwordLE(&ptr, blk->nwp); dwordLE(&ptr, blk->nwb);
 			*ptr++ = blk->type; *ptr++ = blk->nip; *ptr++ = blk->nib; *ptr++ = blk->use;
@@ -489,7 +490,7 @@ void zDevTape::writePulse(u32 count, int what, int plen, int volume) {
 
 u16 zDevTape::indexIfSaveBlock() {
     for(auto i = 0 ; i < speccy->tapeCount; i++) {
-        if(blks[i].type == TZX_SAVE) return i;
+        if(blks[i]->type == TZX_SAVE) return i;
     }
     return 0;
 }
@@ -518,8 +519,8 @@ bool zDevTape::openCSW(const u8* _pth, size_t) {
             }
             data[total++] = idx;
         }
-        auto& blk(addBlock(TZX_CSW, data, total, 0));
-        blk.pilots = blk.data; blk.rate = rate; blk.nwp = total; blk.pause = 0;
+        auto blk(addBlock(TZX_CSW, data, total, 0));
+        blk->pilots = blk->data; blk->rate = rate; blk->nwp = total; blk->pause = 0;
     }
     return true;
 }
@@ -576,8 +577,8 @@ bool zDevTape::openWAV(const u8* _pth, size_t size) {
     // last
     if(rle > 255) { auto p(rle * rate); data[total++] = 0; rle = indexOfPulse((u16)(p)); }
     data[total++] = (u8)rle;
-    auto& blk(addBlock(TZX_RECORD, data, total, 0));
-    blk.pilots = blk.data; blk.pause = 0; blk.rate = rate; blk.nwp = total;
+    auto blk(addBlock(TZX_RECORD, data, total, 0));
+    blk->pilots = blk->data; blk->pause = 0; blk->rate = rate; blk->nwp = total;
     delete[] data;
     return true;
 }
@@ -673,13 +674,13 @@ bool zDevTape::openTZX(u8* ptr, size_t dsize) {
         switch(tzx) {
             case TZX_NORMAL:
                 size = *(u16*)(buf + 2);
-                addNormalBlock(buf + 4, size).pause = *(u16*)(buf);
+                addNormalBlock(buf + 4, size)->pause = *(u16*)(buf);
                 buf += size + 4LL;
                 break;
             case TZX_TURBO:
                 size = *(u32*)(buf + 15) & 0xFFFFFF;
-                blk = &addBlock(tzx, buf + 18, size, 18);
-                blk->nip = 2; blk->nib = 2;
+                blk = addBlock(tzx, buf + 18, size, 18);
+                blk->nip = blk->nib = 2;
                 tmp0     = *(u16*)(buf + 10);
                 blk->nwp = (tmp0 + 1U) * blk->nip;
                 blk->nwb = (((size - 1) << 3) + buf[12]) * blk->nib;
@@ -718,7 +719,7 @@ bool zDevTape::openTZX(u8* ptr, size_t dsize) {
                     //DLOG("TZX_TZX count:%i pulse:%i", count, npulse);
                     npulse = count;
                 }
-                blk = &addBlock(tzx, dat, npulse, 0);
+                blk = addBlock(tzx, dat, npulse, 0);
                 blk->pilots = blk->data;
                 blk->rate = rate;
                 blk->nwp = size;
@@ -746,7 +747,7 @@ bool zDevTape::openTZX(u8* ptr, size_t dsize) {
                     }
                     rle++;
                 }
-                blk = &addBlock(tzx, data, nn, 0);
+                blk = addBlock(tzx, data, nn, 0);
                 blk->pilots = blk->data;
                 blk->pause = pause;
                 blk->rate = rate;
@@ -783,7 +784,7 @@ bool zDevTape::openTZX(u8* ptr, size_t dsize) {
                     }
                 }
                 auto sz((nip + 1) * cwp + (nib + 1) * cwb + np * 3U);
-                blk = &addBlock(tzx, alph, (int)(size - (alph - (buf + 4))), sz);
+                blk = addBlock(tzx, alph, (int)(size - (alph - (buf + 4))), sz);
                 memcpy(blk->data, buf, dat - buf);
                 blk->nip = nip; blk->nib = nib;
                 blk->nwp = nwp * nip; blk->nwb = nb * nib;
@@ -795,7 +796,7 @@ bool zDevTape::openTZX(u8* ptr, size_t dsize) {
                 break;
             }
             case TZX_TONE:
-                blk = &addBlock(tzx, buf, 5, 0);
+                blk = addBlock(tzx, buf, 5, 0);
                 blk->nwp = *(u16*)(buf + 2); blk->nwb = 0;
                 blk->nip = 1; blk->nib = 0;
                 dat = blk->data; *dat++ = 0; *dat++ = indexOfPulse(*(u16*)buf);
@@ -803,20 +804,19 @@ bool zDevTape::openTZX(u8* ptr, size_t dsize) {
                 blk->bits = dat; buf += 4;
                 break;
             case TZX_PULSES:
-                dat = buf;
                 tmp0 = *buf++; dat = buf;
                 for(i = 0 ; i < tmp0; i++) {
                     auto pulse(*(u16*)buf);
                     *buf++ = 0; *buf++ = indexOfPulse(pulse);
                 }
                 tmp0 <<= 1;
-                blk = &addBlock(tzx, dat, tmp0, 0);
-                blk->pilots = dat;
+                blk = addBlock(tzx, dat, tmp0, 0);
+                blk->pilots = blk->data;
                 blk->nwp = tmp0;
                 break;
             case TZX_PURE_DATA:
                 size = *(u32*)(buf + 7) & 0xFFFFFF;
-                blk = &addBlock(tzx, buf + 10, size, 6);
+                blk = addBlock(tzx, buf + 10, size, 6);
                 blk->nip = 0; blk->nib = 2;
                 blk->nwp = 0; blk->nwb = (((size - 1) << 3) + buf[4]) * blk->nib;
                 dat = blk->data; blk->twb = dat; blk->pilots = nullptr;
@@ -828,7 +828,7 @@ bool zDevTape::openTZX(u8* ptr, size_t dsize) {
                 break;
             case TZX_PAUSE:
                 // пауза
-                addBlock(tzx, nullptr, 0, 0).pause = wordLE(&buf);
+                addBlock(tzx, nullptr, 0, 0)->pause = wordLE(&buf);
                 break;
             case TZX_GROUP_START:
                 tmp0 = *buf++;      // длина имени
@@ -842,7 +842,7 @@ bool zDevTape::openTZX(u8* ptr, size_t dsize) {
                 // смещение к блоку
             case TZX_LOOP_START:
                 // количество повторений
-                addBlock(tzx, nullptr, 0, 0).count = wordLE(&buf);
+                addBlock(tzx, nullptr, 0, 0)->count = wordLE(&buf);
                 break;
             case TZX_LOOP_END:
                 addBlock(tzx, nullptr, 0, 0);
@@ -850,7 +850,7 @@ bool zDevTape::openTZX(u8* ptr, size_t dsize) {
             case TZX_CALL:
 				// количество вызовов
                 tmp0 = wordLE(&buf);
-                addBlock(tzx, buf, tmp0 * 2U, 0).count = tmp0;
+                addBlock(tzx, buf, tmp0 * 2U, 0)->count = tmp0;
                 buf += tmp0 * 2LL;
                 break;
             case TZX_RETURN:
@@ -864,7 +864,7 @@ bool zDevTape::openTZX(u8* ptr, size_t dsize) {
             case TZX_LEVEL:
             case TZX_STOP_48K:
                 size = dwordLE(&buf);
-                blk = &addBlock(tzx, buf, size, 0);
+                blk = addBlock(tzx, buf, size, 0);
                 if(tzx == TZX_LEVEL) blk->level = buf[0];
                 buf += size;
                 break;
@@ -877,7 +877,7 @@ bool zDevTape::openTZX(u8* ptr, size_t dsize) {
             case TZX_MESSAGE:
                 tmp0 = *buf++; // время отображения сообщения
                 size = *buf++; // длина сообщения
-                addBlock(tzx, buf, size, 0).pause = (u16)(tmp0 == 0 ? 5 : tmp0 + 1);
+                addBlock(tzx, buf, size, 0)->pause = (u16)(tmp0 == 0 ? 5 : tmp0 + 1);
                 buf += size;
                 break;
             case TZX_ARCHIVE:
@@ -912,10 +912,10 @@ u8* zDevTape::saveTAP() {
 	if(blks.isEmpty()) return nullptr;
     auto ptr(tmpBuf); auto idx(indexIfSaveBlock());
     while(idx < speccy->tapeCount) {
-        auto& blk(blks[idx++]);
-        if(blk.type == TZX_NORMAL || blk.type == TZX_SAVE) {
-            auto size(blk.size - (blk.bits - blk.data));
-            wordLE(&ptr, (u16)size); z_memcpy(&ptr, blk.bits, size);
+        auto blk(blks[idx++]);
+        if(blk->type == TZX_NORMAL || blk->type == TZX_SAVE) {
+            auto size(blk->size - (blk->bits - blk->data));
+            wordLE(&ptr, (u16)size); z_memcpy(&ptr, blk->bits, size);
         }
     }
     wordLE(&ptr, 0);
@@ -928,7 +928,7 @@ u8* zDevTape::saveTZX() {
     auto i((int)indexIfSaveBlock());
     z_memcpy(&ptr, "ZXTape!\x1a\x01\x14", 10);
     for(; i < speccy->tapeCount; i++) {
-        auto blk(&blks[i]);
+        auto blk(blks[i]);
         auto type(blk->type);
         auto data(blk->data);
         auto size(blk->size);

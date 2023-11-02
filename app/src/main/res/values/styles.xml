@@ -234,4 +234,9 @@
         <item name="icon">?attr/themeIcons</item>
         <item name="pad">2dp</item>
     </style>
+    <style name="butTzxUI">
+        <item name="styles">@style/button</item>
+        <item name="sizeMinW">200dp</item>
+        <item name="sizeMaxW">350dp</item>
+    </style>
 </resources>

@@ -28,6 +28,19 @@ constexpr int ZFT_ALL           = 255;
 
 class sshApp : public zViewManager {
 public:
+    struct Z_JOY_POKES {
+        Z_JOY_POKES(czs& nm) : programm(nm) { }
+        bool isValid() const { return programm.isNotEmpty(); }
+        void clear() { programm.empty(); pokes.clear(); joy.type = -1; memset(joy.keys, 0, sizeof(joy.keys)); }
+        struct Z_JOY { int type{0}; u8 keys[8]; };
+        bool operator == (cstr nm) const { return programm == nm; }
+        // имя программы
+        zString8 programm{};
+        // параметры джойстика
+        Z_JOY joy{};
+        // массив покес
+        zArray<zString8> pokes{};
+    };
     sshApp(android_app* android);
     // запуск
     void run();
@@ -39,6 +52,13 @@ public:
     void exitProgramm() { ANativeActivity_finish(android->activity); }
     // вернуть форму
     template<typename T = zViewForm> T* getForm(int idx) const { return (T*)forms[idx]; }
+    // обновление/добавление
+    void updateJoyPokes();
+    // создание и установка пресетов
+    void joyMakePresets(int id) const;
+    // поиск джойстика по имени программы
+    Z_JOY_POKES* findJoyPokes(czs& name) const { return findJoyPokes(jpokes.indexOf(name)); }
+    Z_JOY_POKES* findJoyPokes(int idx) const { return (idx >= 0 && idx < jpokes.size() ? jpokes[idx] : nullptr); }
     // главная панель
     zSpeccyKeyboard*    keyb{nullptr};
     zLinearLayout*      main{nullptr};
@@ -46,8 +66,14 @@ protected:
     android_app*        android{nullptr};
     // массив форм
     zView*              forms[10]{};
+    // вернуть все имена программ, описывающие джойстики/покес
+    zArray<zString8> getAllNamesJoyPokes() const;
     // копированние стандартных из вкладов
     static void copyFromAssets(zString8 src, czs& dst);
+    // формирование файла для джойстиков/покес
+    void parserJoyPokes(const zArray<zString8>& sarr);
+    // массив джойстиков/покес
+    zArray<Z_JOY_POKES*> jpokes{};
 };
 
 inline sshApp* theApp(nullptr);

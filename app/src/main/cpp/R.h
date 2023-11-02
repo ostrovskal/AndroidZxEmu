@@ -2,7 +2,7 @@
 // Автоматически генерируемый файл ресурсов.
 // Не редактируйте его.
 // Автор: Шаталов С.В.
-// Sun Oct 29 03:16:18 2023
+// Thu Nov  2 22:12:56 2023
 
 #pragma once
 
@@ -243,24 +243,25 @@ struct _R {
 			diskHeadText	= 0x00000012, 	dispColorText	= 0x00000013, 	bpEdit	= 0x00000014, 
 			zxTools	= 0x00000015, 	pokButton	= 0x00000016, 	debListText	= 0x00000017, 
 			browsListText	= 0x00000018, 	textCapt	= 0x00000019, 	browsBut	= 0x0000001A, 
-			myThemeDark	= 0x0000001B, 	myThemeLight	= 0x0000001C, 	formasm	= 0x0000001D, 
-			zlinearlayout1	= 0x0000001E, 	zviewform1	= 0x0000001F, 	bpeditrange1	= 0x00000020, 
-			bpspinops	= 0x00000021, 	bpspincond	= 0x00000022, 	zviewtext1	= 0x00000023, 
-			bplist	= 0x00000024, 	browsspin	= 0x00000025, 	browsdisk	= 0x00000026, 
-			browsedit	= 0x00000027, 	browsopen	= 0x00000028, 	browschk	= 0x00000029, 
-			zviewform2	= 0x0000002A, 	zlinearlayout2	= 0x0000002B, 	butbp	= 0x0000002C, 
-			editasm	= 0x0000002D, 	textfs	= 0x0000002E, 	zlinearlayout3	= 0x0000002F, 
-			editpc	= 0x00000030, 	editts	= 0x00000031, 	zlinearlayout6	= 0x00000032, 
-			ll8	= 0x00000033, 	llgs	= 0x00000034, 	pokeslist	= 0x00000035, 
-			zviewtext2	= 0x00000036, 	mainsystem	= 0x00000037, 	zlinearlayout5	= 0x00000038, 
-			soundspinchip	= 0x00000039, 	soundspinchannels	= 0x0000003A, 
-			soundspinfreq	= 0x0000003B, 	joyspinlyt	= 0x0000003C, 	joyspinleft	= 0x0000003D, 
-			disptextbl	= 0x0000003E, 	disptextb	= 0x0000003F, 	disptextr	= 0x00000040, 
-			disptextm	= 0x00000041, 	disptextg	= 0x00000042, 	disptextc	= 0x00000043, 
-			disptexty	= 0x00000044, 	disptextw	= 0x00000045, 	casetlist	= 0x00000046, 
-			diskspindisk	= 0x00000047, 	helptext	= 0x00000048, 	formtzx	= 0x00000049, 
-			tzxmsg	= 0x0000004A, 	speccy	= 0x0000004B, 	speccyfps	= 0x0000004C, 
-			speccystatus	= 0x0000004D, };
+			butTzxUI	= 0x0000001B, 	myThemeDark	= 0x0000001C, 	myThemeLight	= 0x0000001D, 
+			formasm	= 0x0000001E, 	zlinearlayout1	= 0x0000001F, 	zviewform1	= 0x00000020, 
+			bpeditrange1	= 0x00000021, 	bpspinops	= 0x00000022, 	bpspincond	= 0x00000023, 
+			zviewtext1	= 0x00000024, 	bplist	= 0x00000025, 	browsspin	= 0x00000026, 
+			browsdisk	= 0x00000027, 	browsedit	= 0x00000028, 	browsopen	= 0x00000029, 
+			browschk	= 0x0000002A, 	zviewform2	= 0x0000002B, 	zlinearlayout2	= 0x0000002C, 
+			butbp	= 0x0000002D, 	editasm	= 0x0000002E, 	textfs	= 0x0000002F, 
+			zlinearlayout3	= 0x00000030, 	editpc	= 0x00000031, 	editts	= 0x00000032, 
+			zlinearlayout6	= 0x00000033, 	ll8	= 0x00000034, 	llgs	= 0x00000035, 
+			pokeslist	= 0x00000036, 	zviewtext2	= 0x00000037, 	mainsystem	= 0x00000038, 
+			zlinearlayout5	= 0x00000039, 	soundspinchip	= 0x0000003A, 
+			soundspinchannels	= 0x0000003B, 	soundspinfreq	= 0x0000003C, 
+			joyspinlyt	= 0x0000003D, 	joyspinleft	= 0x0000003E, 	disptextbl	= 0x0000003F, 
+			disptextb	= 0x00000040, 	disptextr	= 0x00000041, 	disptextm	= 0x00000042, 
+			disptextg	= 0x00000043, 	disptextc	= 0x00000044, 	disptexty	= 0x00000045, 
+			disptextw	= 0x00000046, 	casetlist	= 0x00000047, 	diskspindisk	= 0x00000048, 
+			helptext	= 0x00000049, 	formtzx	= 0x0000004A, 	tzxmsg	= 0x0000004B, 
+			speccy	= 0x0000004C, 	speccyfps	= 0x0000004D, 	speccystatus	= 0x0000004E, 
+};
 	};
 	_style style;
 };
@@ -297,6 +298,7 @@ static zStyles styles[] = {
 		{ _R::_style::browsListText, styles_browslisttext },
 		{ _R::_style::textCapt, styles_textcapt },
 		{ _R::_style::browsBut, styles_browsbut },
+		{ _R::_style::butTzxUI, styles_buttzxui },
 		{ _R::_style::myThemeDark, styles_mythemedark },
 		{ _R::_style::myThemeLight, styles_mythemelight },
 		{ _R::_style::formasm, styles_formasm },

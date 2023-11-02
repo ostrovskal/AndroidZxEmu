@@ -139,7 +139,7 @@ void zFormSettings::onInit(bool _theme) {
                 }
             } else if(code == z.R.id.yes) {
                 speccy->dev<zDevUla>()->update(ZX_UPDATE_PRIVATE);
-                speccy->updateJoyPokes();
+                theApp->updateJoyPokes();
                 frame->setParamControllers();
             }
             return code != z.R.id.def;
@@ -247,7 +247,7 @@ void zFormSettings::onInit(zView* v, int a1) {
             applyJoyStd(a1);
             break;
         case R.id.joySpinPresets:
-            speccy->joyMakePresets(id);
+            theApp->joyMakePresets(id);
             break;
         // display
         case R.id.dispTextBl: case R.id.dispTextB: case R.id.dispTextR: case R.id.dispTextM:
@@ -360,7 +360,7 @@ void zFormSettings::applyJoyStd(int num) {
 }
 
 void zFormSettings::applyJoyPresets(int num) {
-    auto j(speccy->findJoyPokes(num)); num = j->joy.type;
+    auto j(theApp->findJoyPokes(num)); num = j->joy.type;
     idView<zViewSelect>(R.id.joySpinLyt)->setItemSelected(num);
     for(int i = 0 ; i < 8; i++) {
         auto sel(idView<zViewSelect>(ids[46 + i * 2]));

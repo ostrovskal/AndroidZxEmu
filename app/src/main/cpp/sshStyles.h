@@ -255,6 +255,11 @@ static zStyle styles_browsbut[] = {
 	{ Z_PADDING | ZT_END, 0x02020202 }
 };
 
+static zStyle styles_buttzxui[] = {
+	{ Z_STYLES, z.R.style.button },
+	{ Z_SIZE | ZT_END, 0xC95E0000 }
+};
+
 static zStyle styles_mythemedark[] = {
 	{ Z_STYLES, z.R.style.themeDark },
 	{ Z_THEME_ICONS, R.drawable.zx_icons },

@@ -214,19 +214,6 @@ struct SPECCY {
 class zSpeccy: public SPECCY {
     friend class zFormSelFile;
 public:
-    struct Z_JOY_POKES {
-        Z_JOY_POKES(czs& nm) : programm(nm) { }
-        bool isValid() const { return programm.isNotEmpty(); }
-        void clear() { programm.empty(); pokes.clear(); joy.type = -1; memset(joy.keys, 0, sizeof(joy.keys)); }
-        struct Z_JOY { int type{0}; u8 keys[8]; };
-        bool operator == (cstr nm) const { return programm == nm; }
-        // имя программы
-        zString8 programm{};
-        // параметры джойстика
-        Z_JOY joy{};
-        // массив покес
-        zArray<zString8> pokes{};
-    };
     zSpeccy();
     ~zSpeccy();
     // инициализация
@@ -259,13 +246,6 @@ public:
     int turboTick(int tick, bool multiply) const { return (int)(multiply ? tick * divClock : tick / divClock); }
     // частота звукового процессора
     u32 turboAyClock() const { return (u32)(machine->ayClock / divClock); }
-    // создание и установка пресетов
-    void joyMakePresets(int id) const;
-    // обновление/добавление
-    void updateJoyPokes();
-    // поиск джойстика по имени программы
-    Z_JOY_POKES* findJoyPokes(czs& name) const { return findJoyPokes(jpokes.indexOf(name)); }
-    Z_JOY_POKES* findJoyPokes(int idx) const { return (idx >= 0 && idx < jpokes.size() ? jpokes[idx] : nullptr); }
     // загрузка ПЗУ
     static bool loadROM(u8* ptr, const u8* pages, int count) ;
     // вернуть устройство в соответствии с его типом
@@ -279,10 +259,6 @@ public:
     // признак выхода
     u32 exit{0};
 protected:
-    // вернуть все имена программ, описывающие джойстики/покес
-    zArray<zString8> getAllNamesJoyPokes() const;
-    // парсер джойстиков/покес
-    void parserJoyPokes(const zArray<zString8>& sarr);
     // внутренний загрузчик
     bool _load(zFile* fl, int index, int option);
     // восстановление состояния
@@ -297,6 +273,4 @@ protected:
     zDev* rdevs[DEV_COUNT]{}, *wdevs[DEV_COUNT]{};
     // атрибуты треда
     pthread_attr_t lAttrs{};
-    // массив джойстиков/покес
-    zArray<Z_JOY_POKES*> jpokes{};
 };

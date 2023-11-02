@@ -48,19 +48,22 @@ int zFormTZX::updateVisible(bool set) {
         tzxSel->updateStatus(ZS_VISIBLED, false);
         switch(mode) {
             case TZX_SELECT: {
-                speccy->execLaunch = false;
+                //speccy->execLaunch = false;
                 frame->send(ZX_MESSAGE_PROPS);
+                tzxSel->removeAllViews(false);
                 // кол-во
                 auto data(block->data); auto count((int)*data++);
                 // надписи
                 for(int i = 0 ; i < count; i++) {
                     buttons[i].offs = *(u16*)data; data += 2;
                     auto len(*data++); auto txt(zString8(data, len)); data += len;
-                    auto but(new zViewButton(styles_z_button, i + 1000, 0, 0));
+                    auto but(new zViewButton(styles_buttzxui, i + 1000, 0));
                     but->setText(txt); but->setOnClick([this](zView* v, int) {
                         zxCmd(ZX_CMD_TAPE_UI, speccy->indexBlkUI + buttons[v->id - 1000].offs);
+                        //speccy->execLaunch = true;
+                        tzxSel->updateStatus(ZS_VISIBLED, false);
                     });
-                    buttons[i].but = but; tzxSel->attach(but, 100_dp, VIEW_WRAP);
+                    buttons[i].but = but; tzxSel->attach(but, VIEW_WRAP, VIEW_WRAP);
                 }
                 tzxSel->updateStatus(ZS_VISIBLED, true);
                 break;

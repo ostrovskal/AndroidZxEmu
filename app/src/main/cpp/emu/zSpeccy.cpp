@@ -9,7 +9,7 @@
 #include "../zFormSelFile.h"
 
 // идентификатор треда
-static pthread_t threadID(0);
+static volatile pthread_t threadID(0);
 static int delay(0);
 
 static void* threadFunc(void*) {
@@ -31,117 +31,6 @@ static void* threadFunc(void*) {
     threadID = 0;
     ILOG("exit speccy thread");
     return nullptr;
-}
-
-void zSpeccy::updateJoyPokes() {
-    auto j(findJoyPokes(progName));
-    if(j) {
-        // обновляем
-        j->joy.type = joyType;
-        memcpy(j->joy.keys, joyKeys, sizeof(j->joy.keys));
-    } else {
-        // добавляем
-        j = new Z_JOY_POKES(progName);
-        j->joy.type = joyType;
-        memcpy(j->joy.keys, joyKeys, sizeof(joyKeys));
-        jpokes += j;
-    }
-}
-
-zArray<zString8> zSpeccy::getAllNamesJoyPokes() const {
-    zArray<zString8> all;
-    for(auto& jp : jpokes) all += jp->programm;
-    return all;
-
-}
-
-static zString8 obfuskate(zString8 s) {
-    s.remove(" ");
-    s = s.substrBefore("(", s);
-    s.lower();
-    return s;
-}
-
-void zSpeccy::joyMakePresets(int id) const {
-    // образцы
-    auto presets(getAllNamesJoyPokes());
-    auto spin(manager->idView<zViewSelect>(id));
-    if(spin) {
-        auto adapt(spin->getAdapter()); auto idx(0);
-        adapt->clear(false); adapt->addAll(presets);
-        auto prg(obfuskate(progName));
-        for(int i = 0 ; i < presets.size(); i++) {
-            if(obfuskate(presets[i]) == prg) { idx = i; break; }
-        }
-        spin->setItemSelected(idx);
-    }
-}
-
-/*
-формат покес / джойстика:
-[PROGRAMM]
-JOY : NAME(KEYS1, KEYS2, ...)
-POKE1 NAME = VALUE
-POKE2 NAME = VALUE
-*/
-void zSpeccy::parserJoyPokes(const zArray<zString8>& sarr) {
-    // стандартные кнопки джойстиков
-    auto jNames(theme->findArray(R.string.joy_names));
-    auto kNames(theme->findArray(R.string.key_names2));
-    int jKeys(0); Z_JOY_POKES* jpks(nullptr);
-    bool isd(false); zString8 poke;
-    // поиск значений
-    for(auto& str : sarr) {
-        str.trim();
-        if(str.isEmpty()) {
-            if(jpks && jpks->programm.isNotEmpty() && jKeys >= 5) {
-                if(poke.isNotEmpty()) jpks->pokes += poke;
-                jpokes += jpks;
-            } else delete jpks;
-            jpks = nullptr;
-            isd = false;
-            poke.empty();
-            continue;
-        } else if(!jpks) {
-            // имя программы
-            if(str.startsWith("[") && str.endsWith("]")) {
-                jpks = new Z_JOY_POKES(str.substr(1, str.count() - 2));
-                memcpy(jpks->joy.keys, defJoyKeys, sizeof(defJoyKeys)); jKeys = 8;
-            }
-        } else if(jpks->isValid()) {
-            if(str.startsWith("JOY: ")) {
-                jKeys = 0;
-                // тип джойстика
-                auto jName(str.substrAfter("JOY: ").substrBefore("(").trim());
-                jName.upper();
-                auto jType(jName.indexOf(jNames.get_data(), jNames.size()));
-                if(jType == -1) continue;
-                jpks->joy.type = jType;
-                auto keys(str.substrAfter("(").substrBefore(")"));
-                auto lkeys(zString8(stdJoyKeys[jType] + keys).split(","));
-                for(auto& k : lkeys) {
-                    int idx(k.indexOf(kNames.get_data(), kNames.size()));
-                    if(idx == -1) {
-                        ILOG("error %s - <jkey: %s>", jpks->programm.str(), k.str());
-                        idx = 0;
-                    }
-                    jpks->joy.keys[jKeys++] = idx;
-                    if(jKeys > 7) break;
-                }
-            } else {
-                // добавить покес(имя = значение)
-                auto _isd(isdigit(str[0]));
-                if(_isd != isd) {
-                    if(isd) {
-                        jpks->pokes += poke;
-                        poke.empty();
-                    }
-                    isd = _isd;
-                }
-                poke.appendNotEmpty(str);
-            }
-        }
-    }
 }
 
 // параметры текущей машины
@@ -176,10 +65,11 @@ zSpeccy::zSpeccy() {
 }
 
 zSpeccy::~zSpeccy() {
-    speccy->exit = 0xffffff; while(speccy->exit-- > 0 && threadID) { }
+    speccy->exit = 1; while(threadID) { }
     save(settings->makePath("autosave.ezx", FOLDER_CACHE), 0);
     settings->save((u8*)&speccy->gsReset, "settings.ini");
     for(auto& dev : devs) SAFE_DELETE(dev);
+//    ILOG("exit zSpeccy!!!");
     speccy = nullptr;
 }
 
@@ -214,10 +104,8 @@ bool zSpeccy::init() {
     update(ZX_UPDATE_RESET, 0);
     // 1.1. бут для диска
     diskBoot = manager->assetFile("data/boot.zzz");
-    // 1.2. покес
-    parserJoyPokes(zString8((cstr)manager->assetFile("data/pokes.txt")).split("\n"));
     // 2. состояние
-    frame->send(ZX_MESSAGE_MODEL, MODEL_48, 1);
+    frame->send(ZX_MESSAGE_MODEL, MODEL_PENTAGON128, 1);
     frame->onCommand(R.integer.MENU_OPS_RESTORE, nullptr);
     // 2.1. запускаем тред
     if(!pthread_attr_init(&lAttrs)) {
@@ -225,7 +113,7 @@ bool zSpeccy::init() {
             struct sched_param param{};
             param.sched_priority = 0;
             if(!pthread_attr_setschedparam(&lAttrs, &param)) {
-                pthread_create(&threadID, &lAttrs, threadFunc, this);
+                pthread_create((pthread_t*)&threadID, &lAttrs, threadFunc, this);
                 pthread_attr_getschedparam(&lAttrs, &param);
             }
         }
@@ -318,13 +206,9 @@ bool zSpeccy::_load(zFile* fl, int index, int option) {
     if(!(ptr = z_openFile(fl, index, &size, name))) return false;
     auto type(z_extension(name)); zDevVG93* disk(nullptr); zDevTape* tape(nullptr);
     switch(type) {
-        case ZX_FMT_EZX: {
-            // указатель перенести в другое место
-            auto ptmp(new u8[size]);
-            memcpy(ptmp, ptr, size);
-            ret = restoreState(ptmp);
-            delete[] ptmp; break;
-        }
+        case ZX_FMT_EZX:
+            ret = restoreState(ptr);
+            break;
         case ZX_FMT_WAV: case ZX_FMT_CSW:
             fl->close();
         case ZX_FMT_TAP: case ZX_FMT_TZX:
@@ -357,6 +241,7 @@ bool zSpeccy::_load(zFile* fl, int index, int option) {
         else if(tape) tape->path(path, name);
         else if(type < ZX_FMT_ZZZ) programName(name, true);
     }
+    delete[] ptr;
     return ret;
 }
 
@@ -429,8 +314,8 @@ bool zSpeccy::restoreState(u8* buf) {
         ptr = devs[i]->state(ptr, true);
         if(!ptr) {
             ILOG("Восстановление состояния недоступно для - %s. Сброс!", devNames[i]);
-            for(; i < DEV_COUNT; i++) devs[i]->update(ZX_UPDATE_RESET);
-            return i > DEV_KEYB;
+            auto ii(i); for(; i < DEV_COUNT; i++) devs[i]->update(ZX_UPDATE_RESET);
+            return ii > DEV_KEYB;
         }
     }
     // установить имя сохраненной проги
@@ -451,6 +336,10 @@ uint8_t* zSpeccy::saveState() {
 
 void zSpeccy::programName(cstr nm, bool trim) {
     progName = (trim ? z_trimName(nm) : zString8(nm));
+    if(auto j = theApp->findJoyPokes(progName)) {
+        speccy->joyType = j->joy.type;
+        memcpy(speccy->joyKeys, j->joy.keys, sizeof(j->joy.keys));
+    }
     frame->setParamControllers();
     updateDebugger();
     modifySTATE(ZX_CAPT, 0)

@@ -151,7 +151,7 @@ void zFormDebugger::stateTools(int action, int id) {
         // найти поле ввода для установки значения
         for(auto& reg : registers) {
             if(reg.idEdit != id) continue;
-            auto nval((int)(z_ston(reg.edit->getText(), RADIX_DEC) & reg.mask));
+            auto nval((int)(reg.edit->getText().toNum() & reg.mask));
             auto ptr(reg.base + reg.offset);
             nval = ((int)((*(i32*)ptr) & ~reg.mask) | nval);
             if(id == R.id.editPC || id == R.id.editSP) {

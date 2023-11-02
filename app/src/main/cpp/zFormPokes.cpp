@@ -29,7 +29,7 @@ public:
         nv->atView<zViewButton>(1)->setOnClick([this, s](zView*, int) {
             auto pks(s.split("|"));
             for(auto& pk : pks) {
-                auto adr(z_ston(pk.substrBefore("="), RADIX_DEC)), val(z_ston(pk.substrAfter("="), RADIX_DEC));
+                auto adr(pk.substrBefore("=").toNum()), val(pk.substrAfter("=").toNum());
                 speccy->getCpu(1)->_wm8(adr, val);
             }
         });
@@ -49,14 +49,14 @@ void zFormPokes::onInit(bool _theme) {
 
 i32 zFormPokes::updateVisible(bool set) {
     if(set) {
-        speccy->joyMakePresets(R.id.pokesSpin);
+        theApp->joyMakePresets(R.id.pokesSpin);
         setListPokes(spn->getItemSelected());
     }
     return zViewForm::updateVisible(set);
 }
 
 void zFormPokes::setListPokes(int idx) {
-    auto pks(speccy->findJoyPokes(idx));
+    auto pks(theApp->findJoyPokes(idx));
     if(pks) {
         auto adapt(lst->getAdapter());
         adapt->clear(false); adapt->addAll(pks->pokes);

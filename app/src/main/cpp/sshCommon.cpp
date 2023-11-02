@@ -23,7 +23,7 @@ u8* z_openFile(zFile* fl, int index, int* size, zString8& name) {
             }
             if(success) ptr = (u8*)name.str();
         } else {
-            ptr = (u8*)fl->read(nullptr, tmpBuf, *size, zfi.index);
+            ptr = (u8*)fl->readn(nullptr, *size, zfi.index);
         }
     }
     return ptr;

@@ -273,29 +273,29 @@ public:
         BLK_TAPE() : data(nullptr), twb(nullptr), pilots(nullptr), bits(nullptr),
                      size(0), nwp(0), nwb(0), use(0), type(0), pause(0) { }
         // буфер блока/указатель на таблицу волн пилота
-        union { u8* data; u8* twp; };
+        union { u8* data{nullptr}; u8* twp; };
         // указатель на таблицу волн битов
-        u8* twb;
+        u8* twb{nullptr};
         // указатель на волны пилота
-        u8* pilots;
+        u8* pilots{nullptr};
         // указатель на волны битов
-        u8* bits;
+        u8* bits{nullptr};
         // общий размер данных блока
-        u32 size;
+        u32 size{0};
         // кол-во волн пилота/кол-во элементов в CALL/счетчик в LOOP/индекс для JUMP
-        union { u32 nwp; u16 count; };
+        union { u32 nwp{0}; u16 count; };
         // кол-во волн битов/rate для CSW/уровень сигнала
-        union { u32 nwb; u16 index; u8 level; u32 rate; };
+        union { u32 nwb{0}; u16 index; u8 level; u32 rate; };
         // кол-во импульсов пилота на волну
-        u8 nip;
+        u8 nip{0};
         // кол-во импульсов битов на волну
-        u8 nib;
+        u8 nib{0};
         // признак обработанного блока
-        u8 use;
+        u8 use{0};
         // тип блока
-        u8 type;
+        u8 type{0};
         // пауза после блока
-        u16 pause;
+        u16 pause{0};
     };
 #pragma pack(pop)
     // конструктор
@@ -331,7 +331,7 @@ public:
     // стирание ленты
     void            clear(bool all);
     // формирование блока ленты
-    BLK_TAPE&       addBlock(u8 type, u8* data, u32 size, u32 add_size);
+    BLK_TAPE*       addBlock(u8 type, u8* data, u32 size, u32 add_size);
     // следующий блок данных
     bool            nextBlock();
     // выполнение операции выбор блока
@@ -358,11 +358,11 @@ protected:
     // вернуть индекс импульса
     u8 indexOfPulse(u16 pulse);
     // вставка стандартного блока
-    BLK_TAPE& addNormalBlock(u8* data, u32 size);
+    BLK_TAPE* addNormalBlock(u8* data, u32 size);
     // вернуть импульс
     u32 getImpulse();
     // массив блоков
-    zArray<BLK_TAPE> blks{};
+    zArray<BLK_TAPE*> blks{};
     // путь к файлу/имя
     zString8 pth{}, nam{};
     // индекс импульсов на блок/пилот
