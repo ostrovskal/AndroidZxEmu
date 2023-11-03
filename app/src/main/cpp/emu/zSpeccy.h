@@ -202,9 +202,9 @@ struct SPECCY {
     // 3. Целые значения
     // значения оригинальных цветов (32 * 4)
     u32 colors[32];											// 109
-    u8 sectorBuf[256];
+    u8 sectorBuf[256];                                      // 237
     // имя программы
-    zString8 progName;									    // 237
+    zString8 progName;									    // 493
     inline bool isQTape() const { return playTape && speedTape; }
     inline bool is48k() const { return (_7ffd & 32) || model == 0; }
     inline int value(int offs) const { return *((u8*)this + offs); }

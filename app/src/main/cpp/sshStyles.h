@@ -257,7 +257,7 @@ static zStyle styles_browsbut[] = {
 
 static zStyle styles_buttzxui[] = {
 	{ Z_STYLES, z.R.style.button },
-	{ Z_SIZE | ZT_END, 0xC95E0000 }
+	{ Z_SIZE | ZT_END, 0xC8000000 }
 };
 
 static zStyle styles_mythemedark[] = {

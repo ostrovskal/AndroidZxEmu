@@ -312,9 +312,9 @@ u8* zDevTape::statePrivate(u8* ptr, bool restore) {
 		call = wordLE(&ptr); loop = wordLE(&ptr); npulses = wordLE(&ptr);
 		iwaves = dwordLE(&ptr); waves = dwordLE(&ptr); rpos = dwordLE(&ptr);
 		iblock = dwordLE(&ptr); ipilot = dwordLE(&ptr); edge = qwordLE(&ptr);
-		npc = dwordLE(&ptr); ctape = dwordLE(&ptr);
 		memcpy(pulses, ptr, sizeof(pulses)); ptr += sizeof(pulses);
 		pth = (cstr)ptr; ptr += pth.size() + 1;
+//		if(speccy->playTape) startPlay();
 	} else {
 		z_memcpy(&ptr, "SERG TAPE", 9);
 		*ptr++ = bit; *ptr++ = wave; *ptr++ = ni; *ptr++ = (u8)speccy->playTape;
@@ -324,7 +324,6 @@ u8* zDevTape::statePrivate(u8* ptr, bool restore) {
 		dwordLE(&ptr, rpos);
 		dwordLE(&ptr, iblock); dwordLE(&ptr, ipilot);
 		qwordLE(&ptr, edge);
-		dwordLE(&ptr, npc); dwordLE(&ptr, ctape);
 		z_memcpy(&ptr, pulses, sizeof(pulses));
 		z_memcpy(&ptr, pth.buffer(), pth.size() + 1);
 	}
@@ -819,7 +818,7 @@ bool zDevTape::openTZX(u8* ptr, size_t dsize) {
                 blk = addBlock(tzx, buf + 10, size, 6);
                 blk->nip = 0; blk->nib = 2;
                 blk->nwp = 0; blk->nwb = (((size - 1) << 3) + buf[4]) * blk->nib;
-                dat = blk->data; blk->twb = dat; blk->pilots = nullptr;
+                dat = blk->data; blk->twb = dat; blk->pilots = dat;// TODO
                 dat[0] = 0; dat[1] = indexOfPulse(*(u16*)(buf + 0)); dat[2] = dat[1];
                 dat[3] = 0; dat[4] = indexOfPulse(*(u16*)(buf + 2)); dat[5] = dat[4];
                 blk->bits = dat + 6;

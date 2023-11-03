@@ -20,7 +20,8 @@ protected:
     void applyColorSlider();
     // текущий цвет
     zView* selColor{nullptr};
-    int argColor{0};
+    int argColor{0}, joyType{0};
+    u8 joyKeys[8]{};
     // сохраненные значения
-    u8 savedValues[237];
+    u8 savedValues[173];
 };

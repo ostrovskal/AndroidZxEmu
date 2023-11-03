@@ -686,21 +686,13 @@ void zDevMixer::update(int param) {
     if(param == ZX_UPDATE_FRAME) {
         if(isEnable && player) mix();
     } else {
-        auto is(isEnable);
         isEnable = speccy->sndLaunch && speccy->execLaunch;
         for(auto s : sources) s->nSamples = 0;
         memset(mixBuffer, 0, sizeof(mixBuffer));
-        if(param == ZX_UPDATE_PRIVATE) { release(); is = !isEnable; }
-        if(is != isEnable) {
-            if(!isEnable) release();
-            else {
-                zPlayerParams pr;
-                pr.rate = frequencies[speccy->sndFreq] * 1000;
-                pr.chan = 2; pr.bits = 16; pr.bufSize = sizeof(mixBuffer);
-                player = manager->sound.createPlayer(1234, TYPE_MEM, pr);
-//                ILOG("player create!!! %x", player);
-            }
-        }
+        release(); zPlayerParams pr;
+        pr.rate = frequencies[speccy->sndFreq] * 1000;
+        pr.chan = 2; pr.bits = 16; pr.bufSize = sizeof(mixBuffer);
+        player = manager->sound.createPlayer(1234, TYPE_MEM, pr);
     }
 }
 
@@ -728,10 +720,8 @@ void zDevMixer::mix() {
             *(o++) = (u16)((long)p->left);
             *(o++) = (u16)((long)p->right);
         }
-        if(player) {
-            player->setData((u8*)audioBuffer, (int)(minSamples << 2));
-            player->play(true);
-        }
+        player->setData((u8*)audioBuffer, (int)(minSamples << 2));
+        player->play(true);
     }
     auto diffSamples(maxSamples - minSamples);
     if(maxSamples > minSamples) {

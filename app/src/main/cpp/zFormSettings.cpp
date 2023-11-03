@@ -95,9 +95,9 @@ static int ids[] = { // main
 
 i32 zFormSettings::updateVisible(bool set) {
     if(set) {
-        memcpy(savedValues, (u8*)speccy, sizeof(savedValues));
-        for(int i = 0 ; i < sizeof(ids) / 4; i += 2)
-            onInit(idView(ids[i]), ids[i + 1]);
+        memcpy(savedValues, (u8*)&speccy->gsReset, sizeof(savedValues));
+        joyType = speccy->joyType; memcpy(joyKeys, speccy->joyKeys, sizeof(joyKeys));
+        for(int i = 0 ; i < sizeof(ids) / 4; i += 2) onInit(idView(ids[i]), ids[i + 1]);
     }
     return zViewForm::updateVisible(set);
 }
@@ -106,39 +106,36 @@ void zFormSettings::onInit(bool _theme) {
     zViewForm::onInit(_theme);
     if(isOpen) {
         for(int i = 0; i < sizeof(ids) / 4; i += 2) {
-            auto vw(idView(ids[i]));
-            if(dynamic_cast<zViewRibbon *>(vw)) {
+            auto vw(idView(ids[i])); if(!vw) continue;
+            if(dynamic_cast<zViewRibbon*>(vw)) {
                 vw->setOnClick([this](zView *v, int sel) { onCommand(v, sel); });
-            } else if(dynamic_cast<zViewSelect *>(vw)) {
-                ((zViewSelect *) vw)->setOnChangeSelected([this](zView *v, int sel) { onCommand(v, sel); });
-            } else if(dynamic_cast<zViewSlider *>(vw)) {
-                ((zViewSlider *) vw)->setOnChangeSelected([this](zViewSlider *v, int pos) {
-                    onCommand(v, pos);
-                    return 0;
-                });
+            } else if(dynamic_cast<zViewSelect*>(vw)) {
+                ((zViewSelect*)vw)->setOnChangeSelected([this](zView *v, int sel) { onCommand(v, sel); });
+            } else if(dynamic_cast<zViewSlider*>(vw)) {
+                ((zViewSlider*)vw)->setOnChangeSelected([this](zViewSlider *v, int pos) { onCommand(v, pos); });
             } else {
                 vw->setOnClick([this](zView *v, int l) { onCommand(v, v->isChecked()); });
             }
         }
-        setOnClose([this](zViewForm *, int code) {
+        setOnClose([this](zViewForm*, int code) {
             speccy->settingsTab = idView<zTabLayout>(R.id.mainTabs)->getActivePage();
             if(code == z.R.id.no) {
-                memcpy((u8 *) speccy, savedValues, sizeof(savedValues));
+                memcpy((u8*)&speccy->gsReset, savedValues, sizeof(savedValues));
             } else if(code == z.R.id.def) {
                 idView<zViewSelect>(R.id.dispSpinPalettes)->setItemSelected(0);
                 for(int i = 0; i < sizeof(ids) / 4; i += 2) {
-                    auto offs(ids[i + 1]);
-                    u32 def;
+                    auto offs(ids[i + 1]); u32 def;
                     if(offs) {
                         if(settings->getDefault(offs - 64, &def)) {
-                            auto ptr((u8 *) speccy + offs);
-                            if(offs < 109) *(u8 *) ptr = (u8) def; else *(u32 *) ptr = def;
+                            auto ptr((u8*)speccy + offs);
+                            if(offs > 63 && offs < 109) *ptr = (u8)def; else *(u32*)ptr = def;
                         }
                     }
                     onInit(idView(ids[i]), offs);
                 }
             } else if(code == z.R.id.yes) {
                 speccy->dev<zDevUla>()->update(ZX_UPDATE_PRIVATE);
+                speccy->joyType = joyType; memcpy(speccy->joyKeys, joyKeys, sizeof(joyKeys));
                 theApp->updateJoyPokes();
                 frame->setParamControllers();
             }
@@ -152,7 +149,7 @@ void zFormSettings::onInit(bool _theme) {
 void zFormSettings::onCommand(zView* v, int a1) {
     auto id(v->id); int action(0), cmd(-1);
     auto offs(z_remap(id, ids));
-    if(offs > 0 && offs < 107) *(u8*)((u8*)speccy + offs) = (u8)a1;
+    if(offs > 63 && offs < 109) *(u8*)((u8*)speccy + offs) = (u8)a1;
     switch(id) {
         case R.id.mainShowFPS: onInit(v, offs); break;
         case R.id.mainBorder: case R.id.mainSystem: cmd = ZX_MESSAGE_PROPS; break;
@@ -164,7 +161,6 @@ void zFormSettings::onCommand(zView* v, int a1) {
         case R.id.soundChkCovox: case R.id.soundChkGS:
             onInit(v, offs);
         case R.id.soundSpinFreq:
-            if(id == R.id.soundSpinFreq) speccy->dev<zDevMixer>()->update(ZX_UPDATE_PRIVATE);
         case R.id.soundSpinChip: case R.id.soundSpinChannels:
         case R.id.soundSlrBeeper: case R.id.soundSlrAY:
         case R.id.soundSlrCovox: case R.id.soundSlrGS:
@@ -353,9 +349,8 @@ void zFormSettings::applyJoyStd(int num) {
     auto arr(zString8(stdJoyKeys[num]).split(","));
     for(int i = 0 ; i < 8; i++) {
         auto sel(idView<zViewSelect>(ids[46 + i * 2]));
-        auto key(is && i < 5 ? keys.indexOf(arr[i]) : speccy->joyKeys[i]);
-        speccy->joyKeys[i] = key; sel->setItemSelected(key);
-        sel->disable(is && i < 5);
+        auto key(is && i < 5 ? keys.indexOf(arr[i]) : joyKeys[i]);
+        sel->setItemSelected(key); sel->disable(is && i < 5);
     }
 }
 
@@ -364,14 +359,13 @@ void zFormSettings::applyJoyPresets(int num) {
     idView<zViewSelect>(R.id.joySpinLyt)->setItemSelected(num);
     for(int i = 0 ; i < 8; i++) {
         auto sel(idView<zViewSelect>(ids[46 + i * 2]));
-        auto idx(j->joy.keys[i]); speccy->joyKeys[i] = idx;
+        auto idx(j->joy.keys[i]); joyKeys[i] = idx;
         sel->setItemSelected(idx);
         sel->disable(num != 4 && i < 5);
     }
 }
 
 void zFormSettings::applyColorSlider() {
-    //zColor color(speccy->colors[(num - 109) / 4]);
     auto& color(selColor->drw[DRW_BK]->color);
     idView<zViewSlider>(R.id.dispSlrR)->setProgress(z_round(color.r * 255.0f));
     idView<zViewSlider>(R.id.dispSlrG)->setProgress(z_round(color.g * 255.0f));

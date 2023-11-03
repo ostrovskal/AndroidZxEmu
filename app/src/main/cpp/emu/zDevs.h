@@ -344,8 +344,6 @@ public:
     void            trap(bool load);
     // удалить блок
     void            removeBlock(int index);
-    // все блоки
-    //const zArray<BLK_TAPE>& getBlocks() const { return blks; }
     // установка/получение пути
     zString8        path(cstr _path, cstr _name) { if(_path) pth = _path; if(_name) nam = _name; return nam; }
 protected:
@@ -384,7 +382,7 @@ protected:
     // массив импульсов
     u16 pulses[256]{};
     // текущий PC при загрузке/записи и кол-во пропусков ленты
-    int npc{0}, ctape{0};
+    int npc{-1}, ctape{0};
     // позиция при записи
     u32 rpos{0};
     // процессор
