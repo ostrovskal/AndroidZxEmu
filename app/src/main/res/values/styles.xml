@@ -71,6 +71,10 @@
         <item name="fkGravity">center</item>
         <item name="pad">0dp</item>
     </style>
+    <style name="tape">
+        <item name="styles">@style/debBut</item>
+        <item name="fbo">true</item>
+    </style>
     <style name="debFlags">
         <item name="sizeMinW">1px</item>
         <item name="textSize">11sp</item>

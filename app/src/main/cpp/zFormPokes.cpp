@@ -26,7 +26,7 @@ public:
         auto nv((zLinearLayout*)createView(position, convert, parent, fabricBase, false));
         auto s(getItem(position)); nv->atView<zViewText>(0)->setText(s.substrBefore("|"));
         s = s.substrAfter("|");
-        nv->atView<zViewButton>(1)->setOnClick([this, s](zView*, int) {
+        nv->atView<zViewButton>(1)->setOnClick([s](zView*, int) {
             auto pks(s.split("|"));
             for(auto& pk : pks) {
                 auto adr(pk.substrBefore("=").toNum()), val(pk.substrAfter("=").toNum());
@@ -49,14 +49,14 @@ void zFormPokes::onInit(bool _theme) {
 
 i32 zFormPokes::updateVisible(bool set) {
     if(set) {
-        theApp->joyMakePresets(R.id.pokesSpin);
+        speccy->joyMakePresets(R.id.pokesSpin);
         setListPokes(spn->getItemSelected());
     }
     return zViewForm::updateVisible(set);
 }
 
 void zFormPokes::setListPokes(int idx) {
-    auto pks(theApp->findJoyPokes(idx));
+    auto pks(speccy->findJoyPokes(idx));
     if(pks) {
         auto adapt(lst->getAdapter());
         adapt->clear(false); adapt->addAll(pks->pokes);

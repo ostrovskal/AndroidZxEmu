@@ -15,10 +15,9 @@ zDevTape::zDevTape() {
 }
 
 void zDevTape::clear(bool all) {
-	for(auto& blk : blks) SAFE_A_DELETE(blk->data);
+	for(auto blk : blks) SAFE_A_DELETE(blk->data);
 	blks.clear(); pth.empty();
-	npulses = 0;
-	iwaves = waves = ipilot = 0;
+	npulses = 0; iwaves = waves = ipilot = 0;
 	stopPlay();
 	if(all) {
 		speccy->tapeCurrent = 0;
@@ -66,14 +65,17 @@ bool zDevTape::write(u16, u8 val, u32 ticks) {
 	if(speccy->recTape) {
 		auto pc(cpu->pcb); auto cur(cpu->ts + ticks);
 		if(npc != -1 && abs(npc - pc) > 80) {
-			if(rpos > 16) addNormalBlock(tmpBuf, rpos / 16)->type = TZX_SAVE;
+			if(rpos > 16) {
+				addNormalBlock(tmpBuf, rpos / 16)->type = TZX_SAVE;
+				speccy->tapeCount++;
+			}
 			npc = -1; speccy->recTape = false;
 		} else if(npc == -1) {
 			ctape = 0;
 			npc = pc;
 		} else {
 			zDevBeeper::_write(val, ticks, false);
-			auto div(speccy->turboTick(79, true));
+			auto div(speccy->divClock / 79.0f);
 			auto w((u32)((cur - edge) * div));
 			if(ctape == 0) {
 				if(w == 23 || w == 21 || w == 11 || w == 10) {
@@ -81,10 +83,12 @@ bool zDevTape::write(u16, u8 val, u32 ticks) {
 					val = tmpBuf[rpos >> 4];
 					if(w < 20) val &= ~bit; else val |= bit;
 					tmpBuf[rpos++ >> 4] = val;
+                    //if((rpos & 15) == 0) ILOG("pos:%i, val: %i", rpos / 16, val);
 				}
 			} else {
 				if(w == 29 || w == 27) ctape++;
-				else if(w == 8 || w == 9 || w == 10) ctape = 0, rpos = 0;
+				else if(w == 8 || w == 9 || w == 10)
+					ctape = 0, rpos = 0;
 			}
 		}
 		edge = cur;
@@ -129,8 +133,7 @@ zDevTape::BLK_TAPE* zDevTape::addNormalBlock(u8* data, u32 size) {
 	*buf++ = 0; *buf++ = indexOfPulse(855);  *buf++ = indexOfPulse(855);
 	*buf++ = 0; *buf++ = indexOfPulse(1710); *buf++ = indexOfPulse(1710);
 	blk->pilots = buf; setWaveRLE(&buf, 0, (u16)(nwp - 1)); setWaveRLE(&buf, 1, 1);
-	blk->bits = buf;
-	return blk;
+	blk->bits = buf; return blk;
 }
 
 zDevTape::BLK_TAPE* zDevTape::addBlock(u8 type, u8* data, u32 size, u32 add_size) {
@@ -193,9 +196,7 @@ bool zDevTape::nextBlock() {
 			case TZX_MESSAGE: case TZX_SELECT:
 				modifySTATE(ZX_T_UI, 0)
 				speccy->indexBlkUI = speccy->tapeCurrent;
-				exit = (type == TZX_SELECT);
-				if(!stop) stop = exit;
-				speccy->tapeCurrent++;
+				stop = exit = true;
 				break;
 			case TZX_GROUP_START: case TZX_GROUP_END:
 			case TZX_TEXT: case TZX_ARCHIVE:
@@ -206,9 +207,7 @@ bool zDevTape::nextBlock() {
 				exit = true;
 				// если пульсы - не сбрасывать
 				if(!isPulses(type)) iwaves = ipilot = 0;
-				waves = 0;
-				tw = blk->twp;
-				ni = blk->nip;
+				waves = 0; tw = blk->twp; ni = blk->nip;
 				break;
 		}
 	}
@@ -286,7 +285,12 @@ u32 zDevTape::getImpulse() {
 }
 
 void  zDevTape::removeBlock(int index) {
-
+	blks.erase(index, 1, true); speccy->tapeCount--;
+	if(speccy->tapeCount <= 0)
+		clear(true);
+	else if(speccy->tapeCurrent > index)
+		speccy->tapeCurrent--;
+	stopPlay();
 }
 
 zDevTape::BLK_TAPE* zDevTape::blockInfo(int index) {
@@ -314,7 +318,6 @@ u8* zDevTape::statePrivate(u8* ptr, bool restore) {
 		iblock = dwordLE(&ptr); ipilot = dwordLE(&ptr); edge = qwordLE(&ptr);
 		memcpy(pulses, ptr, sizeof(pulses)); ptr += sizeof(pulses);
 		pth = (cstr)ptr; ptr += pth.size() + 1;
-//		if(speccy->playTape) startPlay();
 	} else {
 		z_memcpy(&ptr, "SERG TAPE", 9);
 		*ptr++ = bit; *ptr++ = wave; *ptr++ = ni; *ptr++ = (u8)speccy->playTape;
@@ -359,6 +362,7 @@ void zDevTape::trap(bool load) {
 		// быстрая запись
 		if(speccy->speedTape) {
 			addNormalBlock(tmpBuf, (int)(cpu->speedSave() - tmpBuf))->type = TZX_SAVE;
+			speccy->tapeCount++;
 		} else {
 			startRecord();
 		}

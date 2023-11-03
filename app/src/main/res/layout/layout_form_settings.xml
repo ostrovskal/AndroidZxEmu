@@ -746,15 +746,5 @@
                     z:styles="@style/setRibbon"/>
             </LinearLayout>
         </TabWidget>
-        <TabWidget
-            z:iconka="@integer/iconZxHelp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/helpText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                z:asset="help/index.html"/>
-        </TabWidget>
     </TabHost>
 </RelativeLayout>

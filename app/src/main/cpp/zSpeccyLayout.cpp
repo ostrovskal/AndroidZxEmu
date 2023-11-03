@@ -23,8 +23,8 @@ bool zSpeccyLayout::init() {
     // меню ленты
     tapeLyt   = (zLinearLayout*)attach(new zLinearLayout(styles_default, R.id.llTape, manager->isLandscape()),
                                             ZS_GRAVITY_START | ZS_GRAVITY_TOP, 0, VIEW_WRAP, VIEW_WRAP, 0);
-    tapePlay  = new zViewButton(styles_debbut, R.id.tapePlay, 0, R.integer.iconZxPlay);
-    tapeTurbo = new zViewButton(styles_debbut, R.id.tapeTurbo, 0, R.integer.iconZxAccelOff);
+    tapePlay  = new zViewButton(styles_tape, R.id.tapePlay, 0, R.integer.iconZxPlay);
+    tapeTurbo = new zViewButton(styles_tape, R.id.tapeTurbo, 0, R.integer.iconZxAccelOff);
     tapeProgress = new zViewProgress(styles_z_linearprogress, R.id.tapeProgress, 0, szi(0, 100), 70, manager->isLandscape());
     tapeLyt->attach(tapeTurbo, VIEW_WRAP, VIEW_WRAP)->setOnClick([this](zView*, int d) {
         speccy->speedTape ^= 1; stateTools(ZFT_UPD_TAPE, 0); });
@@ -78,10 +78,11 @@ void zSpeccyLayout::notifyEvent(HANDLER_MESSAGE* msg) {
     switch(msg->what) {
         // отобразить форму информации TZX
         case MSG_SHOW_TZX_INFO:
-            theApp->getForm<zFormTZX>(FORM_TZX)->setMode(msg->arg1, msg->sarg)->updateVisible(true);
+            theApp->getForm<zFormTZX>(FORM_TZX)->updateVisible(true);
             break;
         case MSG_HIDE_TZX_INFO:
             theApp->getForm(FORM_TZX)->updateVisible(false);
+            speccy->tapeCurrent++;
             if(!speccy->execLaunch) {
                 speccy->execLaunch = true;
                 send(ZX_MESSAGE_PROPS);
@@ -163,7 +164,7 @@ void zSpeccyLayout::stateTools(int action, int id) {
     if(action & ZFT_UPD_TAPE) {
         auto vis(tapeLyt->isVisibled()), sts(false), shw(false);
         if(speccy->showTape) {
-            shw = /*speccy->tapeIndex > 0 && */speccy->tapeIndex < (speccy->tapeAllIndex - 1000);
+            shw = speccy->tapeCount && speccy->tapeCurrent < speccy->tapeCount;
             if(shw) {
                 // normal/speed Tape
                 tapeTurbo->setIcon(speccy->speedTape ? R.integer.iconZxAccelOn : R.integer.iconZxAccelOff);
@@ -267,17 +268,17 @@ void zSpeccyLayout::onCommand(int id, zMenuItem* mi) {
 void zSpeccyLayout::processHandler() {
     zString8 tmp; bool error;
     while(auto msg = handler.obtain()) {
-        auto arg2(msg->arg2); auto isQuick(arg2 & ZX_ARG_IO_QUICK);
+        auto arg1(msg->arg1), arg2(msg->arg2); auto isQuick(arg2 & ZX_ARG_IO_QUICK);
         switch(msg->what) {
             case ZX_MESSAGE_MAGIC:  zxCmd(ZX_CMD_MAGIC); break;
             case ZX_MESSAGE_PROPS:  zxCmd(ZX_CMD_PROPS); break;
             case ZX_MESSAGE_RESET:  zxCmd(ZX_CMD_RESET); break;
-            case ZX_MESSAGE_DEBUG:  speccy->getCpu(msg->arg1)->debug(); break;
-            case ZX_MESSAGE_MODEL:  zxCmd(ZX_CMD_MODEL, msg->arg1, arg2); break;
-            case ZX_MESSAGE_DISK:   zxCmd(ZX_CMD_DISK_OPS, msg->arg1, arg2, msg->sarg); break;
+            case ZX_MESSAGE_DEBUG:  speccy->getCpu(arg1)->debug(); break;
+            case ZX_MESSAGE_MODEL:  zxCmd(ZX_CMD_MODEL, arg1, arg2); break;
+            case ZX_MESSAGE_DISK:   zxCmd(ZX_CMD_DISK_OPS, arg1, arg2, msg->sarg); break;
             case ZX_MESSAGE_SAVE:
                 tmp = (isQuick ? msg->sarg.substrAfterLast("/") : msg->sarg);
-                if(speccy->save(msg->sarg, msg->arg1)) {
+                if(speccy->save(msg->sarg, arg1)) {
                     // запись - вывести форму с сообщением
                     tmp = (isQuick ? theme->findString(R.string.qSave) : "Save\n") + tmp;
                 } else {
@@ -297,7 +298,7 @@ void zSpeccyLayout::processHandler() {
                     msg->sarg = z_fmt8(theme->findString(R.string.failedLoad), tmp.str());
                 }
                 if(tmp.indexOf(".ezx") == -1) settings->mruOpen(0, tmp, !error);
-                if(msg->sarg.isNotEmpty() && msg->arg1 == 0) zViewManager::showToast(msg->sarg);
+                if(msg->sarg.isNotEmpty() && !arg1) zViewManager::showToast(msg->sarg);
                 break;
         }
     }

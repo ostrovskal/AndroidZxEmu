@@ -251,6 +251,7 @@ void zFormBrowser::onCommand(int id) {
             setFilter(filter, true);
             break;
         case R.id.browsTrDos:
+            frame->send(ZX_MESSAGE_RESET, 0);
             frame->send(ZX_MESSAGE_DISK, ZX_DISK_OPS_TRDOS);
             close(z.R.id.ok);
             break;

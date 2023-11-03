@@ -12,16 +12,8 @@ public:
     virtual void onInit(bool _theme) override;
     // сохранение/восстановление
     virtual void stateView(STATE& state, bool save, int& index) override;
-    zViewForm* setMode(int _mode, czs& info);
 protected:
-    struct Z_SELECT { zViewButton* but{nullptr}; int offs; };
-    // блок ленты
-    zDevTape::BLK_TAPE* block{nullptr};
-    // кнопки(меню выбора)
-    Z_SELECT buttons[10]{};
     // режим
-    int mode{-1}, pause{0};
-    zString8 message{};
     zLinearLayout* tzxSel{nullptr};
     zViewText* tzxMsg{nullptr};
 };

@@ -79,6 +79,11 @@ static zStyle styles_debbut[] = {
 	{ Z_PADDING | ZT_END, 0x00000000 }
 };
 
+static zStyle styles_tape[] = {
+	{ Z_STYLES, R.style.debBut },
+	{ Z_FBO | ZT_END, true }
+};
+
 static zStyle styles_debflags[] = {
 	{ Z_SIZE, 0x01000000 },
 	{ Z_TEXT_SIZE, 11 },
@@ -468,10 +473,6 @@ static zStyle styles_casetlist[] = {
 static zStyle styles_diskspindisk[] = {
 	{ Z_ADAPTER_DATA, R.string.disks },
 	{ Z_STYLES | ZT_END, z.R.style.spinner }
-};
-
-static zStyle styles_helptext[] = {
-	{ Z_ASSET | ZT_END, R.string.help_index_html }
 };
 
 static zStyle styles_formtzx[] = {

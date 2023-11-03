@@ -91,7 +91,7 @@ static int ids[] = { // main
                      // disk
                      R.id.diskList, 0, R.id.diskSpinDisk, 0,
                      // help
-                     R.id.helpText, 0, 0, 0 };
+                     0, 0 };
 
 i32 zFormSettings::updateVisible(bool set) {
     if(set) {
@@ -136,7 +136,7 @@ void zFormSettings::onInit(bool _theme) {
                 }
             } else if(code == z.R.id.yes) {
                 speccy->dev<zDevUla>()->update(ZX_UPDATE_PRIVATE);
-                theApp->updateJoyPokes();
+                speccy->updateJoyPokes();
                 frame->setParamControllers();
             }
             return code != z.R.id.def;
@@ -243,7 +243,7 @@ void zFormSettings::onInit(zView* v, int a1) {
             applyJoyStd(a1);
             break;
         case R.id.joySpinPresets:
-            theApp->joyMakePresets(id);
+            speccy->joyMakePresets(id);
             break;
         // display
         case R.id.dispTextBl: case R.id.dispTextB: case R.id.dispTextR: case R.id.dispTextM:
@@ -295,11 +295,13 @@ void zFormSettings::onInit(zView* v, int a1) {
             ((zViewRibbon*)v)->setAdapter(new zAdapterDiskList());
             break;
         // help
+/*
         case R.id.helpText:
             ((zViewText*)v)->setOnClickUrl([](zView* v, czs& link) {
                 ((zViewText*)v)->setHtmlText((cstr)manager->assetFile(link), [](cstr, bool, zHtml*) { return false; });
             });
             break;
+*/
     }
 }
 
@@ -355,7 +357,7 @@ void zFormSettings::applyJoyStd(int num) {
 }
 
 void zFormSettings::applyJoyPresets(int num) {
-    auto j(theApp->findJoyPokes(num)); num = j->joy.type;
+    auto j(speccy->findJoyPokes(num)); num = j->joy.type;
     idView<zViewSelect>(R.id.joySpinLyt)->setItemSelected(num);
     for(int i = 0 ; i < 8; i++) {
         auto sel(idView<zViewSelect>(ids[46 + i * 2]));

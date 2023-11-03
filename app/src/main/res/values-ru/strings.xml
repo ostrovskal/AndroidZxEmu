@@ -65,7 +65,7 @@
     <string name="settings_type">Тип</string>
     <string name="settings_address">Адрес</string>
     <string name="settings_size">Размер</string>
-    <string name="settings_nsectors">#Секторов</string>
+    <string name="settings_nsectors">#</string>
     <string name="settings_fsector">Сектор</string>
     <string name="settings_track">Трек</string>
     <string name="settings_registers">регистры</string>

@@ -2,7 +2,7 @@
 // Автоматически генерируемый файл ресурсов.
 // Не редактируйте его.
 // Автор: Шаталов С.В.
-// Fri Nov  3 09:45:30 2023
+// Fri Nov  3 21:40:12 2023
 
 #pragma once
 
@@ -139,11 +139,10 @@ struct _R {
 			dispTextNumLines	= 0x000010DE, 	dispTextCurLine	= 0x000010DF, 
 			dispTextNulls	= 0x000010E0, 	dispSlrR	= 0x000010E1, 	dispSlrG	= 0x000010E2, 
 			dispSlrB	= 0x000010E3, 	casetList	= 0x000010E4, 	diskSpinDisk	= 0x000010E5, 
-			diskTextFile	= 0x000010E6, 	diskList	= 0x000010E7, 	helpText	= 0x000010E8, 
-			formTzx	= 0x000010E9, 	tzxMsg	= 0x000010EA, 	tzxSel	= 0x000010EB, 
-			formWait	= 0x000010EC, 	waitPrg	= 0x000010ED, 	llMain	= 0x000010EE, 
-			speccy	= 0x000010EF, 	speccyFps	= 0x000010F0, 	speccyStatus	= 0x000010F1, 
-		};
+			diskTextFile	= 0x000010E6, 	diskList	= 0x000010E7, 	formTzx	= 0x000010E8, 
+			tzxMsg	= 0x000010E9, 	tzxSel	= 0x000010EA, 	formWait	= 0x000010EB, 
+			waitPrg	= 0x000010EC, 	llMain	= 0x000010ED, 	speccy	= 0x000010EE, 
+			speccyFps	= 0x000010EF, 	speccyStatus	= 0x000010F0, 		};
 	}; 
 	_id id;
 	struct _string {
@@ -223,45 +222,43 @@ struct _R {
 			sts	= 0x000000C7, 	dat	= 0x000000C8, 	out	= 0x000000C9, 	page	= 0x000000CA, 
 			_7FFD	= 0x000000CB, 	_1FFD	= 0x000000CC, 	EFF7	= 0x000000CD, 
 			DFDF	= 0x000000CE, 	AY_YM	= 0x000000CF, 	MONO_ABC_ACB_BAC_BCA_CAB_CBA	= 0x000000D0, 
-			_48000_44100_22050	= 0x000000D1, 	help_index_html	= 0x000000D2, 
-		};
+			_48000_44100_22050	= 0x000000D1, 		};
 	}; 
 	_string string;
 	struct _array {
 		enum { 
-			tzxArchive	= 0x000000D3, 		};
+			tzxArchive	= 0x000000D2, 		};
 	}; 
 	_array array;
 	struct _style {
 		enum {
 			tapeItem	= 0x00000000, 	tapeBut	= 0x00000001, 	tapeText	= 0x00000002, 
 			tapeIndex	= 0x00000003, 	tapeCaption	= 0x00000004, 	tapeType	= 0x00000005, 
-			zxActionBar	= 0x00000006, 	debBut	= 0x00000007, 	debFlags	= 0x00000008, 
-			debForm	= 0x00000009, 	debEdit	= 0x0000000A, 	debEditRead	= 0x0000000B, 
-			zxSlider	= 0x0000000C, 	zxCheck	= 0x0000000D, 	zxKeyb	= 0x0000000E, 
-			setRibbon	= 0x0000000F, 	pokRibbon	= 0x00000010, 	tapeRibbon	= 0x00000011, 
-			diskHeadText	= 0x00000012, 	dispColorText	= 0x00000013, 	bpEdit	= 0x00000014, 
-			zxTools	= 0x00000015, 	pokButton	= 0x00000016, 	debListText	= 0x00000017, 
-			browsListText	= 0x00000018, 	textCapt	= 0x00000019, 	browsBut	= 0x0000001A, 
-			butTzxUI	= 0x0000001B, 	myThemeDark	= 0x0000001C, 	myThemeLight	= 0x0000001D, 
-			formasm	= 0x0000001E, 	zlinearlayout1	= 0x0000001F, 	zviewform1	= 0x00000020, 
-			bpeditrange1	= 0x00000021, 	bpspinops	= 0x00000022, 	bpspincond	= 0x00000023, 
-			zviewtext1	= 0x00000024, 	bplist	= 0x00000025, 	browsspin	= 0x00000026, 
-			browsdisk	= 0x00000027, 	browsedit	= 0x00000028, 	browsopen	= 0x00000029, 
-			browschk	= 0x0000002A, 	zviewform2	= 0x0000002B, 	zlinearlayout2	= 0x0000002C, 
-			butbp	= 0x0000002D, 	editasm	= 0x0000002E, 	textfs	= 0x0000002F, 
-			zlinearlayout3	= 0x00000030, 	editpc	= 0x00000031, 	editts	= 0x00000032, 
-			zlinearlayout6	= 0x00000033, 	ll8	= 0x00000034, 	llgs	= 0x00000035, 
-			pokeslist	= 0x00000036, 	zviewtext2	= 0x00000037, 	mainsystem	= 0x00000038, 
-			zlinearlayout5	= 0x00000039, 	soundspinchip	= 0x0000003A, 
-			soundspinchannels	= 0x0000003B, 	soundspinfreq	= 0x0000003C, 
-			joyspinlyt	= 0x0000003D, 	joyspinleft	= 0x0000003E, 	disptextbl	= 0x0000003F, 
-			disptextb	= 0x00000040, 	disptextr	= 0x00000041, 	disptextm	= 0x00000042, 
-			disptextg	= 0x00000043, 	disptextc	= 0x00000044, 	disptexty	= 0x00000045, 
-			disptextw	= 0x00000046, 	casetlist	= 0x00000047, 	diskspindisk	= 0x00000048, 
-			helptext	= 0x00000049, 	formtzx	= 0x0000004A, 	tzxmsg	= 0x0000004B, 
-			speccy	= 0x0000004C, 	speccyfps	= 0x0000004D, 	speccystatus	= 0x0000004E, 
-};
+			zxActionBar	= 0x00000006, 	debBut	= 0x00000007, 	tape	= 0x00000008, 
+			debFlags	= 0x00000009, 	debForm	= 0x0000000A, 	debEdit	= 0x0000000B, 
+			debEditRead	= 0x0000000C, 	zxSlider	= 0x0000000D, 	zxCheck	= 0x0000000E, 
+			zxKeyb	= 0x0000000F, 	setRibbon	= 0x00000010, 	pokRibbon	= 0x00000011, 
+			tapeRibbon	= 0x00000012, 	diskHeadText	= 0x00000013, 	dispColorText	= 0x00000014, 
+			bpEdit	= 0x00000015, 	zxTools	= 0x00000016, 	pokButton	= 0x00000017, 
+			debListText	= 0x00000018, 	browsListText	= 0x00000019, 	textCapt	= 0x0000001A, 
+			browsBut	= 0x0000001B, 	butTzxUI	= 0x0000001C, 	myThemeDark	= 0x0000001D, 
+			myThemeLight	= 0x0000001E, 	formasm	= 0x0000001F, 	zlinearlayout1	= 0x00000020, 
+			zviewform1	= 0x00000021, 	bpeditrange1	= 0x00000022, 	bpspinops	= 0x00000023, 
+			bpspincond	= 0x00000024, 	zviewtext1	= 0x00000025, 	bplist	= 0x00000026, 
+			browsspin	= 0x00000027, 	browsdisk	= 0x00000028, 	browsedit	= 0x00000029, 
+			browsopen	= 0x0000002A, 	browschk	= 0x0000002B, 	zviewform2	= 0x0000002C, 
+			zlinearlayout2	= 0x0000002D, 	butbp	= 0x0000002E, 	editasm	= 0x0000002F, 
+			textfs	= 0x00000030, 	zlinearlayout3	= 0x00000031, 	editpc	= 0x00000032, 
+			editts	= 0x00000033, 	zlinearlayout6	= 0x00000034, 	ll8	= 0x00000035, 
+			llgs	= 0x00000036, 	pokeslist	= 0x00000037, 	zviewtext2	= 0x00000038, 
+			mainsystem	= 0x00000039, 	zlinearlayout5	= 0x0000003A, 	soundspinchip	= 0x0000003B, 
+			soundspinchannels	= 0x0000003C, 	soundspinfreq	= 0x0000003D, 
+			joyspinlyt	= 0x0000003E, 	joyspinleft	= 0x0000003F, 	disptextbl	= 0x00000040, 
+			disptextb	= 0x00000041, 	disptextr	= 0x00000042, 	disptextm	= 0x00000043, 
+			disptextg	= 0x00000044, 	disptextc	= 0x00000045, 	disptexty	= 0x00000046, 
+			disptextw	= 0x00000047, 	casetlist	= 0x00000048, 	diskspindisk	= 0x00000049, 
+			formtzx	= 0x0000004A, 	tzxmsg	= 0x0000004B, 	speccy	= 0x0000004C, 
+			speccyfps	= 0x0000004D, 	speccystatus	= 0x0000004E, };
 	};
 	_style style;
 };
@@ -279,6 +276,7 @@ static zStyles styles[] = {
 		{ _R::_style::tapeType, styles_tapetype },
 		{ _R::_style::zxActionBar, styles_zxactionbar },
 		{ _R::_style::debBut, styles_debbut },
+		{ _R::_style::tape, styles_tape },
 		{ _R::_style::debFlags, styles_debflags },
 		{ _R::_style::debForm, styles_debform },
 		{ _R::_style::debEdit, styles_debedit },
@@ -344,7 +342,6 @@ static zStyles styles[] = {
 		{ _R::_style::disptextw, styles_disptextw },
 		{ _R::_style::casetlist, styles_casetlist },
 		{ _R::_style::diskspindisk, styles_diskspindisk },
-		{ _R::_style::helptext, styles_helptext },
 		{ _R::_style::formtzx, styles_formtzx },
 		{ _R::_style::tzxmsg, styles_tzxmsg },
 		{ _R::_style::speccy, styles_speccy },
@@ -360,7 +357,6 @@ static zResource resources[] = {
 		/* drawable */
 		{ _R::_drawable::zx_icons, "zx_icons" },
 		/* string */
-		{ _R::_string::help_index_html, "help/index.html" },
 		{ _R::_string::_48000_44100_22050, "48000|44100|22050" },
 		{ _R::_string::MONO_ABC_ACB_BAC_BCA_CAB_CBA, "MONO|ABC|ACB|BAC|BCA|CAB|CBA" },
 		{ _R::_string::AY_YM, "AY|YM" },
@@ -481,7 +477,7 @@ static zResource resources[] = {
 		{ _R::_string::settings_registers, "registers" },
 		{ _R::_string::settings_track, "Track" },
 		{ _R::_string::settings_fsector, "Sector" },
-		{ _R::_string::settings_nsectors, "#Sectors" },
+		{ _R::_string::settings_nsectors, "#" },
 		{ _R::_string::settings_size, "Size" },
 		{ _R::_string::settings_address, "Address" },
 		{ _R::_string::settings_type, "Type" },
@@ -542,7 +538,7 @@ static zResource resources[] = {
 		{ _R::_string::formBrowser, "Files browser" },
 		{ _R::_string::palette_speccy, "Custom|sshEmu|Z80Stealth|White/Black|Strange|ElectroScale|JPP|RealSpec" },
 		{ _R::_string::palette_asm, "Custom|Lighting|Darkest" },
-		{ _R::_string::key_names, "1|2|3|4|5|6|7|8|9|0|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|ENTER\biconZxOk|CAPS\biconZxShiftPress|Z|X|C|V|B|N|M|SYMBOL\biconZxSymPress|SPACE|EXT|DEL\biconZxDelete|UP\biconZxArrowUp|DOWN\biconZxArrowDown|LEFT\biconZxArrowLeft|RIGHT\biconZxArrowRight|KLEFT\biconZxKArrowLeft|KUP\biconZxKArrowUp|KRIGHT\biconZxKArrowRight|KDOWN\biconZxKArrowDown|KFIRE\biconZxKFire|N/A" },
+		{ _R::_string::key_names, "1|2|3|4|5|6|7|8|9|0|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|ENTER\biconZxOk|CAPS\biconZxShiftPress|Z|X|C|V|B|N|M|SYMBOL\biconZxSymPress|SPC|EXT|DEL\biconZxDelete|UP\biconZxArrowUp|DOWN\biconZxArrowDown|LEFT\biconZxArrowLeft|RIGHT\biconZxArrowRight|KLEFT\biconZxKArrowLeft|KUP\biconZxKArrowUp|KRIGHT\biconZxKArrowRight|KDOWN\biconZxKArrowDown|KFIRE\biconZxKFire|N/A" },
 		{ _R::_string::key_names2, "1|2|3|4|5|6|7|8|9|0|Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|ENTER|CAPS|Z|X|C|V|B|N|M|SYMBOL|SPACE|EXT|DEL|UP|DOWN|LEFT|RIGHT|KLEFT|KUP|KRIGHT|KDOWN|KFIRE|N/A" },
 		{ _R::_string::joy_names, "KEMPSTON|SINCLAIR I|SINCLAIR II|CURSOR|CUSTOM" },
 		{ _R::_string::bp_cond, "==|<>|<|>|<=|>=" },
@@ -637,7 +633,7 @@ static zResource resources_ru[] = {
 		{ _R::_string::settings_registers, "регистры" },
 		{ _R::_string::settings_track, "Трек" },
 		{ _R::_string::settings_fsector, "Сектор" },
-		{ _R::_string::settings_nsectors, "#Секторов" },
+		{ _R::_string::settings_nsectors, "#" },
 		{ _R::_string::settings_size, "Размер" },
 		{ _R::_string::settings_address, "Адрес" },
 		{ _R::_string::settings_type, "Тип" },

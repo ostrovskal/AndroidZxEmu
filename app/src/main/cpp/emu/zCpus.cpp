@@ -588,6 +588,7 @@ bool zCpuMain::delayIO(int low, int high) {
 bool zCpuMain::open(u8* ptr, size_t size, int type) {
     u8 _7ffd(48), _fe(0); u16 PC(0);
     auto mem(speccy->dev<zDevMem>());
+    mem->update(ZX_UPDATE_RESET);
     if(type == ZX_FMT_SNA) {
         bool is128(size >= HEAD_SNA::S_128_5), is6(size == HEAD_SNA::S_128_6);
         auto head((HEAD_SNA*)ptr); ptr += sizeof(HEAD_SNA); size -= sizeof(HEAD_SNA);

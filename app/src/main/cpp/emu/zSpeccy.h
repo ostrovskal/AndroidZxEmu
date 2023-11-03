@@ -214,6 +214,19 @@ struct SPECCY {
 class zSpeccy: public SPECCY {
     friend class zFormSelFile;
 public:
+    struct Z_JOY_POKES {
+        Z_JOY_POKES(czs& nm) : programm(nm) { }
+        bool isValid() const { return programm.isNotEmpty(); }
+        void clear() { programm.empty(); pokes.clear(); joy.type = -1; memset(joy.keys, 0, sizeof(joy.keys)); }
+        struct Z_JOY { int type{0}; u8 keys[8]; };
+        bool operator == (cstr nm) const { return programm == nm; }
+        // имя программы
+        zString8 programm{};
+        // параметры джойстика
+        Z_JOY joy{};
+        // массив покес
+        zArray<zString8> pokes{};
+    };
     zSpeccy();
     ~zSpeccy();
     // инициализация
@@ -258,7 +271,20 @@ public:
     u8* diskBoot{nullptr};
     // признак выхода
     u32 exit{0};
+    // обновление/добавление
+    void updateJoyPokes();
+    // создание и установка пресетов
+    void joyMakePresets(int id) const;
+    // поиск джойстика по имени программы
+    Z_JOY_POKES* findJoyPokes(czs& name) const { return findJoyPokes(jpokes.indexOf(name)); }
+    Z_JOY_POKES* findJoyPokes(int idx) const { return (idx >= 0 && idx < jpokes.size() ? jpokes[idx] : nullptr); }
 protected:
+    // вернуть все имена программ, описывающие джойстики/покес
+    zArray<zString8> getAllNamesJoyPokes() const;
+    // формирование файла для джойстиков/покес
+    void parserJoyPokes(const zArray<zString8>& sarr);
+    // сохранение джойстиков
+    void saveJoyPokes();
     // внутренний загрузчик
     bool _load(zFile* fl, int index, int option);
     // восстановление состояния
@@ -273,4 +299,6 @@ protected:
     zDev* rdevs[DEV_COUNT]{}, *wdevs[DEV_COUNT]{};
     // атрибуты треда
     pthread_attr_t lAttrs{};
+    // массив джойстиков/покес
+    zArray<Z_JOY_POKES*> jpokes{};
 };

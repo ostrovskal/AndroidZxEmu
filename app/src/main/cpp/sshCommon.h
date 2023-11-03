@@ -167,7 +167,6 @@ constexpr int TZX_HARDWARE              = 0x33;
 constexpr int TZX_CUSTOM                = 0x35;
 constexpr int TZX_SAVE                  = 0x36;
 constexpr int TZX_Z                     = 0x5A;
-constexpr int TZX_QINFO                 = 0x100;
 
 // Биты состояний
 enum ZX_STATE {

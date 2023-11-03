@@ -259,7 +259,3 @@
 			VIEW_MATCH, VIEW_WRAP);
 	settings43->attach(new zViewRibbon(styles_bplist, R.id.diskList, true), 
 			VIEW_MATCH, VIEW_MATCH);
-	auto settings62((zTabWidget*)settings01->attach(new zTabWidget(styles_default, 0, 0, R.integer.iconZxHelp), 
-			VIEW_WRAP, VIEW_WRAP)); 
-	settings62->attach(new zViewText(styles_helptext, R.id.helpText, 0), 
-			VIEW_MATCH, VIEW_MATCH);
