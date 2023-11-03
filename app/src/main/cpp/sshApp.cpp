@@ -115,10 +115,10 @@ void sshApp::run() {
 #include <filesystem>
 
 void sshApp::setContent() {
-    debug = true;
+//    debug = true;
 #include "layout_main.h"
     // 1. фрейм
-    frame = frame01; main = mainLL;
+    frame = frame02; main = mainLL;
     // 3. меню
     getActionBar()->setOnClickMenuItem([](zView*, zMenuItem* mi) {
         frame->onCommand(mi->getId(), mi);
@@ -160,7 +160,7 @@ void sshApp::setContent() {
     frame->attach(assembler, VIEW_MATCH, VIEW_MATCH);
     frame->attach(tzx, VIEW_MATCH, VIEW_MATCH);
     main->attach(debugger, VIEW_MATCH, VIEW_MATCH);
-    main->attach(keyb, VIEW_MATCH, VIEW_MATCH);
+    main->atView<zLinearLayout>(0)->attach(keyb, VIEW_MATCH, VIEW_MATCH);
     attachForm(browser, 450_dp, 450_dp);
     attachForm(bplist, 400_dp, 350_dp);
     attachForm(settings, 450_dp, 450_dp);
@@ -184,7 +184,7 @@ void sshApp::setContent() {
 void sshApp::copyFromAssets(zString8 src, czs& dst) {
     auto dir(AAssetManager_openDir(manager->getAsset(), src));
     if(dir) {
-        cstr name(nullptr); int len; zFile file; src.slash();
+        cstr name; int len; zFile file; src.slash();
         while((name = AAssetDir_getNextFileName(dir))) {
             auto ptr(manager->assetFile(src + name, &len));
             if(ptr) {

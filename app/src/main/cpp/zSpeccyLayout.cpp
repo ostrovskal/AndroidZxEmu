@@ -23,8 +23,8 @@ bool zSpeccyLayout::init() {
     // меню ленты
     tapeLyt   = (zLinearLayout*)attach(new zLinearLayout(styles_default, R.id.llTape, manager->isLandscape()),
                                             ZS_GRAVITY_START | ZS_GRAVITY_TOP, 0, VIEW_WRAP, VIEW_WRAP, 0);
-    tapePlay  = new zViewButton(styles_tape, R.id.tapePlay, 0, R.integer.iconZxPlay);
-    tapeTurbo = new zViewButton(styles_tape, R.id.tapeTurbo, 0, R.integer.iconZxAccelOff);
+    tapePlay  = new zViewButton(styles_zxtools, R.id.tapePlay, 0, R.integer.iconZxPlay);
+    tapeTurbo = new zViewButton(styles_zxtools, R.id.tapeTurbo, 0, R.integer.iconZxAccelOff);
     tapeProgress = new zViewProgress(styles_z_linearprogress, R.id.tapeProgress, 0, szi(0, 100), 70, manager->isLandscape());
     tapeLyt->attach(tapeTurbo, VIEW_WRAP, VIEW_WRAP)->setOnClick([this](zView*, int d) {
         speccy->speedTape ^= 1; stateTools(ZFT_UPD_TAPE, 0); });
@@ -39,9 +39,9 @@ bool zSpeccyLayout::init() {
     theApp->getActionBar()->setContent(capt);
     fps = idView<zViewText>(R.id.speccyFps);
     // джойстики
-    ac = (zViewController*)root->attach(new zViewController(styles_z_acontroller, z.R.id.acontroller, z.R.integer.acontrol, z.R.string.acontrollerMap),
+    ac = (zViewController*)frame->attach(new zViewController(styles_z_acontroller, z.R.id.acontroller, z.R.integer.acontrol, z.R.string.acontrollerMap),
                                         ZS_GRAVITY_END | ZS_GRAVITY_BOTTOM, 0, 128_dp, 128_dp);
-    cc = (zViewController*)root->attach(new zViewController(styles_z_ccontroller, z.R.id.ccontroller, z.R.integer.ccontrol, z.R.string.ccontrollerMap),
+    cc = (zViewController*)frame->attach(new zViewController(styles_z_ccontroller, z.R.id.ccontroller, z.R.integer.ccontrol, z.R.string.ccontrollerMap),
                                         ZS_GRAVITY_START | ZS_GRAVITY_BOTTOM, 0, 128_dp, 128_dp);
     cc->setOnChangeButton([this](zView*, int b) {
         theApp->keyb->keyEvent(b | (int)(ac->getButtons() << 4), false); });
@@ -103,7 +103,8 @@ void zSpeccyLayout::activateDebugger() {
         stateTools(ZFT_UPD_MENU_DBG);
     }
     speccy->debugMode = MODE_PC;
-    theApp->getForm<zFormDebugger>(FORM_DEBUG)->stateTools(SD_TOOLS_ALL | SD_TOOLS_UPD_SREG | SD_TOOLS_LST);
+    auto dbg(theApp->getForm<zFormDebugger>(FORM_DEBUG));
+    dbg->stateTools(SD_TOOLS_ALL | SD_TOOLS_UPD_SREG | SD_TOOLS_LST);
 }
 
 void zSpeccyLayout::stateTools(int action, int id) {
@@ -134,27 +135,23 @@ void zSpeccyLayout::stateTools(int action, int id) {
     }
     if(action & ZFT_UPD_MENU_DBG) {
         auto dbg(theApp->getForm(FORM_DEBUG)); auto keyb(theApp->keyb);
-        auto land(manager->isLandscape());
-        auto chk(!land && speccy->showDebugger);
-        menu->idFind(R.integer.MENU_PROPS_DEBUGGER)->setVisibled(!land);
+        auto land(manager->isLandscape()), chk(speccy->showDebugger);
         menu->idFind(R.integer.MENU_DEBUGGER)->setVisibled(chk);
         menu->idFind(R.integer.MENU_DISPLAY)->setVisibled(!chk);
-        dbg->updateStatus(ZS_VISIBLED, false);
-        keyb->updateStatus(ZS_VISIBLED, false);
+        dbg->updateVisible(false); keyb->updateVisible(false);
         if(chk) {
-            frame->lps.y = 60; dbg->lps.y = 40;
-            chk = false; dbg->updateVisible(true);
-        } else {
-            if(speccy->panelMode == 1) {
-                frame->lps.y = 90 - land * 10 - speccy->sizeKeyb * 5;
-                keyb->lps.y = 10 + land * 10 + speccy->sizeKeyb * 5;
-                keyb->updateVisible(true);
-            }
-            chk = (speccy->panelMode == 0);
+            main->atView(0)->lps.weight = 60; dbg->lps.weight = 40;
+            main->changeOrientation(!land);
+            dbg->updateVisible(true);
         }
+        if(speccy->panelMode == 1) {
+            frame->lps.weight = 90 - land * 10 - speccy->sizeKeyb * 5;
+            keyb->lps.weight = 10 + land * 10 + speccy->sizeKeyb * 5;
+            keyb->updateVisible(true);
+        }
+        chk = (speccy->panelMode == 0);
         ac->updateStatus(ZS_VISIBLED, chk);
         cc->updateStatus(ZS_VISIBLED, chk);
-        main->requestLayout();
     }
     if(action & ZFT_UPD_MENU_ITEM) {
         // execute

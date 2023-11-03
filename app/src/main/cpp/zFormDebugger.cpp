@@ -87,6 +87,7 @@ int zFormDebugger::updateVisible(bool set) {
 }
 
 void zFormDebugger::fillRegisters(bool full) {
+    cpu   = speccy->getCpu(speccy->debugCpu);
     for(auto& r : registers) {
         auto p(r.base);
         if(full) {
@@ -139,12 +140,12 @@ void zFormDebugger::stateTools(int action, int id) {
         for(auto& reg : registers) {
             auto nval((int)((*(i32*)(reg.base + reg.offset) & reg.mask) >> reg.shift));
             reg.text->setTextColorForeground(nval != reg.value ? z.R.color.red : reg.text->getTextColorDefault());
+            reg.value = nval;
             if(reg.edit) {
                 reg.edit->setText(z_fmtValue(nval, reg.fmtValue, speccy->showHex), true);
             } else {
                 reg.text->setTextStyle((nval != 0) * ZS_TEXT_BOLD_ITALIC);
             }
-            reg.value = nval;
         }
     }
     if(action & SD_TOOLS_CH_REG) {
@@ -170,7 +171,9 @@ void zFormDebugger::stateTools(int action, int id) {
     if(action & SD_TOOLS_LST) {
         if(action & SD_TOOLS_UPD_SREG) {
             switch(speccy->debugMode) {
-                case MODE_SP: _list->update(cpu->sp, SFLAG_SP); break;
+                case MODE_SP:
+                    _list->update(cpu->sp, SFLAG_SP);
+                    break;
                 case MODE_PC:
                     _list->update(cpu->pc, checkSTATE(ZX_TRACE) ? SFLAG_SEL : SFLAG_PC);
                     modifySTATE(0, ZX_TRACE)
@@ -278,6 +281,5 @@ void zFormDebugger::onInit(bool _theme) {
     _asm->setOnChangeText([this](zView* v, int act) {
         if(act == MSG_EDIT_FINISH) onCommand(v->id, false);
     });
-    cpu   = speccy->getCpu(speccy->debugCpu);
     fillRegisters(true);
 }

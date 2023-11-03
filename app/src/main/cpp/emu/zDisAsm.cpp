@@ -142,12 +142,9 @@ u16 zDisAsm::parser(zCpu* _cpu, u16 PC, char* buffer, int flags) {
     if(flags & DA_PC) {
         auto bps(cpu->_bp[PC]);
         auto ex(bps & ZX_BP_EXEC ? "*" : " ");
-        auto rm(bps & ZX_BP_RMEM ? "*" : " ");
-        auto wm(bps & ZX_BP_WMEM ? "*" : " ");
+        auto rm(bps & (ZX_BP_WMEM | ZX_BP_RMEM) ? "^" : " ");
         z_strcpy(&result, z_fmtValue(PC, ZFV_OPS16, speccy->showHex));
-        z_strcpy(&result, rm);
-        z_strcpy(&result, ex);
-        z_strcpy(&result, wm);
+        z_strcpy(&result, rm); z_strcpy(&result, ex);
     }
     // байты инструкции
     if(flags & DA_CODE) {
@@ -159,7 +156,7 @@ u16 zDisAsm::parser(zCpu* _cpu, u16 PC, char* buffer, int flags) {
         for(int i = 0; i < length; i++) 
             z_strcpy(&daCode, z_fmtValue(_cpu->_rm8(PC + i), (i != (length - 1)) * 2, speccy->showHex));
         length = z_strlen(bufCode);
-        n = 18 - hex * 5; z_char(&daCode, ' ', n - length); *daCode = 0;
+        n = 17 - hex * 4; z_char(&daCode, ' ', n - length); *daCode = 0;
         z_strcpy(&result, bufCode);
     }
     // запомнить позицию текста инструкции

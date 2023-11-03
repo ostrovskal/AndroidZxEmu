@@ -2,7 +2,7 @@
 // Автоматически генерируемый файл ресурсов.
 // Не редактируйте его.
 // Автор: Шаталов С.В.
-// Fri Nov  3 21:40:12 2023
+// Sat Nov  4 00:28:40 2023
 
 #pragma once
 
@@ -234,31 +234,31 @@ struct _R {
 		enum {
 			tapeItem	= 0x00000000, 	tapeBut	= 0x00000001, 	tapeText	= 0x00000002, 
 			tapeIndex	= 0x00000003, 	tapeCaption	= 0x00000004, 	tapeType	= 0x00000005, 
-			zxActionBar	= 0x00000006, 	debBut	= 0x00000007, 	tape	= 0x00000008, 
-			debFlags	= 0x00000009, 	debForm	= 0x0000000A, 	debEdit	= 0x0000000B, 
-			debEditRead	= 0x0000000C, 	zxSlider	= 0x0000000D, 	zxCheck	= 0x0000000E, 
-			zxKeyb	= 0x0000000F, 	setRibbon	= 0x00000010, 	pokRibbon	= 0x00000011, 
-			tapeRibbon	= 0x00000012, 	diskHeadText	= 0x00000013, 	dispColorText	= 0x00000014, 
-			bpEdit	= 0x00000015, 	zxTools	= 0x00000016, 	pokButton	= 0x00000017, 
-			debListText	= 0x00000018, 	browsListText	= 0x00000019, 	textCapt	= 0x0000001A, 
-			browsBut	= 0x0000001B, 	butTzxUI	= 0x0000001C, 	myThemeDark	= 0x0000001D, 
-			myThemeLight	= 0x0000001E, 	formasm	= 0x0000001F, 	zlinearlayout1	= 0x00000020, 
-			zviewform1	= 0x00000021, 	bpeditrange1	= 0x00000022, 	bpspinops	= 0x00000023, 
-			bpspincond	= 0x00000024, 	zviewtext1	= 0x00000025, 	bplist	= 0x00000026, 
-			browsspin	= 0x00000027, 	browsdisk	= 0x00000028, 	browsedit	= 0x00000029, 
-			browsopen	= 0x0000002A, 	browschk	= 0x0000002B, 	zviewform2	= 0x0000002C, 
-			zlinearlayout2	= 0x0000002D, 	butbp	= 0x0000002E, 	editasm	= 0x0000002F, 
-			textfs	= 0x00000030, 	zlinearlayout3	= 0x00000031, 	editpc	= 0x00000032, 
-			editts	= 0x00000033, 	zlinearlayout6	= 0x00000034, 	ll8	= 0x00000035, 
-			llgs	= 0x00000036, 	pokeslist	= 0x00000037, 	zviewtext2	= 0x00000038, 
-			mainsystem	= 0x00000039, 	zlinearlayout5	= 0x0000003A, 	soundspinchip	= 0x0000003B, 
-			soundspinchannels	= 0x0000003C, 	soundspinfreq	= 0x0000003D, 
-			joyspinlyt	= 0x0000003E, 	joyspinleft	= 0x0000003F, 	disptextbl	= 0x00000040, 
-			disptextb	= 0x00000041, 	disptextr	= 0x00000042, 	disptextm	= 0x00000043, 
-			disptextg	= 0x00000044, 	disptextc	= 0x00000045, 	disptexty	= 0x00000046, 
-			disptextw	= 0x00000047, 	casetlist	= 0x00000048, 	diskspindisk	= 0x00000049, 
-			formtzx	= 0x0000004A, 	tzxmsg	= 0x0000004B, 	speccy	= 0x0000004C, 
-			speccyfps	= 0x0000004D, 	speccystatus	= 0x0000004E, };
+			zxActionBar	= 0x00000006, 	debBut	= 0x00000007, 	debFlags	= 0x00000008, 
+			debForm	= 0x00000009, 	debEdit	= 0x0000000A, 	debEditRead	= 0x0000000B, 
+			zxSlider	= 0x0000000C, 	zxCheck	= 0x0000000D, 	zxKeyb	= 0x0000000E, 
+			setRibbon	= 0x0000000F, 	pokRibbon	= 0x00000010, 	tapeRibbon	= 0x00000011, 
+			diskHeadText	= 0x00000012, 	dispColorText	= 0x00000013, 	bpEdit	= 0x00000014, 
+			zxTools	= 0x00000015, 	pokButton	= 0x00000016, 	debListText	= 0x00000017, 
+			browsListText	= 0x00000018, 	textCapt	= 0x00000019, 	browsBut	= 0x0000001A, 
+			butTzxUI	= 0x0000001B, 	myThemeDark	= 0x0000001C, 	myThemeLight	= 0x0000001D, 
+			formasm	= 0x0000001E, 	zlinearlayout1	= 0x0000001F, 	zviewform1	= 0x00000020, 
+			bpeditrange1	= 0x00000021, 	bpspinops	= 0x00000022, 	bpspincond	= 0x00000023, 
+			zviewtext1	= 0x00000024, 	bplist	= 0x00000025, 	browsspin	= 0x00000026, 
+			browsdisk	= 0x00000027, 	browsedit	= 0x00000028, 	browsopen	= 0x00000029, 
+			browschk	= 0x0000002A, 	zviewform2	= 0x0000002B, 	zlinearlayout2	= 0x0000002C, 
+			butbp	= 0x0000002D, 	editasm	= 0x0000002E, 	textfs	= 0x0000002F, 
+			zlinearlayout3	= 0x00000030, 	editpc	= 0x00000031, 	editts	= 0x00000032, 
+			zlinearlayout6	= 0x00000033, 	ll8	= 0x00000034, 	llgs	= 0x00000035, 
+			pokeslist	= 0x00000036, 	zviewtext2	= 0x00000037, 	mainsystem	= 0x00000038, 
+			zlinearlayout5	= 0x00000039, 	soundspinchip	= 0x0000003A, 
+			soundspinchannels	= 0x0000003B, 	soundspinfreq	= 0x0000003C, 
+			joyspinlyt	= 0x0000003D, 	joyspinleft	= 0x0000003E, 	disptextbl	= 0x0000003F, 
+			disptextb	= 0x00000040, 	disptextr	= 0x00000041, 	disptextm	= 0x00000042, 
+			disptextg	= 0x00000043, 	disptextc	= 0x00000044, 	disptexty	= 0x00000045, 
+			disptextw	= 0x00000046, 	casetlist	= 0x00000047, 	diskspindisk	= 0x00000048, 
+			formtzx	= 0x00000049, 	tzxmsg	= 0x0000004A, 	speccy	= 0x0000004B, 
+			speccyfps	= 0x0000004C, 	speccystatus	= 0x0000004D, };
 	};
 	_style style;
 };
@@ -276,7 +276,6 @@ static zStyles styles[] = {
 		{ _R::_style::tapeType, styles_tapetype },
 		{ _R::_style::zxActionBar, styles_zxactionbar },
 		{ _R::_style::debBut, styles_debbut },
-		{ _R::_style::tape, styles_tape },
 		{ _R::_style::debFlags, styles_debflags },
 		{ _R::_style::debForm, styles_debform },
 		{ _R::_style::debEdit, styles_debedit },

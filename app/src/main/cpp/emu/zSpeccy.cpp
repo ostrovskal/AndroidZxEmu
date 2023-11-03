@@ -154,14 +154,6 @@ void zSpeccy::update(int param, int arg) {
     for(auto& dev : devs) dev->update(param);
 }
 
-void zSpeccy::updateDebugger() {
-    // если мы в отладчике - обновить его
-    if(showDebugger) {
-        auto dbg(frame->atView<zFormDebugger>(FORM_DEBUG));
-        dbg->stateTools(SD_TOOLS_REG | SD_TOOLS_LST | SD_TOOLS_UPD_SREG);
-    }
-}
-
 void zSpeccy::execute() {
     static auto tm1(z_timeMillis());
     auto mix(dev<zDevMixer>());
@@ -352,7 +344,6 @@ void zSpeccy::programName(cstr nm, bool trim) {
         memcpy(speccy->joyKeys, j->joy.keys, sizeof(speccy->joyKeys));
     }
     frame->setParamControllers();
-    updateDebugger();
     modifySTATE(ZX_CAPT, 0)
 }
 

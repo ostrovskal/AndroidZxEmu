@@ -79,11 +79,6 @@ static zStyle styles_debbut[] = {
 	{ Z_PADDING | ZT_END, 0x00000000 }
 };
 
-static zStyle styles_tape[] = {
-	{ Z_STYLES, R.style.debBut },
-	{ Z_FBO | ZT_END, true }
-};
-
 static zStyle styles_debflags[] = {
 	{ Z_SIZE, 0x01000000 },
 	{ Z_TEXT_SIZE, 11 },
@@ -213,11 +208,11 @@ static zStyle styles_bpedit[] = {
 static zStyle styles_zxtools[] = {
 	{ Z_STYLES, z.R.style.tools },
 	{ Z_SIZE, 0x05000500 },
-	{ Z_FOREGROUND_SCALE, 21626 },
+	{ Z_FOREGROUND_SCALE, 27524 },
 	{ Z_ICON_SCALE, 21626 },
 	{ Z_TEXT_FOREGROUND_COLOR, 0xFFFFFFFF },
 	{ Z_ICON | ZT_THEME, Z_THEME_ICONS },
-	{ Z_PADDING | ZT_END, 0x02020202 }
+	{ Z_PADDING | ZT_END, 0x00000000 }
 };
 
 static zStyle styles_pokbutton[] = {
@@ -228,11 +223,11 @@ static zStyle styles_pokbutton[] = {
 
 static zStyle styles_deblisttext[] = {
 	{ Z_TEXT_FONT, z.R.drawable.font_mono },
-	{ Z_TEXT_SIZE, 16 },
+	{ Z_TEXT_SIZE, 14 },
 	{ Z_TEXT_STYLE, ZS_TEXT_NORMAL | ZS_TEXT_MONO },
 	{ Z_TEXT_FOREGROUND_COLOR | ZT_THEME, Z_THEME_COLOR },
 	{ Z_GRAVITY, ZS_GRAVITY_START },
-	{ Z_IPADDING | ZT_END, 0x00020002 }
+	{ Z_IPADDING | ZT_END, 0x02020202 }
 };
 
 static zStyle styles_browslisttext[] = {

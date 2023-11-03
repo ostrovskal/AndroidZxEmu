@@ -71,10 +71,6 @@
         <item name="fkGravity">center</item>
         <item name="pad">0dp</item>
     </style>
-    <style name="tape">
-        <item name="styles">@style/debBut</item>
-        <item name="fbo">true</item>
-    </style>
     <style name="debFlags">
         <item name="sizeMinW">1px</item>
         <item name="textSize">11sp</item>
@@ -197,11 +193,11 @@
         <item name="styles">@style/tools</item>
         <item name="sizeMinW">5dp</item>
         <item name="sizeMinH">5dp</item>
-        <item name="fkScale">0.33</item>
+        <item name="fkScale">0.42</item>
         <item name="icScale">0.33</item>
         <item name="textColor">#fff</item>
         <item name="icon">?attr/themeIcons</item>
-        <item name="pad">2dp</item>
+        <item name="pad">0dp</item>
     </style>
     <style name="pokButton">
         <item name="styles">@style/button</item>
@@ -210,11 +206,11 @@
     </style>
     <style name="debListText">
         <item name="font">@drawable/font_mono</item>
-        <item name="textSize">16sp</item>
+        <item name="textSize">14sp</item>
         <item name="textStyle">normal|mono</item>
         <item name="textColor">?attr/themeColor</item>
         <item name="gravity">start</item>
-        <item name="ipadVert">2dp</item>
+        <item name="ipad">2dp</item>
     </style>
     <style name="browsListText">
         <item name="textSize">20sp</item>

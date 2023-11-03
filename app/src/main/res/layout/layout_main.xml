@@ -4,31 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:z="http://schemas.android.com/apk/res-auto"
     android:id="@+id/llMain" z:nameView="mainLL"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <SurfaceView
-        android:id="@+id/speccy" android:layout_weight="70"
-        z:behavior="clickable|longClickable"
-        z:typeView="zSpeccyLayout" z:nameView="frame"
-        z:size="352,288" z:fkColor="#fff" z:fkTiles="0"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="InefficientWeight">
-        <TextView
-            android:id="@+id/speccyFps"
-            android:gravity="end"
-            android:layout_gravity="end|bottom"
+        android:layout_height="match_parent">
+        <SurfaceView
+            android:id="@+id/speccy" android:layout_weight="70"
+            z:behavior="clickable|longClickable"
+            z:typeView="zSpeccyLayout" z:nameView="frame"
+            z:size="352,288" z:fkColor="#fff" z:fkTiles="0"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#fff" android:textSize="28sp"
-            z:textShadowOffset="2,2" z:behavior="none" />
-        <ImageView
-            android:id="@+id/speccyStatus"
-            android:layout_gravity="end|top"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            z:iconka="@integer/iconZxDisk" z:behavior="none"
-            z:styles="@style/menuImage"/>
-    </SurfaceView>
+            android:layout_height="match_parent"
+            tools:ignore="InefficientWeight">
+            <TextView
+                android:id="@+id/speccyFps"
+                android:gravity="end"
+                android:layout_gravity="end|bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#fff" android:textSize="28sp"
+                z:textShadowOffset="2,2" z:behavior="none" />
+            <ImageView
+                android:id="@+id/speccyStatus"
+                android:layout_gravity="end|top"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                z:iconka="@integer/iconZxDisk" z:behavior="none"
+                z:styles="@style/menuImage"/>
+        </SurfaceView>
+    </LinearLayout>
 </LinearLayout>

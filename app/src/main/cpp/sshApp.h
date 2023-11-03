@@ -38,7 +38,7 @@ public:
     // выход
     void exitProgramm() { ANativeActivity_finish(android->activity); }
     // вернуть форму
-    template<typename T = zViewForm> T* getForm(int idx) const { return (T*)forms[idx]; }
+    template<typename T = zViewForm> T* getForm(int idx) const { return dynamic_cast<T*>(forms[idx]); }
     // главная панель
     zSpeccyKeyboard*    keyb{nullptr};
     zLinearLayout*      main{nullptr};
