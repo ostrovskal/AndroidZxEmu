@@ -10,6 +10,8 @@ public:
             zViewForm(_sts, _id, _sts_capt, _sts_foot, _capt, _m) { }
     virtual i32 updateVisible(bool set) override;
     virtual void onInit(bool _theme) override;
+    // сохранение/восстановление
+    virtual void stateView(STATE& state, bool save, int& index) override;
     zViewForm* setMode(int _mode, czs& info);
 protected:
     struct Z_SELECT { zViewButton* but{nullptr}; int offs; };

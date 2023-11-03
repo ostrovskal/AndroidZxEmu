@@ -246,7 +246,7 @@ Infinite Grenades
 27773=58
 
 [Cybernoid I]
-JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+JOY: KEMPSTON(5,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
 Infinite Lives
 36687=0
 Infinite Shields
@@ -283,7 +283,7 @@ Lives=100
 25941=100
 
 [Cybernoid II]
-JOY: KEMPSTON(2,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
+JOY: KEMPSTON(5,1,0,N/A,N/A,N/A,N/A,N/A,N/A)
 Infinite Lives
 36198=0
 Infinite Shields

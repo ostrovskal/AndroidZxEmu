@@ -121,6 +121,7 @@ void zFormSettings::onInit(bool _theme) {
             speccy->settingsTab = idView<zTabLayout>(R.id.mainTabs)->getActivePage();
             if(code == z.R.id.no) {
                 memcpy((u8*)&speccy->gsReset, savedValues, sizeof(savedValues));
+                speccy->joyType = joyType; memcpy(speccy->joyKeys, joyKeys, sizeof(joyKeys));
             } else if(code == z.R.id.def) {
                 idView<zViewSelect>(R.id.dispSpinPalettes)->setItemSelected(0);
                 for(int i = 0; i < sizeof(ids) / 4; i += 2) {
@@ -128,14 +129,13 @@ void zFormSettings::onInit(bool _theme) {
                     if(offs) {
                         if(settings->getDefault(offs - 64, &def)) {
                             auto ptr((u8*)speccy + offs);
-                            if(offs > 63 && offs < 109) *ptr = (u8)def; else *(u32*)ptr = def;
+                            if(offs < 109) *ptr = (u8)def; else *(u32*)ptr = def;
                         }
                     }
                     onInit(idView(ids[i]), offs);
                 }
             } else if(code == z.R.id.yes) {
                 speccy->dev<zDevUla>()->update(ZX_UPDATE_PRIVATE);
-                speccy->joyType = joyType; memcpy(speccy->joyKeys, joyKeys, sizeof(joyKeys));
                 theApp->updateJoyPokes();
                 frame->setParamControllers();
             }
@@ -149,7 +149,7 @@ void zFormSettings::onInit(bool _theme) {
 void zFormSettings::onCommand(zView* v, int a1) {
     auto id(v->id); int action(0), cmd(-1);
     auto offs(z_remap(id, ids));
-    if(offs > 63 && offs < 109) *(u8*)((u8*)speccy + offs) = (u8)a1;
+    if(offs < 109) *(u8*)((u8*)speccy + offs) = (u8)a1;
     switch(id) {
         case R.id.mainShowFPS: onInit(v, offs); break;
         case R.id.mainBorder: case R.id.mainSystem: cmd = ZX_MESSAGE_PROPS; break;
@@ -349,7 +349,7 @@ void zFormSettings::applyJoyStd(int num) {
     auto arr(zString8(stdJoyKeys[num]).split(","));
     for(int i = 0 ; i < 8; i++) {
         auto sel(idView<zViewSelect>(ids[46 + i * 2]));
-        auto key(is && i < 5 ? keys.indexOf(arr[i]) : joyKeys[i]);
+        auto key(is && i < 5 ? keys.indexOf(arr[i]) : speccy->joyKeys[i]);
         sel->setItemSelected(key); sel->disable(is && i < 5);
     }
 }
@@ -359,7 +359,7 @@ void zFormSettings::applyJoyPresets(int num) {
     idView<zViewSelect>(R.id.joySpinLyt)->setItemSelected(num);
     for(int i = 0 ; i < 8; i++) {
         auto sel(idView<zViewSelect>(ids[46 + i * 2]));
-        auto idx(j->joy.keys[i]); joyKeys[i] = idx;
+        auto idx(j->joy.keys[i]); speccy->joyKeys[i] = idx;
         sel->setItemSelected(idx);
         sel->disable(num != 4 && i < 5);
     }

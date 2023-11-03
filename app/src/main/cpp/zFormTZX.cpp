@@ -33,6 +33,16 @@ zViewForm* zFormTZX::setMode(int _mode, czs& info) {
     return this;
 }
 
+void zFormTZX::stateView(STATE& state, bool save, int& index) {
+    if(save) {
+        state.data += mode;
+        state.string = message;
+    } else {
+        setMode(state.data[index++], state.string);
+    }
+    zViewForm::stateView(state, save, index);
+}
+
 void zFormTZX::onInit(bool _theme) {
     zViewForm::onInit(_theme);
     if(isOpen) {
