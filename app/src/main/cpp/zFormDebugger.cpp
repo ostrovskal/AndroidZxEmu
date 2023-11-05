@@ -75,9 +75,7 @@ static zFormDebugger::Z_DEBUGGER registers[] = {
         { "page",ZFV_SIMPLE,TB_GS, R.id.textGsPage,R.id.editGsPage,	zCpuGs::gsPage,	0xff },
         // 53
         { "7FFD",ZFV_BINARY, TB_SPECCY, R.id.text7FFD, R.id.edit7FFD, PORT_7FFD, 0xFF },
-        { "1FFD",ZFV_BINARY, TB_SPECCY, R.id.text1FFD, R.id.edit1FFD, PORT_1FFD, 0xFF },
-        { "7FFD",ZFV_BINARY, TB_SPECCY, R.id.textEFF7, R.id.editEFF7, PORT_EFF7, 0xFF },
-        { "1FFD",ZFV_BINARY, TB_SPECCY, R.id.textDFDF, R.id.editDFDF, PORT_EXT1, 0xFF },
+        { "1FFD",ZFV_BINARY, TB_SPECCY, R.id.text1FFD, R.id.edit1FFD, PORT_1FFD, 0xFF }
         // 55
 };
 
@@ -169,18 +167,17 @@ void zFormDebugger::stateTools(int action, int id) {
         }
     }
     if(action & SD_TOOLS_LST) {
-        if(action & SD_TOOLS_UPD_SREG) {
-            switch(speccy->debugMode) {
-                case MODE_SP:
-                    _list->update(cpu->sp, SFLAG_SP);
-                    break;
-                case MODE_PC:
-                    _list->update(cpu->pc, checkSTATE(ZX_TRACE) ? SFLAG_SEL : SFLAG_PC);
-                    modifySTATE(0, ZX_TRACE)
-                    break;
-            }
-        } else {
-            _list->update(0, 0);
+        switch(speccy->debugMode) {
+            case MODE_SP:
+                _list->update(cpu->sp, SFLAG_SP);
+                break;
+            case MODE_PC:
+                _list->update(cpu->pc, checkSTATE(ZX_TRACE) ? SFLAG_SEL : SFLAG_PC);
+                modifySTATE(0, ZX_TRACE)
+                break;
+            default:
+                _list->update(0, 0);
+                break;
         }
     }
 }
@@ -217,7 +214,7 @@ void zFormDebugger::onCommand(int id, bool dbl) {
         case R.id.butCpu:
             speccy->debugCpu = !speccy->debugCpu;
             cpu = speccy->getCpu(speccy->debugCpu);
-            action = SD_TOOLS_REG | SD_TOOLS_BUT | SD_TOOLS_CH_CPU | SD_TOOLS_LST | SD_TOOLS_UPD_SREG;
+            action = SD_TOOLS_REG | SD_TOOLS_BUT | SD_TOOLS_CH_CPU | SD_TOOLS_LST;
             break;
         case R.id.butStep:
         case R.id.butStepIn:
@@ -225,13 +222,9 @@ void zFormDebugger::onCommand(int id, bool dbl) {
             zDisAsm::trace(cpu, id - R.id.butStep);
         case R.id.butPlay:
             if(speccy->execLaunch) {
-                action = SD_TOOLS_UPD_SREG | SD_TOOLS_LST | SD_TOOLS_REG;
+                action = SD_TOOLS_LST | SD_TOOLS_REG;
             } else frame->send(ZX_MESSAGE_DEBUG, 0, speccy->debugCpu);
             action |= SD_TOOLS_BUT;
-            if(id == R.id.butPlay) {
-                // остановить/запустить звук
-                //frame->send(ZX_MESSAGE_PROPS);
-            }
             speccy->execLaunch ^= 1;
             break;
         case R.id.butBp:

@@ -19,11 +19,11 @@ void zDevTape::clear(bool all) {
 	blks.clear(); pth.empty();
 	npulses = 0; iwaves = waves = ipilot = 0;
 	stopPlay();
+	speccy->tapeCount = 0;
 	if(all) {
 		speccy->tapeCurrent = 0;
 		speccy->tapeAllIndex = 0;
 		speccy->tapeIndex = 0;
-		speccy->tapeCount = 0;
 	}
 }
 
@@ -65,10 +65,7 @@ bool zDevTape::write(u16, u8 val, u32 ticks) {
 	if(speccy->recTape) {
 		auto pc(cpu->pcb); auto cur(cpu->ts + ticks);
 		if(npc != -1 && abs(npc - pc) > 80) {
-			if(rpos > 16) {
-				addNormalBlock(tmpBuf, rpos / 16)->type = TZX_SAVE;
-				speccy->tapeCount++;
-			}
+			if(rpos > 16) addNormalBlock(tmpBuf, rpos / 16)->type = TZX_SAVE;
 			npc = -1; speccy->recTape = false;
 		} else if(npc == -1) {
 			ctape = 0;
@@ -145,6 +142,7 @@ zDevTape::BLK_TAPE* zDevTape::addBlock(u8 type, u8* data, u32 size, u32 add_size
 	}
 	blk->type = type;
 	blk->size = size;
+	speccy->tapeCount++;
 	return blks += blk;
 }
 
@@ -362,7 +360,6 @@ void zDevTape::trap(bool load) {
 		// быстрая запись
 		if(speccy->speedTape) {
 			addNormalBlock(tmpBuf, (int)(cpu->speedSave() - tmpBuf))->type = TZX_SAVE;
-			speccy->tapeCount++;
 		} else {
 			startRecord();
 		}
@@ -404,7 +401,7 @@ u8* zDevTape::state(u8* buf, bool restore) {
 				auto type(*ptr++), nip(*ptr++), nib(*ptr++), use(*ptr++);
 				auto pause(wordLE(&ptr));
 				if(ext == ZX_FMT_CSW || ext == ZX_FMT_WAV) {
-					if(!speccy->load(pth, 0))  throw(0);
+					if(!speccy->load(pth, 0)) throw(0);
 					blk = blks[speccy->tapeCount - 1];
 					size -= blk->size;
 				} else {
@@ -446,10 +443,8 @@ bool zDevTape::open(u8* ptr, size_t size, int type) {
         case ZX_FMT_TAP: ret = openTAP(ptr, size); break;
         case ZX_FMT_TZX: ret = openTZX(ptr, size); break;
     }
-    if(ret) {
-		speccy->tapeCount = blks.size();
-		speccy->tapeAllIndex = resolveCountImpulses(speccy->tapeCount);
-	} else clear(true);
+    if(ret) speccy->tapeAllIndex = resolveCountImpulses(speccy->tapeCount);
+	else clear(true);
     return ret;
 }
 
@@ -760,30 +755,23 @@ bool zDevTape::openTZX(u8* ptr, size_t dsize) {
                 break;
             }
             case TZX_UNION: {
-                size = dwordLE(&buf);
-                auto ps(wordLE(&buf));
-                auto np(dwordLE(&buf)), nb(dwordLE(&buf));
-                auto cwp(buf[11]), cwb(buf[17]);
-                auto nip(buf[10]), nib(buf[16]);
-                dat = buf;
-                auto alph(buf + 4);
+				dat = buf; size = dwordLE(&dat); auto ps(wordLE(&dat));
+                auto np(dwordLE(&dat)); auto nip(*dat++), cwp(*dat++);
+				auto nb(dwordLE(&dat)); auto nib(*dat++), cwb(*dat++);
+                auto alph(dat); dat = buf;
                 if(np) {
                     for(i = 0; i < cwp; i++) {
                         *dat++ = *alph++;
-                        for(j = 0 ; j < nip; j++) { *dat++ = indexOfPulse(wordLE(&alph)); }
+                        for(j = 0 ; j < nip; j++) *dat++ = indexOfPulse(wordLE(&alph));
                     }
                 }
-                auto pilots(dat - buf);
-                u32 nwp(0);
-                for(i = 0 ; i < np; i++) {
-                    auto w(*alph++);
-                    nwp += setWaveRLE(&dat, w, wordLE(&alph));
-                }
+                auto pilots(dat - buf); u32 nwp(0);
+                for(i = 0 ; i < np; i++) { auto w(*alph++); nwp += setWaveRLE(&dat, w, wordLE(&alph)); }
                 auto twb(dat - buf);
                 if(nb) {
                     for(i = 0; i < cwb; i++) {
                         *dat++ = *alph++;
-                        for(j = 0 ; j < nib; j++) { *dat++ = indexOfPulse(wordLE(&alph)); }
+                        for(j = 0 ; j < nib; j++) *dat++ = indexOfPulse(wordLE(&alph));
                     }
                 }
                 auto sz((nip + 1) * cwp + (nib + 1) * cwb + np * 3U);

@@ -102,11 +102,10 @@ bool zSpeccy::init() {
     addDev(DEV_GS,      ACCESS_RW,  new zCpuGs());
     // 1.1. загрузка параметров
     settings->init((u8*)&bools, "settings.ini");
-    // 1.2. сбросить все устройства в исходное состояние
     update(ZX_UPDATE_RESET, 0);
-    // 1.1. бут для диска
+    // 1.2. бут для диска
     diskBoot = manager->assetFile("data/boot.zzz");
-    // 1.2. джойстики/покес
+    // 1.3. джойстики/покес
     auto dst(::settings->makePath("pokes.txt", FOLDER_CACHE)); int size;
     if(dst) {
         if(!std::filesystem::exists(dst.str())) {
@@ -118,9 +117,11 @@ bool zSpeccy::init() {
     zFile fl(dst, true); zString8 str((cstr)fl.readn(&size), size);
     parserJoyPokes(str.split("\n"));
     // 2. состояние
-    frame->send(ZX_MESSAGE_MODEL, MODEL_PENTAGON128, 1);
+    frame->send(ZX_MESSAGE_MODEL, MODEL_PENTAGON128);
+    // 2.2. сбросить все устройства в исходное состояние
+    frame->send(ZX_MESSAGE_RESET);
     frame->onCommand(R.integer.MENU_OPS_RESTORE, nullptr);
-    // 2.1. запускаем тред
+    // 2.3. запускаем тред
     if(!pthread_attr_init(&lAttrs)) {
         if(!pthread_attr_setschedpolicy(&lAttrs, SCHED_NORMAL)) {
             struct sched_param param{};
@@ -461,10 +462,17 @@ zArray<zString8> zSpeccy::getAllNamesJoyPokes() const {
 
 }
 
-static zString8 obfuskate(zString8 s) {
-    s.remove(" ");
-    s = s.substrBefore("(", s);
-    s.lower();
+static zString8 obfuskate(zString8 s, bool discard) {
+    s.lower(); s = s.substrBefore("(", s);
+    if(discard) {
+        for(int i = 0 ; i < s.count(); i++) {
+            auto ch(s[i]);
+            if(ch >= 97 || ch == '-' || ch == '.') continue;
+            if(ch <= 91 && ch >= 65) continue;
+            if(!i) s.remove(i--, 1);
+            else { s.crop(i); break; }
+        }
+    } else s.remove(" ");
     return s;
 }
 
@@ -475,10 +483,15 @@ void zSpeccy::joyMakePresets(int id) const {
     if(spin) {
         auto adapt(spin->getAdapter()); auto idx(0);
         adapt->clear(false); adapt->addAll(presets);
-        auto prg(obfuskate(speccy->progName));
-        ILOG("prg %s", prg.str());
-        for(int i = 0 ; i < presets.size(); i++) {
-            if(obfuskate(presets[i]) == prg) { idx = i; break; }
+        for(int i = 0 ; i < 2; i++) {
+            auto prg(obfuskate(speccy->progName, i == 1));
+//            ILOG("prg %s", prg.str());
+            for(int j = 0 ; j < presets.size(); j++) {
+                auto p(obfuskate(presets[j], i == 1));
+//                ILOG("%s", p.str());
+                if(p == prg) { idx = j; break; }
+            }
+            if(idx) break;
         }
         spin->setItemSelected(idx);
     }

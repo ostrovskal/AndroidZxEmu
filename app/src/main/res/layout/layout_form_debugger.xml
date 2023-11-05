@@ -257,7 +257,8 @@
                         android:id="@+id/editTS1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        z:styles="@style/debEditRead" />
+                        z:styles="@style/debEditRead"
+                        z:sizeMinW="40dp" />
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -733,26 +734,6 @@
                 z:styles="@style/debFlags" android:text="1FFD"/>
             <EditText
                 android:id="@+id/edit1FFD"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                z:styles="@style/debEditRead"/>
-            <TextView
-                android:id="@+id/textEFF7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                z:styles="@style/debFlags" android:text="EFF7"/>
-            <EditText
-                android:id="@+id/editEFF7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                z:styles="@style/debEditRead"/>
-            <TextView
-                android:id="@+id/textDFDF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                z:styles="@style/debFlags" android:text="DFDF"/>
-            <EditText
-                android:id="@+id/editDFDF"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 z:styles="@style/debEditRead"/>

@@ -174,3 +174,30 @@ i32 parseKeyword(int len, zArray<Z_LABEL>* labels) {
     oldIdx = idx;
     return lex;
 }
+
+void z_chkGet(u8** p, u8* v, int s) {
+    auto chk(*(*p++)), ch((u8)0);
+    switch(s) {
+        case 1: *v = *(*p); break;
+        case 2: *v = *(u16*)(*p); break;
+        case 4: *v = *(u32*)(*p); break;
+        case 8: *v = *(u64*)(*p); break;
+        default: memcpy(v, *p, s); break;
+    }
+    // checked
+    for(int i = 0 ; i < s; i++) ch += *v++;
+    if(chk == ch) (*p) += s;
+}
+
+void z_chkSet(u8** p, u8* v, int s) {
+    // checked
+    u8 ch(0); for(int i = 0 ; i < s; i++) ch += *(p[i]);
+    *(*p++) = ch;
+    switch(s) {
+        case 1: *(*p++) = *v; break;
+        case 2: wordLE(p, *v); break;
+        case 4: dwordLE(p, *v); break;
+        case 8: qwordLE(p, *v); break;
+        default: z_memcpy(p, v, s); break;
+    }
+}

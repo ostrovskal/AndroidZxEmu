@@ -19,7 +19,6 @@ zSpeccyLayout::~zSpeccyLayout() {
 
 bool zSpeccyLayout::init() {
     menu = theApp->getActionBar()->getMenu();
-    auto root(theApp->getSystemView(true));
     // меню ленты
     tapeLyt   = (zLinearLayout*)attach(new zLinearLayout(styles_default, R.id.llTape, manager->isLandscape()),
                                             ZS_GRAVITY_START | ZS_GRAVITY_TOP, 0, VIEW_WRAP, VIEW_WRAP, 0);
@@ -39,14 +38,40 @@ bool zSpeccyLayout::init() {
     theApp->getActionBar()->setContent(capt);
     fps = idView<zViewText>(R.id.speccyFps);
     // джойстики
-    ac = (zViewController*)frame->attach(new zViewController(styles_z_acontroller, z.R.id.acontroller, z.R.integer.acontrol, z.R.string.acontrollerMap),
+    ac = (zViewController*)frame->attach(new zViewController(styles_z_controller, z.R.id.acontroller, z.R.integer.acontrol, z.R.string.acontrollerMap),
                                         ZS_GRAVITY_END | ZS_GRAVITY_BOTTOM, 0, 128_dp, 128_dp);
-    cc = (zViewController*)frame->attach(new zViewController(styles_z_ccontroller, z.R.id.ccontroller, z.R.integer.ccontrol, z.R.string.ccontrollerMap),
+    cc = (zViewController*)frame->attach(new zViewController(styles_z_controller, z.R.id.ccontroller, z.R.integer.ccontrol, z.R.string.ccontrollerMap),
                                         ZS_GRAVITY_START | ZS_GRAVITY_BOTTOM, 0, 128_dp, 128_dp);
     cc->setOnChangeButton([this](zView*, int b) {
         theApp->keyb->keyEvent(b | (int)(ac->getButtons() << 4), false); });
     ac->setOnChangeButton([this](zView*, int b) { theApp->keyb->keyEvent((b << 4) | (int)cc->getButtons(), false); });
     _status = idView<zViewImage>(R.id.speccyStatus);
+    setOnTouch([this](zView*, zTouch* t) {
+        auto b(0);//speccy->sizeBorder << 4);
+        auto x(z_round(t->cpt.x * (256.0f / rview.w))), y(z_round(((float)rview.h - t->cpt.y) * (192.0f / (float)rview.h)));
+        auto xx(x - b), yy(y - b);
+        // относительно старых
+        speccy->mouse[1] = xx;
+        speccy->mouse[2] = yy;
+        return false;
+    });
+    setOnClick([this](zView*, int b) {
+        static i64 _tm(0);
+        // двойной клик - qload/qsave
+        auto dbl(zView::touch->isDblClicked());
+        speccy->mouse[0] = !dbl * (speccy->swapMouse + 1);
+        if(dbl) {
+            auto tm(z_timeMillis()), t((tm - _tm));
+            if(t < 600 && t > 0) {
+                auto vert(!theApp->isLandscape());
+                auto s(rview); if(!vert) { s.x = s.w / 4; s.w /= 2; }
+                pti p(z_round(zView::touch->cpt.x), z_round(zView::touch->cpt.y));
+                if(s.contains(p)) onCommand(p[vert] > (s[vert] + s[vert + 2] / 2) ? R.integer.MENU_QSAVE : R.integer.MENU_QLOAD, nullptr);
+                tm = 0;
+            }
+            _tm = tm;
+        } else if(b) theApp->getActionBar()->show(true);
+    });
     // эмулятор
     speccy = new zSpeccy();
     if(speccy->init()) {
@@ -104,7 +129,7 @@ void zSpeccyLayout::activateDebugger() {
     }
     speccy->debugMode = MODE_PC;
     auto dbg(theApp->getForm<zFormDebugger>(FORM_DEBUG));
-    dbg->stateTools(SD_TOOLS_ALL | SD_TOOLS_UPD_SREG | SD_TOOLS_LST);
+    dbg->stateTools(SD_TOOLS_ALL | SD_TOOLS_LST);
 }
 
 void zSpeccyLayout::stateTools(int action, int id) {
@@ -161,7 +186,9 @@ void zSpeccyLayout::stateTools(int action, int id) {
     if(action & ZFT_UPD_TAPE) {
         auto vis(tapeLyt->isVisibled()), sts(false), shw(false);
         if(speccy->showTape) {
-            shw = speccy->tapeCount && speccy->tapeCurrent < speccy->tapeCount;
+            shw = speccy->tapeCount > 0;
+            if(shw) shw = speccy->tapeCurrent < speccy->tapeCount;
+            if(shw) shw = speccy->tapeIndex < (speccy->tapeAllIndex - 1000);
             if(shw) {
                 // normal/speed Tape
                 tapeTurbo->setIcon(speccy->speedTape ? R.integer.iconZxAccelOn : R.integer.iconZxAccelOff);
@@ -184,7 +211,7 @@ void zSpeccyLayout::stateTools(int action, int id) {
 void zSpeccyLayout::onCommand(int id, zMenuItem* mi) {
     int action(0);
     auto _id(z_remap(id, valIds));
-    if(_id != -1) mi->setChecked(speccy->bools[_id - 64] ^= 1);
+    if(_id != -1 && mi) mi->setChecked(speccy->bools[_id - 64] ^= 1);
     switch(id) {
         case R.integer.MENU_QLOAD:
             send(ZX_MESSAGE_LOAD, 0, ZX_ARG_IO_QUICK,
@@ -307,6 +334,8 @@ void zSpeccyLayout::send(int what, int a1, int a2, cstr s) {
 }
 
 void zSpeccyLayout::setParamControllers() {
+    static int tiles[] = { z.R.integer.ccontrolL, z.R.integer.ccontrolU, z.R.integer.ccontrolR, z.R.integer.ccontrolD,
+                           z.R.integer.acontrolY, z.R.integer.acontrolX, z.R.integer.acontrolA, z.R.integer.acontrolB };
     auto keys(theme->findArray(R.string.key_names));
     auto tex(manager->cache->get("zx_icons", nullptr));
     // установить надписи/значки на кнопках джойстика
@@ -315,7 +344,8 @@ void zSpeccyLayout::setParamControllers() {
         auto k(keys[speccy->joyKeys[i]]);
         auto tx(k.substrBefore("\b", k));
         auto ic(tex->getTile(k.substrAfter("\b")));
-        c->setDecorateKey(i & 3, ic == -1 ? tx : "", ic);
+        c->setDecorateKey(i & 3, ic == -1 ? tx : "", ic, tiles[i]);
     }
     manager->cache->recycle(tex);
 }
+

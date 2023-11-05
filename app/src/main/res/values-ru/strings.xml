@@ -109,4 +109,5 @@
         <item>Коммент:</item>
         <item>Инфо:</item>
     </string-array>
+    <string name="bp_ops">ПРОПУСК|ВЫПОЛНЕНИЕ|ЧТЕНИЕ ПАМЯТИ|ЗАПИСЬ В ПАМЯТЬ|ЧТЕНИЕ ПОРТА|ЗАПИСЬ В ПОРТ</string>
 </resources>

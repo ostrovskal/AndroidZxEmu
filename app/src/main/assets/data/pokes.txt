@@ -76,7 +76,7 @@ Infinite Bomb Time
 30764=1
 30765=38
 
-[Beantley Bear]
+[Bentley Bear]
 JOY: CURSOR(4,ENTER,0,N/A,N/A,N/A,N/A,N/A,N/A)
 
 [R-Type]

@@ -93,10 +93,10 @@
         <item name="textDistance">0dp</item>
         <item name="fkGravity">center</item>
         <item name="pad">0dp</item>
-        <item name="ipad">1dp</item>
+        <item name="ipad">2dp</item>
         <item name="autofillHints">zx</item>
         <item name="textLines">1</item>
-        <item name="textSize">15sp</item>
+        <item name="textSize">16sp</item>
         <item name="textColor">#fff</item>
         <item name="gravity">center</item>
     </style>
@@ -161,6 +161,13 @@
         <item name="textStyle">bold</item>
         <item name="textColor">#fff</item>
         <item name="gravity">center</item>
+        <item name="textEllipsis">middle</item>
+    </style>
+    <style name="bpText">
+        <item name="textSize">18sp</item>
+        <item name="gravity">center</item>
+        <item name="textColor">?attr/themeColor</item>
+        <item name="textEllipsis">middle</item>
     </style>
     <style name="dispColorText">
         <item name="textShadowOffset">2,2</item>

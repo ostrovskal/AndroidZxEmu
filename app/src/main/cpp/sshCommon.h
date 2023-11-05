@@ -130,7 +130,6 @@ constexpr int ZX_BP_WMEM                = 4;   // запись в память
 constexpr int ZX_BP_RPORT               = 8;   // чтение из порта
 constexpr int ZX_BP_WPORT               = 16;  // запись в порт
 constexpr int ZX_BP_TRACE               = 32;  // трассировщик
-constexpr int ZX_BP_DISABLE             = 128; // признак неактивной ловушки
 
 // Условия точек остановки
 constexpr int ZX_BP_OPS_EQ              = 0; // ==
@@ -246,3 +245,5 @@ constexpr int MSG_CLOUD_REAUTCH         = 1003;
 
 //constexpr int ZARG_              = 0;
 
+void z_chkGet(u8** p, u8* v, int s);
+void z_chkSet(u8** p, u8* v, int s);

@@ -26,14 +26,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/bp_address2"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bp_value" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bp_mask" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -49,13 +41,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     z:styles="@style/bpEdit"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bp_value" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bp_mask" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <EditText
-                    android:id="@+id/bpEditValue1"
+                    android:id="@+id/bpEditValue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     z:styles="@style/bpEdit"/>
                 <EditText
-                    android:id="@+id/bpEditValue2"
+                    android:id="@+id/bpEditMask"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     z:styles="@style/bpEdit"/>
@@ -73,10 +83,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     z:adapterData="@string/bp_ops"
-                    z:styles="@style/spinner"/>
+                    z:styles="@style/spinner" />
                 <Spinner
                     android:id="@+id/bpSpinCond"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     z:adapterData="@string/bp_cond"
                     z:styles="@style/spinner"/>

@@ -36,10 +36,10 @@ struct BREAK_POINT {
     u8 msk;
     // значение
     u8 val;
-    // операция со значением
-    u8 ops;
-    // флаги
-    u8 flg;
+    // тип ловушки
+    u8 type;
+    // условие
+    u8 cond;
 };
 
 struct CPU {

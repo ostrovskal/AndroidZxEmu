@@ -2,7 +2,7 @@
 #include "../sshCommon.h"
 #include "stkCycles.h"
 #include "zCpus.h"
-//#include "zDAsm.h"
+#include "zDisAsm.h"
 
 static u8 flags_vals[9] = { 0, FZ, FZ, FC, FC, FPV, FPV, FS, FS };
 static u8 flags_cond[9] = { 0, 0, 64, 0, 1, 0, 4, 0, 128 };
@@ -337,8 +337,6 @@ void zCpu::setBreak() {
     speccy->execLaunch  = false;
     // сообщение для выхода - активировать отладчик
     speccy->flags |= ZX_BP;
-    // остановить звук
-//    speccy->dev<zDevMixer>()->update(ZX_UPDATE_STATE);
 }
 
 u8* zCpu::speedSave() {
@@ -354,15 +352,16 @@ u8* zCpu::speedSave() {
 void zCpu::quickBP(int address) {
     BREAK_POINT* bpe(nullptr);
     for(auto& bp : bps) {
-        if(bp.flg & ZX_BP_DISABLE || bp.flg == ZX_BP_NONE) bpe = &bp;
-        else if(address >= bp.address1 && address <= bp.address2 && bp.flg == ZX_BP_EXEC) {
-            bp.flg ^= ZX_BP_DISABLE; bpe = nullptr;
+        if(bp.type == ZX_BP_NONE) {
+            if(!bpe) bpe = &bp;
+        } else if(address >= bp.address1 && address <= bp.address2 && bp.type == ZX_BP_EXEC) {
+            bp.type = ZX_BP_NONE; bpe = nullptr;
             break;
         }
     }
     if(bpe) {
         bpe->address1 = address; bpe->address2 = address;
-        bpe->val = 0; bpe->msk = 0; bpe->ops = 0; bpe->flg = ZX_BP_EXEC;
+        bpe->val = 0; bpe->msk = 0; bpe->cond = 0; bpe->type = ZX_BP_EXEC;
     }
     filledBPS();
 }
@@ -370,10 +369,11 @@ void zCpu::quickBP(int address) {
 void zCpu::filledBPS() {
     memset(_bp, 0, 65536);
     for(auto& bp : bps) {
-        auto flg(bp.flg);
-        if(flg & ZX_BP_DISABLE) continue;
-        auto addr1(bp.address1), addr2(bp.address2);
-        while(addr1 <= addr2) _bp[addr1++] |= flg;
+        auto type(bp.type);
+        if(type != ZX_BP_NONE) {
+            auto addr1(bp.address1), addr2(bp.address2);
+            while(addr1 <= addr2) _bp[addr1++] |= type;
+        }
     }
 }
 
@@ -381,18 +381,18 @@ int zCpu::checkBPs(int address, u8 flg, u8 val) {
     auto res(false);
     if(_bp[address] & ZX_BP_TRACE) {
         _bp[address] &= ~ZX_BP_TRACE;
-//        _bp[zDAsm::trAddr[0]] &= ~ZX_BP_TRACE;
-//        _bp[zDAsm::trAddr[1]] &= ~ZX_BP_TRACE;
+        _bp[zDisAsm::trAddr[0]] &= ~ZX_BP_TRACE;
+        _bp[zDisAsm::trAddr[1]] &= ~ZX_BP_TRACE;
         res = true;
     } else if((_bp[address] & ZX_BP_EXEC) == flg) {
         res = true;
     } else {
         for(auto& bp : bps) {
-            if(bp.flg != flg) continue;
+            if(bp.type != flg) continue;
             if(address >= bp.address1 && address <= bp.address2) {
-                if(bp.flg >= ZX_BP_RMEM) {
+                if(bp.type >= ZX_BP_RMEM) {
                     auto v1(val & bp.msk); auto v2(bp.val);
-                    switch(bp.ops) {
+                    switch(bp.cond) {
                         case ZX_BP_OPS_EQ:  res = v1 == v2; break;
                         case ZX_BP_OPS_NQ:  res = v1 != v2; break;
                         case ZX_BP_OPS_GT:  res = v1 >  v2; break;

@@ -19,8 +19,6 @@ constexpr int SD_TOOLS_CH_REG	= 8;
 constexpr int SD_TOOLS_CH_16	= 16;
 // при изменении PC/SP
 constexpr int SD_TOOLS_CH_SP_PC = 32;
-
-constexpr int SD_TOOLS_UPD_SREG = 64;
 // при изменении процессора
 constexpr int SD_TOOLS_CH_CPU	= 128;
 constexpr int SD_TOOLS_ALL		= 7;

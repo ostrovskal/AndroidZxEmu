@@ -83,7 +83,7 @@
 			VIEW_WRAP, VIEW_MATCH);
 	debugger34->attach(new zViewEdit(styles_editts, R.id.editTS, 0), 
 			VIEW_MATCH, VIEW_WRAP);
-	debugger34->attach(new zViewEdit(styles_editts, R.id.editTS1, 0), 
+	debugger34->attach(new zViewEdit(styles_editts1, R.id.editTS1, 0), 
 			VIEW_WRAP, VIEW_WRAP);
 	auto debugger13((zLinearLayout*)debugger12->attach(new zLinearLayout(styles_default, R.id.ll16, true), 
 			0, 55, VIEW_MATCH, VIEW_WRAP)); 
@@ -268,14 +268,6 @@
 	debugger32->attach(new zViewText(styles_textfs, R.id.text1FFD, R.string._1FFD), 
 			VIEW_WRAP, VIEW_WRAP);
 	debugger32->attach(new zViewEdit(styles_editts, R.id.edit1FFD, 0), 
-			VIEW_MATCH, VIEW_WRAP);
-	debugger32->attach(new zViewText(styles_textfs, R.id.textEFF7, R.string.EFF7), 
-			VIEW_WRAP, VIEW_WRAP);
-	debugger32->attach(new zViewEdit(styles_editts, R.id.editEFF7, 0), 
-			VIEW_MATCH, VIEW_WRAP);
-	debugger32->attach(new zViewText(styles_textfs, R.id.textDFDF, R.string.DFDF), 
-			VIEW_WRAP, VIEW_WRAP);
-	debugger32->attach(new zViewEdit(styles_editts, R.id.editDFDF, 0), 
 			VIEW_MATCH, VIEW_WRAP);
 	debugger01->attach(new zRibbonDebugger(styles_bplist, R.id.listDebugger, true), 
 			VIEW_MATCH, VIEW_MATCH);

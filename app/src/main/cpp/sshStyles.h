@@ -101,10 +101,10 @@ static zStyle styles_debedit[] = {
 	{ Z_TEXT_DISTANCE, 0 },
 	{ Z_FOREGROUND_GRAVITY, ZS_GRAVITY_CENTER },
 	{ Z_PADDING, 0x00000000 },
-	{ Z_IPADDING, 0x01010101 },
+	{ Z_IPADDING, 0x02020202 },
 	{ Z_MODE, ZS_EDIT_ZX_DATA },
 	{ Z_TEXT_LINES, 1 },
-	{ Z_TEXT_SIZE, 15 },
+	{ Z_TEXT_SIZE, 16 },
 	{ Z_TEXT_FOREGROUND_COLOR, 0xFFFFFFFF },
 	{ Z_GRAVITY | ZT_END, ZS_GRAVITY_CENTER }
 };
@@ -174,7 +174,15 @@ static zStyle styles_diskheadtext[] = {
 	{ Z_TEXT_SIZE, 15 },
 	{ Z_TEXT_STYLE, ZS_TEXT_BOLD },
 	{ Z_TEXT_FOREGROUND_COLOR, 0xFFFFFFFF },
-	{ Z_GRAVITY | ZT_END, ZS_GRAVITY_CENTER }
+	{ Z_GRAVITY, ZS_GRAVITY_CENTER },
+	{ Z_TEXT_ELLIPSIS | ZT_END, ZS_ELLIPSIS_MIDDLE }
+};
+
+static zStyle styles_bptext[] = {
+	{ Z_TEXT_SIZE, 18 },
+	{ Z_GRAVITY, ZS_GRAVITY_CENTER },
+	{ Z_TEXT_FOREGROUND_COLOR | ZT_THEME, Z_THEME_COLOR },
+	{ Z_TEXT_ELLIPSIS | ZT_END, ZS_ELLIPSIS_MIDDLE }
 };
 
 static zStyle styles_dispcolortext[] = {
@@ -364,6 +372,11 @@ static zStyle styles_editpc[] = {
 
 static zStyle styles_editts[] = {
 	{ Z_STYLES | ZT_END, R.style.debEditRead }
+};
+
+static zStyle styles_editts1[] = {
+	{ Z_STYLES, R.style.debEditRead },
+	{ Z_SIZE | ZT_END, 0x28000000 }
 };
 
 static zStyle styles_zlinearlayout6[] = {

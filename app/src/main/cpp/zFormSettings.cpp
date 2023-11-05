@@ -8,10 +8,10 @@
 
 class zFabricDiskItem : public zFabricListItem {
 public:
-    zFabricDiskItem() : zFabricListItem(styles_diskheadtext) { }
+    zFabricDiskItem() : zFabricListItem(styles_bptext) { }
     zView* make(zViewGroup* parent) override {
         auto v(new zLinearLayout(styles_default, 0, false));
-        for(int i = 0 ; i < 7; i++) v->attach(new zViewText(styles_diskheadtext, 0, 0),VIEW_MATCH, VIEW_MATCH);
+        for(int i = 0 ; i < 7; i++) v->attach(new zViewText(styles, 0, 0),VIEW_MATCH, VIEW_MATCH);
         v->lps.set(0, 0, VIEW_MATCH, VIEW_WRAP);
         v->onInit(false);
         return v;
