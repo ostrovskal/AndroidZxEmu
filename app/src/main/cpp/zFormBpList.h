@@ -11,6 +11,7 @@ public:
             zViewForm(_sts, _id, _scapt, _sfoot, _capt, _m) { }
     virtual void onInit(bool _theme) override;
     virtual void close(int code) override;
+    virtual zString8 typeName() const override { return "zFormBpList"; }
     zArray<zString8> cond{}, ops{};
 protected:
     BREAK_POINT* getAccess(bool ops);

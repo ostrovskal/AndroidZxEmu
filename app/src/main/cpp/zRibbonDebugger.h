@@ -22,6 +22,7 @@ public:
     virtual int computeScrollRange(bool _vert) const override { return 65535; }
     virtual int computeScrollExtent(bool _vert) const override { return items.size(); }
     virtual void onInit(bool _theme) override;
+    virtual zString8 typeName() const override { return "zRibbonDebugger"; }
     void setMode(int m, zCpu* _cpu);
     void update(int data, int flags);
     int entries[3]{}, selItems[3]{};

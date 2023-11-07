@@ -11,7 +11,7 @@ void zFormSelFile::onInit(bool _theme) {
         lst = idView<zViewRibbon>(R.id.selList);
         lst->setOnClick([this](zView*, int sel) {
             if(!touch->isDblClicked()) return;
-            zFile fl(pth, true); zFile::zFileInfo zfi{};
+            zFileAsset fl(pth, true); zFile::zFileInfo zfi{};
             if(fl.info(zfi, sel)) {
                 // сформировать полный путь к кэшу
                 auto path(settings->makePath(zfi.path.substrAfterLast("/", zfi.path), FOLDER_CACHE));
@@ -27,7 +27,7 @@ void zFormSelFile::onInit(bool _theme) {
     }
 }
 
-void zFormSelFile::setParams(zFile* _fl, int _option) {
+void zFormSelFile::setParams(zFileAsset* _fl, int _option) {
     zFile::zFileInfo zfi; zString8Array arrs;
     for(int i = 0 ; i < _fl->countFiles(); i++) {
         if(_fl->info(zfi, i)) arrs += zfi.path;

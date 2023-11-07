@@ -11,6 +11,7 @@ class zSpeccyLayout : public zViewSurface {
 public:
     zSpeccyLayout(zStyle* _styles, int _id, cszi& sz) : zViewSurface(_styles, _id, sz) { }
     virtual ~zSpeccyLayout();
+    virtual zString8 typeName() const override { return "zSpeccyLayout"; }
     // начальная инициализация
     bool                init();
     // обработка хэндлера

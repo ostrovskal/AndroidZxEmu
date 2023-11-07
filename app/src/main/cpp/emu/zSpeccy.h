@@ -229,6 +229,8 @@ public:
     };
     zSpeccy();
     ~zSpeccy();
+    // обработка
+    void process();
     // инициализация
     bool init();
     // загрузка
@@ -284,7 +286,7 @@ protected:
     // сохранение джойстиков
     void saveJoyPokes();
     // внутренний загрузчик
-    bool _load(zFile* fl, int index, int option);
+    bool _load(zFileAsset* fl, int index, int option);
     // восстановление состояния
     bool restoreState(u8* ptr);
     // сохранение состояния

@@ -270,7 +270,7 @@ void zSpeccyKeyboard::onDraw() {
     baseTxt->updateStatus(ZS_VISIBLED, true);
     drw[DRW_FK]->measure(rview.w, rview.h, 0, false);
     drw[DRW_FK]->color.a = 0.9f; drw[DRW_FK]->draw(&rview); drw[DRW_FK]->color.a = 0.5f;
-    auto lyt(layouts[0]->buttons); auto tex(manager->cache->get("zx_icons", nullptr));
+    auto lyt(layouts[0]->buttons); auto tex(manager->cache->get("zx_icons.ttl", nullptr));
     auto _mode(names[speccy->kmode]);
     for(int i = 0 ; i < lyt.size(); i++) {
         auto b(lyt[i]); auto r(b.rview); u32 col(0xffffffff);

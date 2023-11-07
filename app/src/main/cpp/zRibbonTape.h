@@ -4,6 +4,7 @@ class zRibbonTape: public zViewRibbon {
 public:
 	zRibbonTape(zStyle* _styles, int _id, bool _vert) : zViewRibbon(_styles, _id, _vert) { }
 	virtual void onInit(bool _theme) override;
+	virtual zString8 typeName() const override { return "zRibbonTape"; }
 	zLinearLayout* makeBlock(zLinearLayout* lyt, int position);
 protected:
 	zLinearLayout* content{nullptr};

@@ -9,8 +9,8 @@ int z_extension(zString8 name) {
     return (name[1] == '$' ? ZX_FMT_HOBC : name.indexOf(extValid, 18));
 }
 
-u8* z_openFile(zFile* fl, int index, int* size, zString8& name) {
-    u8* ptr(nullptr); zFile::zFileInfo zfi{};
+u8* z_openFile(zFileAsset* fl, int index, int* size, zString8& name) {
+    u8* ptr(nullptr); zFileAsset::zFileInfo zfi{};
     if(fl->info(zfi, index)) {
         if(size) *size = (int)zfi.usize; name = zfi.path;
         auto ext(z_extension(name)); bool success(true);
@@ -33,7 +33,6 @@ bool z_saveFile(zString8 path, void* ptr, int size, bool zipped) {
     zFile fl;
     if(fl.open(zipped ? path.substrBeforeLast(".") + ".zip" : path, false)) {
         fl.write(ptr, size, path.substrAfterLast("/", path));
-        fl.close();
         return true;
     }
     return false;

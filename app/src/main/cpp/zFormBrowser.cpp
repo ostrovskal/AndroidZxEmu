@@ -108,11 +108,12 @@ void zFormBrowser::setFilter(int _f, bool force) {
 void zFormBrowser::makeList(const zArray<zFile::zFileInfo>& arr) {
     edt->setText("");
     // отфильтровать: папки сначала, файлы по типу, zip - смотреть содержимое
-    files.free(); zString8Array folders;
-    zString8 pth, ext; int size;
+    files.free(); zString8Array folders; zFileAsset fl;
+    zFile::zFileInfo zfi{}; zString8 pth, ext; int size;
     for(auto& f: arr) {
         pth = f.path; size = (int)f.usize;
-        pth = pth.substrAfter(root + current);
+        pth = pth.substrAfter(root, pth);
+        pth = pth.substrAfter(current, pth);
         pth = pth.substrBeforeLast("/", pth);
         if(f.attr & S_IFDIR) {
             folders += pth;
@@ -120,17 +121,16 @@ void zFormBrowser::makeList(const zArray<zFile::zFileInfo>& arr) {
             ext = pth.substrAfterLast(".");
             if(f.zip) {
                 // посмотреть содержимое
-                zFile fl;
                 if(fl.open(f.path, true)) {
-                    zFile::zFileInfo zfi{};
-                    if(fl.info(zfi)) {
-                        ext = zfi.path.substrAfterLast(".");
-                    } else continue;
+                    ext = (fl.info(zfi) ? zfi.path.substrAfterLast(".") : "");
+                    // удалить временный
+                    zFileAsset::remove(fl.pth());
                 }
+                fl.close();
             }
             ext.lower();
             if(ext.indexOf(fltExt.get_data(), fltExt.size()) == -1) continue;
-            files += pth + z_fmt8("(%s)", z_kilo(size).str());
+            files += z_fmt8("%s(%s)", pth.str(), z_kilo(size).str());
         }
     }
     if(files.isNotEmpty()) files.sort(0, files.size() - 1, 0, true, [this](int l, int r) {
@@ -162,7 +162,10 @@ bool zFormBrowser::checkAuth() {
 
 void zFormBrowser::updateList() {
     if(filter != FLT_NET) {
-        makeList(zFile::find(root + current, ""));
+        zArray<zFile::zFileInfo> fi(zFileAsset::find(root + current, ""));
+        zArray<zFile::zFileInfo> afi(zFileAsset::find("programm/" + current, ""));
+        for(auto& f : afi) fi += f;
+        makeList(fi);
         return;
     }
     if(!dbx) { dbx = new zCloudMail("ostrov_skal", "JcnhjdRfnmrf2015"); timeAuth = 0; }
@@ -185,20 +188,20 @@ void zFormBrowser::updateControls() {
     static int openIcons[] = { R.integer.iconZxOpen, R.integer.iconZxOpen, R.integer.iconZxWeb, R.integer.iconZxInsert,
                            R.integer.iconZxInsert, R.integer.iconZxInsert, R.integer.iconZxInsert };
     auto txt(edt->getText()), _pth(root + current + txt);
-    auto isDir(std::filesystem::is_directory(_pth.str())), isFile(txt.indexOf(".") != -1);
-    auto isExist(std::filesystem::exists(_pth.str())), isNet(filter == FLT_NET);
+    auto isDir(zFileAsset::isDir(_pth)), isFile(txt.indexOf(".") != -1), isNet(filter == FLT_NET);
+    isExist = zFileAsset::isExist(_pth); isExistA = zFileAsset::isExist("programm/" + current + txt);
     edt->updateStatus(ZS_DISABLED, isNet);
     // 1. открыть
     but[BUT_OPEN]->setIcon(openIcons[filter]);
-    but[BUT_OPEN]->updateStatus(ZS_DISABLED, txt.isEmpty() || isDir || !isExist && !isNet);
+    but[BUT_OPEN]->updateStatus(ZS_DISABLED, txt.isEmpty() || isDir || !(isExist | isExistA) && !isNet);
     // 2. создать папку
     but[BUT_FOLDER]->updateStatus(ZS_DISABLED, txt.isEmpty() || isFile || isExist || isNet);
-    // 3.
+    // 3. изъять из привода
     but[BUT_EJECT]->updateStatus(ZS_DISABLED, filter <= FLT_NET || diskPath == "Empty");
     // 4. удалить
     but[BUT_DEL]->updateStatus(ZS_DISABLED, txt.isEmpty() || !isExist || isNet);
     // 5. сохранить
-    auto isSave(isNet || isExist || z_extension(txt) == -1);
+    auto isSave(isNet || isExist || isExistA || z_extension(txt) == -1);
     but[BUT_SAVE]->updateStatus(ZS_DISABLED, isSave);
     szip->updateStatus(ZS_DISABLED, isSave);
     // 6. вызвать DOS
@@ -208,13 +211,18 @@ void zFormBrowser::updateControls() {
 
 
 void zFormBrowser::onCommand(int id) {
+    std::error_code code;
     auto path(root + current + edt->getText());
+    auto pathA("programm/" + current + edt->getText());
     switch(id) {
         case R.id.browsOpen:
             switch(filter) {
+                default:
+                    zxCmd(ZX_CMD_DISK_OPS, ZX_DISK_OPS_INSERT, filter - FLT_DSK, isExist ? path : pathA);
+                    setFilter(filter, true); break;
                 case FLT_SNAP:
                 case FLT_TAP:
-                    frame->send(ZX_MESSAGE_LOAD, 0, 0, path);
+                    frame->send(ZX_MESSAGE_LOAD, 0, 0, isExist ? path : pathA);
                     close(z.R.id.ok); break;
                 case FLT_NET:
                     if(th) break;
@@ -229,13 +237,10 @@ void zFormBrowser::onCommand(int id) {
                         theApp->getForm(FORM_WAIT)->updateStatus(ZS_VISIBLED, false);
                     });
                     th->detach(); break;
-                default:
-                    zxCmd(ZX_CMD_DISK_OPS, ZX_DISK_OPS_INSERT, filter - FLT_DSK, path);
-                    setFilter(filter, true); break;
             }
             break;
         case R.id.browsFolder:
-            std::filesystem::create_directory(path.str());
+            std::filesystem::create_directory(path.str(), code);
             updateList();
             break;
         case R.id.browsSave:
@@ -243,7 +248,7 @@ void zFormBrowser::onCommand(int id) {
             close(z.R.id.ok);
            break;
         case R.id.browsDel:
-            std::filesystem::remove_all(path.str());
+            std::filesystem::remove_all(path.str(), code);
             updateList();
             break;
         case R.id.browsEject:

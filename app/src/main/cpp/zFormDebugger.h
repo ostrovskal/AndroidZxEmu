@@ -55,6 +55,7 @@ public:
     virtual int updateVisible(bool set) override;
     virtual void onInit(bool _theme) override;
     virtual bool stateChildren() const override { return false; }
+    virtual zString8 typeName() const override { return "zFormDebugger"; }
     void onCommand(int id, bool dbl);
     void stateTools(int action, int id = 0);
 protected:

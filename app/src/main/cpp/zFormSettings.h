@@ -10,6 +10,7 @@ public:
             zViewForm(_sts, _id, _sts_capt, _sts_foot, _capt, _m) { }
     virtual void onInit(bool _theme) override;
     virtual i32 updateVisible(bool set) override;
+    virtual zString8 typeName() const override { return "zFormSettings"; }
 protected:
     void onInit(zView* v, int a1);
     void onCommand(zView* v, int a1);

@@ -2,7 +2,7 @@
 // Автоматически генерируемый файл ресурсов.
 // Не редактируйте его.
 // Автор: Шаталов С.В.
-// Sat Nov  4 19:49:53 2023
+// Mon Nov  6 13:02:10 2023
 
 #pragma once
 
@@ -356,7 +356,7 @@ static zResource resources[] = {
 		/* array */
 		{ _R::_array::tzxArchive, "Title:|Publisher:|Author:|Year:|Language:|Type:|Price:|Protection:|Origin:|Comment:|Info:" },
 		/* drawable */
-		{ _R::_drawable::zx_icons, "zx_icons" },
+		{ _R::_drawable::zx_icons, "zx_icons.ttl" },
 		/* string */
 		{ _R::_string::_48000_44100_22050, "48000|44100|22050" },
 		{ _R::_string::MONO_ABC_ACB_BAC_BCA_CAB_CBA, "MONO|ABC|ACB|BAC|BCA|CAB|CBA" },

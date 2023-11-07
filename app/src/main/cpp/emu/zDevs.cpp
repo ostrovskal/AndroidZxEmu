@@ -205,16 +205,17 @@ void zDevUla::firstScreen() {
 
 void zDevUla::update(int param) {
     if(param == ZX_UPDATE_FRAME) {
-        if(speccy->dev<zCpuMain>()->frame < 32) {
-            giga = 1 - giga; tm = 0; timing = timings;
-            isGigaApply = (speccy->gigaScreen);// && giga);
+      frame->post(MSG_UPDATE_SCREEN, 0);
+        memcpy(frameBuffer + 101376, frameBuffer, 405504);
+      if(speccy->dev<zCpuMain>()->frame < 32) {
+            tm = 0; timing = timings;
+            isGigaApply = (speccy->gigaScreen);
             colorTab = &colTab[(blink++ & 16) << 4];
         }
         if(fscr) {
             fscr = false;
             firstScreen();
         }
-        memcpy(frameBuffer + 101376, frameBuffer, 405504);
     } else {
         if(param == ZX_UPDATE_RESET) {
             speccy->_fe = 0b11100111;
@@ -250,13 +251,13 @@ void zDevUla::update(int param) {
             // теневая зона
             timings[idx].set(0x7fffffff, TIMING::Z_SHADOW);
             colorTab = &colTab[0];
-            tm = blink = giga = 0;
+            tm = blink = 0;
             timing = timings;
         }
         for(int i = 0 ; i < 16; i++) colors[i] = zColor(speccy->colors[i]).toABGR();
         VIDEO = speccy->dev<zDevMem>()->page(speccy->vid);
         colorBorder = speccy->_fe & 7;
-        auto sz((float)(speccy->sizeBorder * 16));
+        auto sz((float)(speccy->sizeBorder << 4));
         frame->setScale(352.0f / (256 + sz), 288.0f / (192 + sz));
     }
 }

@@ -17,6 +17,7 @@ public:
     // отобразить/скрыть
     virtual void show(u32 _id, bool set) override { }
     virtual i32 onTouchEvent() override;
+    virtual zString8 typeName() const override { return "zSpeccyKeyboard"; }
 protected:
     virtual void onMeasure(cszm& spec) override;
     virtual void onDraw() override;

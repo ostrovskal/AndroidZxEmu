@@ -149,7 +149,7 @@ void zFormSettings::onInit(bool _theme) {
 void zFormSettings::onCommand(zView* v, int a1) {
     auto id(v->id); int action(0), cmd(-1);
     auto offs(z_remap(id, ids));
-    if(offs < 109) *(u8*)((u8*)speccy + offs) = (u8)a1;
+    if(offs > 0 && offs < 109) *(u8*)((u8*)speccy + offs) = (u8)a1;
     switch(id) {
         case R.id.mainShowFPS: onInit(v, offs); break;
         case R.id.mainBorder: case R.id.mainSystem: cmd = ZX_MESSAGE_PROPS; break;

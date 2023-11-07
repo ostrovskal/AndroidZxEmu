@@ -5,11 +5,6 @@
 #include "sshCommon.h"
 #include "zFormTZX.h"
 
-[[maybe_unused]] void zFormTZX::stateView(STATE& state, bool save, int& index) {
-    //if(!save) updateVisible(true);
-    zViewForm::stateView(state, save, index);
-}
-
 void zFormTZX::onInit(bool _theme) {
     zViewForm::onInit(_theme);
     if(isOpen) {

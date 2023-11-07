@@ -47,6 +47,8 @@ bool zSpeccyLayout::init() {
     ac->setOnChangeButton([this](zView*, int b) { theApp->keyb->keyEvent((b << 4) | (int)cc->getButtons(), false); });
     _status = idView<zViewImage>(R.id.speccyStatus);
     setOnTouch([this](zView*, zTouch* t) {
+//        auto sz((float)(speccy->sizeBorder << 4));
+  //      frame->setScale(352.0f / (256 + sz), 288.0f / (192 + sz));
         auto b(0);//speccy->sizeBorder << 4);
         auto x(z_round(t->cpt.x * (256.0f / rview.w))), y(z_round(((float)rview.h - t->cpt.y) * (192.0f / (float)rview.h)));
         auto xx(x - b), yy(y - b);
@@ -56,21 +58,39 @@ bool zSpeccyLayout::init() {
         return false;
     });
     setOnClick([this](zView*, int b) {
-        static i64 _tm(0);
+        static i64 _tm(0); static pti _pt;
         // двойной клик - qload/qsave
         auto dbl(zView::touch->isDblClicked());
         speccy->mouse[0] = !dbl * (speccy->swapMouse + 1);
+        pti pt(z_round(zView::touch->cpt.x), z_round(zView::touch->cpt.y));
+        auto tm(z_timeMillis()), t((tm - _tm));
         if(dbl) {
-            auto tm(z_timeMillis()), t((tm - _tm));
-            if(t < 600 && t > 0) {
+            if(t < 600) {
                 auto vert(!theApp->isLandscape());
                 auto s(rview); if(!vert) { s.x = s.w / 4; s.w /= 2; }
-                pti p(z_round(zView::touch->cpt.x), z_round(zView::touch->cpt.y));
-                if(s.contains(p)) onCommand(p[vert] > (s[vert] + s[vert + 2] / 2) ? R.integer.MENU_QSAVE : R.integer.MENU_QLOAD, nullptr);
+                if(s.contains(pt)) onCommand(pt[vert] > (s[vert] + s[vert + 2] / 2) ? R.integer.MENU_QSAVE : R.integer.MENU_QLOAD, nullptr);
                 tm = 0;
             }
-            _tm = tm;
-        } else if(b) theApp->getActionBar()->show(true);
+        } else if(b) {
+            theApp->getActionBar()->show(true);
+        } else {
+            if(t < 500) {
+                static int pressed(0);
+                // переключение джойстиков/клавы/экрана  - нарисовать крест
+                auto div1(pt[pressed] - _pt[pressed] > 150);
+                auto div2(abs(pt[!pressed] - _pt[!pressed]) < (pt[pressed] - _pt[pressed]) / 2);
+                //ILOG("div1:%i div2:%i pres:%i", div1, div2, pressed);
+                if(div1 && div2) {
+                    if(++pressed > 1) {
+                        speccy->panelMode = (++speccy->panelMode % 3);
+                        stateTools(ZFT_UPD_MENU_DISP);
+                        pt.set(-1000, -1000); tm = 0; pressed = 0;
+                    }
+                } else pressed = 0;
+            }
+            _pt = pt;
+        }
+        _tm = tm;
     });
     // эмулятор
     speccy = new zSpeccy();
@@ -94,13 +114,19 @@ void zSpeccyLayout::setCaption() {
 }
 
 void zSpeccyLayout::updateTexture() {
-    if(speccy->fps) fps->setText(z_fmt8("%0.2f", speccy->nfps));
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.w, size.h, 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, speccy->dev<zDevUla>()->frameBuffer + 101376);
 }
 
 void zSpeccyLayout::notifyEvent(HANDLER_MESSAGE* msg) {
+    int bind;
     switch(msg->what) {
+        case MSG_UPDATE_SCREEN:
+            glGetIntegerv(GL_TEXTURE_BINDING_2D, &bind);
+            glBindTexture(GL_TEXTURE_2D, drw[DRW_FK]->texture->id);
+            if(speccy->fps) fps->setText(z_fmt8("%0.2f", speccy->nfps));
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.w, size.h, 0,
+                         GL_RGBA, GL_UNSIGNED_BYTE, speccy->dev<zDevUla>()->frameBuffer + 101376);
+            glBindTexture(GL_TEXTURE_2D, bind);
+            break;
         // отобразить форму информации TZX
         case MSG_SHOW_TZX_INFO:
             theApp->getForm<zFormTZX>(FORM_TZX)->updateVisible(true);
@@ -175,8 +201,7 @@ void zSpeccyLayout::stateTools(int action, int id) {
             keyb->updateVisible(true);
         }
         chk = (speccy->panelMode == 0);
-        ac->updateStatus(ZS_VISIBLED, chk);
-        cc->updateStatus(ZS_VISIBLED, chk);
+        ac->updateVisible(chk); cc->updateVisible(chk);
     }
     if(action & ZFT_UPD_MENU_ITEM) {
         // execute
@@ -337,7 +362,7 @@ void zSpeccyLayout::setParamControllers() {
     static int tiles[] = { z.R.integer.ccontrolL, z.R.integer.ccontrolU, z.R.integer.ccontrolR, z.R.integer.ccontrolD,
                            z.R.integer.acontrolY, z.R.integer.acontrolX, z.R.integer.acontrolA, z.R.integer.acontrolB };
     auto keys(theme->findArray(R.string.key_names));
-    auto tex(manager->cache->get("zx_icons", nullptr));
+    auto tex(manager->cache->get("zx_icons.ttl", nullptr));
     // установить надписи/значки на кнопках джойстика
     for(int i = 0 ; i < 8; i++) {
         auto c(i < 4 ? cc : ac);

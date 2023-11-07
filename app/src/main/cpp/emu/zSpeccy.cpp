@@ -13,22 +13,24 @@
 static volatile pthread_t threadID(0);
 static int delay(0);
 
-static void* threadFunc(void*) {
-    while(speccy && speccy->exit == 0) {
-        if(manager->isActive()) {
-            frame->processHandler();
-            speccy->execute();
-            // обновление информации на экране
-            if(!(++delay & 63)) frame->stateTools(ZFT_UPD_TAPE);
-            if(checkSTATE(ZX_BP | ZX_T_UI)) {
-                // активировать отладчик
-                if(checkSTATE(ZX_BP)) frame->activateDebugger();
-                // активировать форму TZX_INFO
-                if(checkSTATE(ZX_T_UI)) frame->post(MSG_SHOW_TZX_INFO, 0);
-                speccy->flags &= ~(ZX_BP | ZX_T_UI);
-            }
+void zSpeccy::process() {
+    if(manager->isActive()) {
+        frame->processHandler();
+        execute();
+        // обновление информации на экране
+        if(!(++delay & 31)) frame->stateTools(ZFT_UPD_TAPE);
+        if(checkSTATE(ZX_BP | ZX_T_UI)) {
+            // активировать отладчик
+            if(checkSTATE(ZX_BP)) frame->activateDebugger();
+            // активировать форму TZX_INFO
+            if(checkSTATE(ZX_T_UI)) frame->post(MSG_SHOW_TZX_INFO, 0);
+            flags &= ~(ZX_BP | ZX_T_UI);
         }
     }
+}
+
+static void* threadFunc(void*) {
+    while(speccy && speccy->exit == 0) speccy->process();
     threadID = 0;
     ILOG("exit speccy thread");
     return nullptr;
@@ -76,9 +78,9 @@ zSpeccy::~zSpeccy() {
 }
 
 bool zSpeccy::loadROM(u8* ptr, const u8* pages, int count) {
+    zFileAsset ass("data/rom.bin", true);
     for(int i = 0 ; i < count; i++) {
-        if(!manager->assetFile("data/rom.bin", nullptr, ptr, 16384, pages[i] << 14))
-            return false;
+        if(!ass.read(nullptr, ptr, 16384, pages[i] << 14)) return false;
         ptr += 16384;
     }
     return true;
@@ -104,24 +106,23 @@ bool zSpeccy::init() {
     settings->init((u8*)&bools, "settings.ini");
     update(ZX_UPDATE_RESET, 0);
     // 1.2. бут для диска
-    diskBoot = manager->assetFile("data/boot.zzz");
+    diskBoot = (u8*)zFileAsset("data/boot.zzz", true).readn();
     // 1.3. джойстики/покес
     auto dst(::settings->makePath("pokes.txt", FOLDER_CACHE)); int size;
     if(dst) {
-        if(!std::filesystem::exists(dst.str())) {
+        if(!zFileAsset::isFile(dst)) {
             // копируем в кэш
-            zFile fl(dst, false);
-            fl.writeString((cstr)manager->assetFile("data/pokes.txt"), true);
+            zFileAsset("data/pokes.txt", true).copy(dst, 0);
         }
     }
-    zFile fl(dst, true); zString8 str((cstr)fl.readn(&size), size);
-    parserJoyPokes(str.split("\n"));
+    parserJoyPokes(zString8((cstr)zFileAsset(dst,true).readn(&size), size).split("\n"));
     // 2. состояние
     frame->send(ZX_MESSAGE_MODEL, MODEL_PENTAGON128);
     // 2.2. сбросить все устройства в исходное состояние
     frame->send(ZX_MESSAGE_RESET);
     frame->onCommand(R.integer.MENU_OPS_RESTORE, nullptr);
     // 2.3. запускаем тред
+//    return true;
     if(!pthread_attr_init(&lAttrs)) {
         if(!pthread_attr_setschedpolicy(&lAttrs, SCHED_NORMAL)) {
             struct sched_param param{};
@@ -207,7 +208,7 @@ uint8_t zSpeccy::readPort(u16 port, u32 tick) {
     return ret;
 }
 
-bool zSpeccy::_load(zFile* fl, int index, int option) {
+bool zSpeccy::_load(zFileAsset* fl, int index, int option) {
     u8* ptr; zString8 path(fl->pth()), name; int size(0); bool ret(false);
     if(!(ptr = z_openFile(fl, index, &size, name))) return false;
     auto type(z_extension(name)); zDevVG93* disk(nullptr); zDevTape* tape(nullptr);
@@ -223,7 +224,7 @@ bool zSpeccy::_load(zFile* fl, int index, int option) {
             // проверить на автозагрузку
             if(ret && option) {
                 // запускаем автозагрузку
-                ret = load(is48k() ? "assets/data/tap48.zzz" : "assets/data/tap128.zzz", 0);
+                ret = load(is48k() ? "data/tap48.zzz" : "data/tap128.zzz", 0);
             }
             break;
         case ZX_FMT_SNA: case ZX_FMT_Z80: case ZX_FMT_ZZZ: {
@@ -250,16 +251,15 @@ bool zSpeccy::_load(zFile* fl, int index, int option) {
 }
 
 bool zSpeccy::load(czs& path, int option) {
-    auto isAssets(path.substrBefore("/") == "assets");
-    zFile fl; zFileAsset afl; zFile* file(isAssets ? &afl : &fl);
-    if(!file->open(isAssets ? path.substrAfter("/") : path, true)) return false;
-    if(file->countFiles() > 1) {
+    zFileAsset file;
+    if(!file.open(path, true)) return false;
+    if(file.countFiles() > 1) {
         auto selFile(theApp->getForm<zFormSelFile>(FORM_CHOICE));
-        selFile->setParams(file, option);
+        selFile->setParams(&file, option);
         selFile->updateVisible(true);
         return true;
     }
-    return _load(file, 0, option);
+    return _load(&file, 0, option);
 }
 
 bool zSpeccy::save(czs& path, int option) {
@@ -357,7 +357,7 @@ int zSpeccy::diskOperation(int ops, int index, zString8& path) {
         case ZX_DISK_OPS_SAVE:          ret = save(path, index); break;
         case ZX_DISK_OPS_SET_READONLY:  ret = zDevVG93::is_readonly(num, index >> 7); break;
         case ZX_DISK_OPS_RSECTOR:       ret = zDevVG93::read_sector(num, (index >> 3) + 1); break;
-        case ZX_DISK_OPS_TRDOS:         load(is48k() ? "assets/data/tr48.zzz" : "assets/data/tr128.zzz", 0); break;
+        case ZX_DISK_OPS_TRDOS:         load(is48k() ? "data/tr48.zzz" : "data/tr128.zzz", 0); break;
     }
     return ret;
 }

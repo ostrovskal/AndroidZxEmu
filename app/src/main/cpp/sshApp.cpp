@@ -108,7 +108,10 @@ void sshApp::run() {
             if(source) source->process(android, source);
             if(android->destroyRequested) return;
         }
-        if(isActive()) drawViews();
+        if(isActive()) {
+            drawViews();
+//            if(speccy) speccy->process();
+        }
     }
 }
 
@@ -165,12 +168,13 @@ void sshApp::setContent() {
         auto dst(::settings->makePath(s, FOLDER_FILES).slash());
         if(!std::filesystem::exists(dst.str())) {
             std::filesystem::create_directory(dst.str());
-            copyFromAssets(zString8("programm/") + s, dst);
+//            copyFromAssets(zString8("programm/") + s, dst);
         }
     }
 }
 
 void sshApp::copyFromAssets(zString8 src, czs& dst) {
+/*
     auto dir(AAssetManager_openDir(manager->getAsset(), src));
     if(dir) {
         cstr name; int len; zFile file; src.slash();
@@ -184,5 +188,6 @@ void sshApp::copyFromAssets(zString8 src, czs& dst) {
             }
         }
     }
+*/
 }
 

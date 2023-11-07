@@ -41,6 +41,7 @@ public:
     enum { PAR_COUNT_EMPTY, PAR_COUNT_ONE, PAR_COUNT_TWO, PAR_COUNT_ONE_OR_TWO, PAR_COUNT_TWO_OR_THREE };
     zFormAssembler(zStyle* _sts, i32 _id, zStyle* _sts_capt, zStyle* _sts_foot, u32 _capt, bool _m);
     virtual void onInit(bool _theme) override;
+    virtual zString8 typeName() const override { return "zFormAssembler"; }
     // парсер
     int parser(int pass, int address, cstr text, zArray<Z_LABEL*>* labels);
     // скопировать инструкцию в буфер

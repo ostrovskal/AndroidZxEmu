@@ -14,6 +14,7 @@ public:
             zViewForm(_sts, _id, _sts_capt, _sts_foot, _capt, _m) { }
     virtual void onInit(bool _theme) override;
     virtual i32 updateVisible(bool set) override;
+    virtual zString8 typeName() const override { return "zFormBrowser"; }
 protected:
     virtual i32 touchEventDispatch(AInputEvent *event) override;
     void onCommand(int id);
@@ -34,4 +35,5 @@ protected:
     zCloudMail* dbx{nullptr};
     u64 timeAuth{0};
     std::thread* th{nullptr};
+    bool isExist{false}, isExistA{false};
 };

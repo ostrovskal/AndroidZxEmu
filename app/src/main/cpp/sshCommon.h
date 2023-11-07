@@ -18,7 +18,7 @@ int zxCmd(int cmd, int arg1 = 0, int arg2 = 0, cstr arg3 = nullptr);
 bool z_unpackBlock(u8* src, u8* dst, const u8* dstE, size_t sz, bool packed);
 u8* z_packBlock(u8* src, const u8* srcE, u8* blk, bool sign, u32& newSize);
 int z_extension(zString8 name);
-u8* z_openFile(zFile* fl, int index, int* size, zString8& name);
+u8* z_openFile(zFileAsset* fl, int index, int* size, zString8& name);
 bool z_saveFile(zString8 path, void* ptr, int size, bool zipped);
 int getLexem(char** text, int x, int& lex);
 i32 parseKeyword(int len, zArray<Z_LABEL>* labels);
@@ -241,6 +241,7 @@ constexpr int MSG_SHOW_TZX_INFO         = 1000;
 constexpr int MSG_HIDE_TZX_INFO         = 1001;
 constexpr int MSG_FORM_MSG              = 1002;
 constexpr int MSG_CLOUD_REAUTCH         = 1003;
+constexpr int MSG_UPDATE_SCREEN         = 1004;
 //constexpr int MSG_              = 10;
 
 //constexpr int ZARG_              = 0;
