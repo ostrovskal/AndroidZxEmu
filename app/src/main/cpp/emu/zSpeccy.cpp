@@ -18,10 +18,10 @@ void zSpeccy::process() {
         frame->processHandler();
         execute();
         // обновление информации на экране
-        if(!(++delay & 31)) frame->stateTools(ZFT_UPD_TAPE);
+        if(!(++delay & 31)) frame->post(MSG_UPDATE_TAPE, 0);
         if(checkSTATE(ZX_BP | ZX_T_UI)) {
             // активировать отладчик
-            if(checkSTATE(ZX_BP)) frame->activateDebugger();
+            if(checkSTATE(ZX_BP)) frame->post(MSG_ACTIVATE_DEBUGGER, 0);
             // активировать форму TZX_INFO
             if(checkSTATE(ZX_T_UI)) frame->post(MSG_SHOW_TZX_INFO, 0);
             flags &= ~(ZX_BP | ZX_T_UI);
@@ -122,7 +122,6 @@ bool zSpeccy::init() {
     frame->send(ZX_MESSAGE_RESET);
     frame->onCommand(R.integer.MENU_OPS_RESTORE, nullptr);
     // 2.3. запускаем тред
-//    return true;
     if(!pthread_attr_init(&lAttrs)) {
         if(!pthread_attr_setschedpolicy(&lAttrs, SCHED_NORMAL)) {
             struct sched_param param{};
@@ -158,10 +157,16 @@ void zSpeccy::update(int param, int arg) {
 
 void zSpeccy::execute() {
     static auto tm1(z_timeMillis());
+    static int resetSnd(0);
     auto mix(dev<zDevMixer>());
     auto cpu(dev<zCpuMain>());
     if(execLaunch) {
-        frame->setStatus(-1);
+        if(sndLaunch && !(++resetSnd & 4095)) {
+            // обновление через 1 минуту 22 секунды
+            update(ZX_UPDATE_STATE, 0);
+        }
+        // убрать иконку
+        frame->post(MSG_UPDATE_STATUS, 0, -1);
         auto speed(cpuSpeed - 5); if(speed < 1) speed = 1;
         auto count(isQTape() ? 16 : speed);
         auto lm1((int)(20 * divClock));
@@ -344,7 +349,7 @@ void zSpeccy::programName(cstr nm, bool trim) {
         speccy->joyType = j->joy.type;
         memcpy(speccy->joyKeys, j->joy.keys, sizeof(speccy->joyKeys));
     }
-    frame->setParamControllers();
+    frame->post(MSG_UPDATE_CONTROLLER, 0);
     modifySTATE(ZX_CAPT, 0)
 }
 

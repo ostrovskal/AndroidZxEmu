@@ -201,7 +201,7 @@ void zSpeccyKeyboard::updateMode() {
     if(speccy->kmode != nmode) {
         speccy->kmode = nmode;
         isDrawing = true;
-        invalidate();
+        frame->post(MSG_UPDATE_KEYBOARD, 0);
     }
 }
 

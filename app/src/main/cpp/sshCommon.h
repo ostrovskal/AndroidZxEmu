@@ -242,6 +242,13 @@ constexpr int MSG_HIDE_TZX_INFO         = 1001;
 constexpr int MSG_FORM_MSG              = 1002;
 constexpr int MSG_CLOUD_REAUTCH         = 1003;
 constexpr int MSG_UPDATE_SCREEN         = 1004;
+constexpr int MSG_UPDATE_STATUS         = 1005;
+constexpr int MSG_ACTIVATE_DEBUGGER     = 1006;
+constexpr int MSG_UPDATE_TAPE           = 1007;
+constexpr int MSG_UPDATE_CAPTION        = 1008;
+constexpr int MSG_UPDATE_CONTROLLER     = 1009;
+constexpr int MSG_UPDATE_KEYBOARD       = 1010;
+
 //constexpr int MSG_              = 10;
 
 //constexpr int ZARG_              = 0;

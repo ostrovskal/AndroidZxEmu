@@ -510,7 +510,7 @@ static zDevVG93::zFLOPPY fdds[4];
 
 uint8_t* zDevVG93::state(uint8_t* buf, bool restore) {
 	time = speccy->dev<zCpuMain>()->ts;
-	auto ptr(buf); uint64_t t64;
+	auto ptr(buf); u64 t64;
 	if(restore) {
 		if(strncmp((char*)ptr, "SERG BETA128", 12) != 0) return nullptr;
 		ptr += 12; memcpy(dos, ptr, sizeof(dos)); ptr += sizeof(dos);
@@ -651,7 +651,7 @@ bool zDevVG93::ready() {
 
 void zDevVG93::cmdRead() {
 	if(!ready()) return;
-	frame->setStatus(R.integer.iconZxDisk);
+	frame->post(MSG_UPDATE_STATUS, 0, R.integer.iconZxDisk);
 	if(rwlen) {
 		if(rq & R_DRQ) dosSts |= ST_LOST;
 		read_byte();
@@ -675,7 +675,7 @@ void zDevVG93::cmdRead() {
 
 void zDevVG93::cmdWrite() {
 	if(!ready()) return;
-	frame->setStatus(R.integer.iconZxDisk);
+	frame->post(MSG_UPDATE_STATUS, 0, R.integer.iconZxDisk);
 	if(rq & R_DRQ) {
 		// потеря данных
 		dosSts |= ST_LOST;
@@ -702,7 +702,7 @@ void zDevVG93::cmdWrite() {
 void zDevVG93::cmdWriteTrackData() {
 	static uint8_t* pcrc(nullptr);
 	if(!ready()) return;
-	frame->setStatus(R.integer.iconZxDisk);
+	frame->post(MSG_UPDATE_STATUS, 0, R.integer.iconZxDisk);
 	// потеря данных
 	if(rq & R_DRQ) { dosSts |= ST_LOST; dosDat = 0; }
 	auto d(dosDat), v(d);
@@ -728,7 +728,7 @@ void zDevVG93::cmdWriteTrackData() {
 }
 
 void zDevVG93::cmdWriteSector() {
-	frame->setStatus(R.integer.iconZxDisk);
+	frame->post(MSG_UPDATE_STATUS, 0, R.integer.iconZxDisk);
 	if(rq & R_DRQ) {
 		dosSts |= ST_LOST;
 		states = S_IDLE;
@@ -748,7 +748,7 @@ void zDevVG93::impulse(int s_next) {
 }
 
 void zDevVG93::cmdWriteTrack() {
-	frame->setStatus(R.integer.iconZxDisk);
+	frame->post(MSG_UPDATE_STATUS, 0, R.integer.iconZxDisk);
 	if(rq & R_DRQ) {
 		dosSts |= ST_LOST;
 		states = S_IDLE;

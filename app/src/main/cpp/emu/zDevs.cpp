@@ -205,7 +205,7 @@ void zDevUla::firstScreen() {
 
 void zDevUla::update(int param) {
     if(param == ZX_UPDATE_FRAME) {
-      frame->post(MSG_UPDATE_SCREEN, 0);
+        //frame->post(MSG_UPDATE_SCREEN, 0);
         memcpy(frameBuffer + 101376, frameBuffer, 405504);
       if(speccy->dev<zCpuMain>()->frame < 32) {
             tm = 0; timing = timings;
@@ -257,8 +257,6 @@ void zDevUla::update(int param) {
         for(int i = 0 ; i < 16; i++) colors[i] = zColor(speccy->colors[i]).toABGR();
         VIDEO = speccy->dev<zDevMem>()->page(speccy->vid);
         colorBorder = speccy->_fe & 7;
-        auto sz((float)(speccy->sizeBorder << 4));
-        frame->setScale(352.0f / (256 + sz), 288.0f / (192 + sz));
     }
 }
 

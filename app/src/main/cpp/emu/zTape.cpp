@@ -217,7 +217,7 @@ bool zDevTape::nextBlock() {
 u32 zDevTape::getImpulse() {
 	BLK_TAPE* blk(nullptr);
 	u32 impulse(0), signal(0);
-	frame->setStatus(R.integer.iconZxCasette);
+    frame->post(MSG_UPDATE_STATUS, 0, R.integer.iconZxCasette);
 	while(!impulse) {
 		if(!nextBlock()) return 0;
 		blk = blks[speccy->tapeCurrent];

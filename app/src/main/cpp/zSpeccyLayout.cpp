@@ -110,22 +110,39 @@ void zSpeccyLayout::setCaption() {
         auto mode(z_fmt8("%s - %.02fMhz", nmode, (float)speccy->turboTick(clock, false) / 1000000.0f));
         txt = z_fmt8("%s [%s %s]", speccy->progName.str(), zSpeccy::machine->name, mode.str());
     }
+
     capt->setText(txt);
 }
 
 void zSpeccyLayout::updateTexture() {
+    if(speccy->fps) fps->setText(z_fmt8("%0.2f", speccy->nfps));
+    auto sz((float)(speccy->sizeBorder << 4));
+    frame->setScale(352.0f / (256 + sz), 288.0f / (192 + sz));
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.w, size.h, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, speccy->dev<zDevUla>()->frameBuffer + 101376);
 }
 
 void zSpeccyLayout::notifyEvent(HANDLER_MESSAGE* msg) {
     int bind;
     switch(msg->what) {
-        case MSG_UPDATE_SCREEN:
-            glGetIntegerv(GL_TEXTURE_BINDING_2D, &bind);
-            glBindTexture(GL_TEXTURE_2D, drw[DRW_FK]->texture->id);
-            if(speccy->fps) fps->setText(z_fmt8("%0.2f", speccy->nfps));
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.w, size.h, 0,
-                         GL_RGBA, GL_UNSIGNED_BYTE, speccy->dev<zDevUla>()->frameBuffer + 101376);
-            glBindTexture(GL_TEXTURE_2D, bind);
+        case MSG_UPDATE_STATUS:
+            _status->setImage(msg->arg1);
+            break;
+        case MSG_UPDATE_CAPTION:
+            setCaption();
+            break;
+        case MSG_UPDATE_KEYBOARD:
+            theApp->keyb->invalidate();
+            break;
+        case MSG_UPDATE_CONTROLLER:
+            setParamControllers();
+            break;
+        case MSG_UPDATE_TAPE:
+            stateTools(ZFT_UPD_TAPE);
+            break;
+            // активировать отладчик
+        case MSG_ACTIVATE_DEBUGGER:
+            activateDebugger();
             break;
         // отобразить форму информации TZX
         case MSG_SHOW_TZX_INFO:
@@ -196,7 +213,7 @@ void zSpeccyLayout::stateTools(int action, int id) {
             dbg->updateVisible(true);
         }
         if(speccy->panelMode == 1) {
-            frame->lps.weight = 90 - land * 10 - speccy->sizeKeyb * 5;
+            lps.weight = 90 - land * 10 - speccy->sizeKeyb * 5;
             keyb->lps.weight = 10 + land * 10 + speccy->sizeKeyb * 5;
             keyb->updateVisible(true);
         }
@@ -351,11 +368,14 @@ void zSpeccyLayout::processHandler() {
                 break;
         }
     }
-    if(checkSTATE(ZX_CAPT)) { setCaption(); modifySTATE(0, ZX_CAPT) }
+    if(checkSTATE(ZX_CAPT)) {
+        post(MSG_UPDATE_CAPTION, 0);
+        modifySTATE(0, ZX_CAPT)
+    }
 }
 
 void zSpeccyLayout::send(int what, int a1, int a2, cstr s) {
-    handler.send(nullptr, what, 50, a1, a2, s);
+    handler.send(this, what, 50, a1, a2, s);
 }
 
 void zSpeccyLayout::setParamControllers() {

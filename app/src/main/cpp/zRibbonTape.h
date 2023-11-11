@@ -12,7 +12,7 @@ protected:
 	// TZX значение
 	zString8 tzxValue(u32 ival, float fval = -1.0f) { return z_ntos((fval < 0 ? (int*)&ival : (int*)&fval), fval < 0 ? RADIX_DEC : RADIX_FLT, false); }
 	// TZX текст
-	zString8 tzxText(u8* p, u32 s) const { zString8 text(p, s); text.trim(); return text.crop(32); }
+	zString8 tzxText(u8* p, u32 s) const { zString8 text(p, s); text.trim(); return text/*.crop(32)*/; }
 	// сформировать новое текстовое представление
     zViewText* tzxView(int ids, czs& value) { return tzxView(theme->findString(ids), value); }
     zViewText* tzxView(czs& name, czs& value);

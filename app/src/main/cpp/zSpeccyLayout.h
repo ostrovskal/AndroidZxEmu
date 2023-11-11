@@ -21,7 +21,6 @@ public:
     void                stateTools(int action, int id = 0);
     void                onCommand(int id, zMenuItem* mi);
     void                activateDebugger();
-    void                setStatus(int img) { _status->setImage(img); }
     void                setCaption();
     void                setParamControllers();
 protected:

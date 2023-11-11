@@ -162,6 +162,7 @@ zLinearLayout* zRibbonTape::makeBlock(zLinearLayout* lyt, int position) {
         case TZX_CUSTOM:
             tzxView(R.string.tzxSize, tzxValue(blk->size - 20));
             tzxView(tzxText(blk->data, 16), "");
+//            tzxView(tzxText(blk->data + 20, *(u32*)(blk->data + 16)), "");
             break;
         case TZX_SAVE: case TZX_NORMAL:
             tzxNormal(blk, position > 1 ? tape->blockInfo(position - 2) : nullptr);
